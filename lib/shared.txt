@@ -1,0 +1,8 @@
+ ElevatedButton(
+                    onPressed: () async{
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('action', 'Start');
+                    final String? action = prefs.getString('action');
+                      print('user.name is ${action}');
+                    },
+                    child: Text('sh')),

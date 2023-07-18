@@ -32,6 +32,7 @@ class _mybooklistState extends State<mybooklist> {
               stream: db
                   .collection('books')
                   .where("poster_name", isEqualTo: '${Getcurrentuser.user}')
+                  
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {

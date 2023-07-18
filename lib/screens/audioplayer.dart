@@ -59,69 +59,22 @@ class _MyApp456State extends State<MyApp456> {
 
   void audioplay() async {
     final videoUrl = widget.vidurl;
-    final audioUrl = await getAudioStreamUrl(videoUrl);
+    // final audioUrl = await getAudioStreamUrl(videoUrl);
 
     if (_duration.inSeconds == 0.0) {
-      playAudioFromUrl(audioUrl);
+      playAudioFromUrl(videoUrl);
       _player.setVolume(1);
     } else {
       _player.resume();
     }
   }
 
-  Future<String> getAudioStreamUrl(String videoUrl) async {
-    final yt = YoutubeExplode();
-    final video = await yt.videos.get(videoUrl);
-    // print('1111');
-    // print(video);
-    // print('========');
-    final streamManifest = await yt.videos.streamsClient.getManifest(video.id);
-    // final strm=await yt.videos.closedCaptions.getManifest(videoUrl);
-
-    // final strtam= strm.getByLanguage('en');
-
-    // var tamtam=yt.videos.closedCaptions.get(strtam[0]);
-    // print('22222');
-    // // print(strtam);
-    // print('33333');
-    // // print(tamtam);
-    // print('44444');
-    // print(streamManifest);
-    // print('========');
-    final audioStreams = streamManifest.audioOnly;
-    // print(audioStreams);
-    // print('========');
-    final audioStreamInfo = audioStreams.first;
-    // print(audioStreamInfo);
-    // print('========');
-    // print(audioStreamInfo.url);
-
-    yt.close();
-
-    return audioStreamInfo.url.toString();
-  }
 
   void playAudioFromUrl(String audioUrl) async {
     await _player.setUrl(audioUrl);
     _player.play(audioUrl);
     isPlaying = true;
   }
-
-//   void setplayerstate() async{
-// int count=0;
-// if(count==0){
-//     final prefs = await SharedPreferences.getInstance();
-//               // await prefs.setBool('isPlaying', isPlaying);
-//               bool? isPlay = await prefs.getBool('isPlaying');
-//               print('***676****');
-//               print(isPlay);
-//               isPlaying=isPlay! as bool;
-//               print('^^^^^^^^');
-//               print(isPlaying);
-//               count=count+1;
-//                }
-//               count=0;
-//   }
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +99,7 @@ class _MyApp456State extends State<MyApp456> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: ProgressBar(
                   progress: Duration(seconds: _position.inSeconds),
-                  buffered: Duration(seconds: _position.inSeconds + 15),
+                  buffered: Duration(seconds: _position.inSeconds + 5),
                   total: Duration(seconds: _duration.inSeconds),
                   onSeek: (duration) {
                     print('User selected a new time: $duration');
@@ -178,28 +131,10 @@ class _MyApp456State extends State<MyApp456> {
                         audioplay();
                       }
 
-                      // setplayerstate();
-                      //         if (mounted) {
-                      //           setState(() {
-                      //             isPlaying = !isPlaying;
-                      //           });
-                      //           final prefs = await SharedPreferences.getInstance();
-                      // await prefs.setBool('isPlaying', isPlaying);
-                      // bool? crnt= await prefs.getBool('isPlaying');
-                      // print('*********');
-                      // isPlaying=crnt!;
-                      // print(crnt);
-                      //         }
-
-                      // setState(() {
-                      //   isPlaying = !isPlaying;
-                      // });
-                      //         final prefs = await SharedPreferences.getInstance();
-                      // await prefs.setBool('isPlaying', isPlaying);
-                      // bool? crnt= await prefs.getBool('isPlaying');
-                      // print('*********');
-                      // isPlaying=crnt!;
-                      // print(crnt);
+                      setState(() {
+                        isPlaying = !isPlaying;
+                      });
+                     
                     },
                   ),
                   IconButton(

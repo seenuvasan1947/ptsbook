@@ -16,6 +16,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'components/language/multi_lang.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,10 +25,12 @@ Future<void> main() async {
   runApp(MultiProvider(providers: [
 
 ChangeNotifierProvider(create: (_) => Getcurrentuser()),
+ChangeNotifierProvider(create: (_) => LangPropHandler())
 
   ],
-  child: MaterialApp(home: LoginPage()),
+  // child: MaterialApp(home: LoginPage()),
   // child: MaterialApp(home: MyApp()),
+  child: MaterialApp(home: LangMainPage()),
   ));
   // reloadApp();
 

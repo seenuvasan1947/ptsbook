@@ -138,6 +138,7 @@ await myFile.writeAsString(response.body);
 // var data=langlist+""+"\n"+"new line"+vovelist.toString();
 await langlistfile.writeAsString(langlist.toString());
 await voicelistfile.writeAsString(voicelist.toString());
+
 // await flutterTts.setLanguage('ta-IN');
 // await flutterTts.synthesizeToFile(response.body,'data.mp3');
 await flutterTts.setSpeechRate(0.35);
@@ -147,6 +148,7 @@ await flutterTts.setLanguage('en-IN');
 Map<String,String> voi={"name": "en-IN-language", "locale": "en-IN"};
 // await flutterTts.setVoice({"name": "en-IN-language", "locale": "en-IN"});
 await flutterTts.setVoice(voi);
+
 // await flutterTts.setVoice({"name": "ta-in-x-tac-network", "locale": "ta-IN"});
   // String text = 'வணக்கம்';
   String text =response.body;

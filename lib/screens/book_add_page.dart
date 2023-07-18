@@ -1,10 +1,14 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:mybook/components/constant.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mybook/components/provider.dart';
+
+import '../components/language/lang_strings.dart';
+import '../components/language/multi_lang.dart';
 
 class bookaddscreen extends StatefulWidget {
   const bookaddscreen({super.key});
@@ -14,10 +18,10 @@ class bookaddscreen extends StatefulWidget {
 }
 
 class _bookaddscreenState extends State<bookaddscreen> {
-  late String book_name;
-  late String author_name;
-  late String short_discription;
-  late String long_discription;
+   String book_name='';
+   String author_name='';
+   String short_discription='';
+   String long_discription='';
   final db = FirebaseFirestore.instance;
   Future<String?> adddata() async {
     FirebaseFirestore.instance.collection("books").doc(book_name).set({
@@ -58,7 +62,7 @@ class _bookaddscreenState extends State<bookaddscreen> {
                     //Do something with the user input.
                   },
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'Enter book name.')),
+                      hintText: AppLocale.welcome.getString(context))),
               const SizedBox(
                 height: 30.0,
               ),

@@ -725,7 +725,7 @@ Divider(
                           Container(
                             // margin: EdgeInsets.only(top: 150),
                             margin: EdgeInsets.all(20),
-                            height: MediaQuery.of(context).size.height / 1.2,
+                            height: MediaQuery.of(context).size.height / 1,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               color: Color.fromARGB(255, 250, 252, 250),

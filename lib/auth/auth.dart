@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FlutterLogin(
-          title: "Mybook",
+          title: "Ptsbook",
           onSignup: (data) async {
             try {
               final newuser = await _auth.createUserWithEmailAndPassword(

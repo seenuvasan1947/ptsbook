@@ -24,17 +24,32 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
   final newuser = null;
-
+ var dateNo=0;
+ bool ispur=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FlutterLogin(
           title: "Ptsbook",
           onSignup: (data) async {
+            
             try {
               final newuser = await _auth.createUserWithEmailAndPassword(
                   email: data.name.toString(),
                   password: data.password.toString());
+                  DocumentSnapshot us =
+          await FirebaseFirestore.instance.collection('metadata').doc('subscription_days').get();
+
+      if (us.exists) {
+        // setState(() {
+        //   dataNo = us['subscription_silver'] as int;
+
+        // });
+        dateNo = us['new_user'] as int;
+
+        print(dateNo);
+      }
+
               FirebaseFirestore.instance
                   .collection("users")
                   .doc(data.name)
@@ -44,10 +59,17 @@ class _LoginPageState extends State<LoginPage> {
                 'name':data.additionalSignupData!["uname"],
                 'country':data.additionalSignupData!["ucountry"],
                 'phone':data.additionalSignupData!["uphonenumber"],
+                'no_of_days':dateNo,
+                'purchaseDate':DateTime.now(),
+                'purchased':dateNo==0 ? false:true,
+                'validDate':DateTime.now().add(Duration(days: dateNo)),
+
+
               });
               final prefs = await SharedPreferences.getInstance();
               await prefs.setString('name', data.name.toString());
               await prefs.setString('password', data.name.toString());
+              await prefs.setBool('is_login', true);
 
               if (newuser != null) {
                 Navigator.push(context,
@@ -78,16 +100,28 @@ class _LoginPageState extends State<LoginPage> {
                 
                 
                     await prefs.setString('name', data.name.toString());
+                     await prefs.setBool('is_login', true);
                      
                 // await prefs.setString('password', data.name.toString());
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const MyApp()));
               }
+              else{
+                 await prefs.setString('name', 'guest@gmail.com');
+                  await prefs.setBool('is_login', false);
+                ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                      'You are login as guest'),
+                ),
+              );
+              }
             } catch (e) {
                if (e is FirebaseAuthException && e.code == 'user-not-found') {
-                await prefs.setString('name', 'guest');
+                await prefs.setString('name', 'guest@gmail.com');
+                 await prefs.setBool('is_login',false);
                 ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text(
                       'You are login as guest'),
                 ),
@@ -110,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
               await FirebaseAuth.instance.sendPasswordResetEmail(email: data);
               // Password reset email sent successfully
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text(
                       'Password reset email sent. Please check your inbox.'),
                 ),
@@ -118,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
             } catch (error) {
               // Error occurred while sending password reset email
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text(
                       'Failed to send password reset email. Please try again.'),
                 ),
@@ -128,12 +162,12 @@ class _LoginPageState extends State<LoginPage> {
 
           onSubmitAnimationCompleted: () => Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (_) => MyApp()),
+                MaterialPageRoute(builder: (_) => const MyApp()),
               ),
               
-              additionalSignupFields: [UserFormField(keyName: "uname",displayName: "Name",userType: LoginUserType.email)
-              ,UserFormField(keyName: "ucountry",displayName: "Country",),
-              UserFormField(keyName: "uphonenumber",displayName: "Phone Number",)
+              additionalSignupFields: [const UserFormField(keyName: "uname",displayName: "Name",userType: LoginUserType.email)
+              ,const UserFormField(keyName: "ucountry",displayName: "Country",),
+              const UserFormField(keyName: "uphonenumber",displayName: "Phone Number",)
 
               ],
               

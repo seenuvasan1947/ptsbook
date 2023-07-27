@@ -21,9 +21,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import '../components/language/lang_strings.dart';
 import '../components/language/lang_strings.dart';
 import '../components/language/multi_lang.dart';
+import 'admin_book_add.dart';
+import 'admin_screens/admin_home_page.dart';
 import 'apl.dart';
 
-import 'audiofromcaption.dart';
+import 'audio_check.dart';
+import 'audio_create.dart';
 import 'favouritebook.dart';
 import 'our_books.dart';
 import 'package:restart_app/restart_app.dart';
@@ -35,7 +38,7 @@ import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 
 bool heisvalid = false;
 bool isselected = false;
-List lang_list = ['en', 'ta', 'hi', 'ml', 'ar'];
+// List lang_list = ['en', 'ta', 'hi', 'ml', 'ar'];
 final FlutterLocalization localization = FlutterLocalization.instance;
 late StreamSubscription<List<PurchaseDetails>> _subscription;
 List<ProductDetails> _products = [];
@@ -44,8 +47,9 @@ var purchased_product_id;
 var purchased_product_raw_price;
 var purchased_product_discription;
 var purchased_product_title;
-const bool kAutoConsume =
-    true; // Set it to false if you don't want to auto-consume products
+const bool kAutoConsume = true;
+bool heisguest =
+    false; // Set it to false if you don't want to auto-consume products
 // bool heisvalid = false;
 
 class MyApp extends StatefulWidget {
@@ -58,20 +62,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final db = FirebaseFirestore.instance;
 
-  final TextEditingController emailController = TextEditingController();
-
-  void addAdmin(String email) {
-    FirebaseFirestore.instance.collection('users_login').doc('datas').update({
-      'admin_list': FieldValue.arrayUnion([email])
-    });
-  }
-
   @override
   initState() {
     context.read<Getcurrentuser>().getuser();
     context.read<Getcurrentuser>().getgenerlist();
     context.read<Getcurrentuser>().getcontentlanglist();
     context.read<Getcurrentuser>().getselectedcontentlang();
+    context.read<Getcurrentuser>().getadminlist();
     _refreshData();
     // getgenerlist();
     _initializeProducts();
@@ -95,39 +92,41 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> check_valid() async {
+    final prefs = await SharedPreferences.getInstance();
 
-final prefs = await SharedPreferences.getInstance();
+    String? user = prefs.getString('name');
 
-   String? user = prefs.getString('name');
-
-    final userDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user)
-        .get();
-        print(userDoc.get('purchased'));
-    if (userDoc == null || userDoc.exists == false) {
-      heisvalid = false;
-    } else if (userDoc.exists == true) {
-      bool isPurchased = userDoc.get('purchased');
-      final isvalid = userDoc.get('validDate') as Timestamp;
-      final validDate = isvalid.toDate();
-      final now = DateTime.now();
-      //  DateTime isvalid =userDoc.get('validDate') ;
-      //  DateTime now=DateTime.now();
-      if (isPurchased == true && now.isBefore(validDate)) {
-        heisvalid = true;
-        print(heisvalid);
-        setState(() {
-          heisvalid = true;
-        });
-      } else {
+    if (user != 'guest@gmail.com') {
+      final userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(user).get();
+      print(userDoc.get('purchased'));
+      if (userDoc == null || userDoc.exists == false) {
         heisvalid = false;
-        print(heisvalid);
-        setState(() {
+      } else if (userDoc.exists == true) {
+        bool isPurchased = userDoc.get('purchased');
+        final isvalid = userDoc.get('validDate') as Timestamp;
+        final validDate = isvalid.toDate();
+        final now = DateTime.now();
+        //  DateTime isvalid =userDoc.get('validDate') ;
+        //  DateTime now=DateTime.now();
+        if (isPurchased == true && now.isBefore(validDate)) {
+          heisvalid = true;
+          print(heisvalid);
+          setState(() {
+            heisvalid = true;
+          });
+        } else {
           heisvalid = false;
-        });
-      }
+          print(heisvalid);
+          setState(() {
+            heisvalid = false;
+          });
+        }
+      } 
     }
+    else {
+        heisguest = true;
+      }
   }
 
   Future<void> setcontentlang(String selectedlang) async {
@@ -221,15 +220,15 @@ final prefs = await SharedPreferences.getInstance();
       // Update the Firestore document for the user
       purchase_update_firestore('1_week_subscription');
     }
-     if (purchaseDetails.productID == '1_month_subscription') {
+    if (purchaseDetails.productID == '1_month_subscription') {
       // Update the Firestore document for the user
       purchase_update_firestore('1_month_subscription');
     }
-     if (purchaseDetails.productID == '6_month_subscription') {
+    if (purchaseDetails.productID == '6_month_subscription') {
       // Update the Firestore document for the user
       purchase_update_firestore('6_month_subscription');
     }
-     if (purchaseDetails.productID == '1_year_subscription') {
+    if (purchaseDetails.productID == '1_year_subscription') {
       // Update the Firestore document for the user
       purchase_update_firestore('1_year_subscription');
     }
@@ -374,7 +373,7 @@ final prefs = await SharedPreferences.getInstance();
                         height: 20,
                       ),
                       ListTile(
-                        title: const Text('add book as favourite'),
+                        title: const Text('write your book'),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -400,7 +399,7 @@ final prefs = await SharedPreferences.getInstance();
                         thickness: 3,
                       ),
                       ListTile(
-                        title: const Text('others favourite Book List'),
+                        title: const Text('others Book List'),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -408,34 +407,8 @@ final prefs = await SharedPreferences.getInstance();
                                   builder: (context) => const booklist()));
                         },
                       ),
-                      Divider(
-                        color: Colors.purple[200],
-                        thickness: 3,
-                      ),
-                      ListTile(
-                        title: const Text('Logout'),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage()));
-                        },
-                      ),
-                      Divider(
-                        color: Colors.purple[200],
-                        thickness: 3,
-                      ),
-                      ListTile(
-                        title: const Text('favourite'),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const favbooks()));
-                        },
-                      ),
 
-Divider(
+                      Divider(
                         color: Colors.purple[200],
                         thickness: 3,
                       ),
@@ -448,20 +421,24 @@ Divider(
                             ListView.builder(
                                 itemBuilder: (context, Index) {
                                   return ListTile(
+                                    splashColor: Colors.cyan,
+                                    selectedColor: Colors.deepPurple,
                                     onTap: () async {
                                       // set_app_lang();
                                       final prefs =
                                           await SharedPreferences.getInstance();
-                                      prefs.setString(
-                                          'crnt_lang_code', lang_list[Index]);
-                                      print(localization.getLanguageName(
-                                          languageCode: 'hi'));
-                                      localization.translate(lang_list[Index]);
+                                      print(prefs.getString('crnt_lang_code'));
+                                      print('=0=0=0=0');
+                                      prefs.setString('crnt_lang_code',
+                                          Getcurrentuser.lang_list[Index]);
+
+                                      localization.translate(
+                                          Getcurrentuser.lang_list[Index]);
                                       // localization.translate('en');
                                       print(prefs.getString('crnt_lang_code'));
                                       print(
                                           AppLocale.welcome.getString(context));
-                                      print(lang_list[Index]);
+
                                       // setcontentlang(Getcurrentuser
                                       //     .contentlangList[Index]);
                                       // isselected == true
@@ -474,10 +451,13 @@ Divider(
                                       //       )
                                       //     : null;
                                     },
-                                    title: Text(lang_list[Index]),
+                                    title:
+                                        Text(Getcurrentuser.lang_list[Index]),
+                                    subtitle: Text(
+                                        Getcurrentuser.lang_name_list[Index]),
                                   );
                                 },
-                                itemCount: lang_list.length,
+                                itemCount: Getcurrentuser.lang_list.length,
                                 shrinkWrap: true),
                           ],
                         ),
@@ -495,6 +475,8 @@ Divider(
                             ListView.builder(
                                 itemBuilder: (context, Index) {
                                   return ListTile(
+                                    splashColor: Colors.cyan,
+                                    selectedColor: Colors.deepPurple,
                                     onTap: () async {
                                       setcontentlang(Getcurrentuser
                                           .contentlangList[Index]);
@@ -510,6 +492,8 @@ Divider(
                                     },
                                     title: Text(
                                         Getcurrentuser.contentlangList[Index]),
+                                    subtitle: Text(
+                                        Getcurrentuser.lang_name_list[Index]),
                                   );
                                 },
                                 itemCount:
@@ -518,11 +502,48 @@ Divider(
                           ],
                         ),
                       ),
+ Divider(
+                        color: Colors.purple[200],
+                        thickness: 3,
+                      ),
+                      RefreshIndicator(
+                        onRefresh: _refreshData,
+                        child: ExpansionTile(
+                          title: Text('free books'),
+                          children: [
+                            ListView.builder(
+                                itemBuilder: (context, Index) {
+                                  return ListTile(
+                                    onTap: ()  {
+                                       Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ourbooklist(
+                                                        lable: Getcurrentuser
+                                                                .GenerList[
+                                                            Index],
+                                                            freebook: true),
+                                              ),
+                                            );
+                                          
 
+                                     
+                                    },
+                                    title: Text(
+                                        Getcurrentuser.GenerList[Index]),
+                                  );
+                                },
+                                itemCount: Getcurrentuser.GenerList.length,
+                                shrinkWrap: true),
+                          ],
+                        ),
+                      ),
                       Divider(
                         color: Colors.purple[200],
                         thickness: 3,
                       ),
+
 
                       RefreshIndicator(
                         onRefresh: _refreshData,
@@ -540,8 +561,9 @@ Divider(
                                                 builder: (context) =>
                                                     ourbooklist(
                                                         lable: Getcurrentuser
-                                                                .arrayDataList[
-                                                            Index]),
+                                                                .GenerList[
+                                                            Index],
+                                                            freebook: false),
                                               ),
                                             )
                                           : showDialog(
@@ -571,6 +593,26 @@ Divider(
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
+                                                        heisguest == true
+                                                            ? Text(
+                                                                'You are a guest so please login otherwise money will loss',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    fontSize:
+                                                                        16),
+                                                              )
+                                                            :Text(
+                                                                "${Getcurrentuser.userName}",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    fontSize:
+                                                                        16),
+                                                              ),
+                                                            
+                                                             SizedBox(
+                                                                height: 10),
                                                         Text(
                                                           'Available Subscriptions:',
                                                           style: TextStyle(
@@ -671,26 +713,49 @@ Divider(
                                       // );
                                     },
                                     title: Text(
-                                        Getcurrentuser.arrayDataList[Index]),
+                                        Getcurrentuser.GenerList[Index]),
                                   );
                                 },
-                                itemCount: Getcurrentuser.arrayDataList.length,
+                                itemCount: Getcurrentuser.GenerList.length,
                                 shrinkWrap: true),
                           ],
                         ),
+                      ),
+
+                      Divider(
+                        color: Colors.purple[200],
+                        thickness: 3,
+                      ),
+                      ListTile(
+                        title: const Text('Logout'),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()));
+                        },
                       ),
                       Divider(
                         color: Colors.purple[200],
                         thickness: 3,
                       ),
-                      // ListTile(
-                      //   title: const Text('Logout'),
-                      //   onTap: () {
-                      //     // SystemNavigator.pop();
-                      //     Restart.restartApp();
-                      //     // Restart.restartApp();
-                      //   },
-                      // ),
+                      // Getcurrentuser.userName!.contains(Getcurrentuser.admin_list)?
+                      Getcurrentuser.admin_list
+                              .contains(Getcurrentuser.userName)
+                          ? ListTile(
+                              title: const Text('Admin Page'),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AdminHome()));
+                              },
+                            )
+                          : Divider(
+                              color: Colors.white,
+                              thickness: 3,
+                            ),
                     ],
                   ),
                 ),
@@ -699,14 +764,6 @@ Divider(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => audfrmcap()));
-                              },
-                              child: Text('next page')),
                           // TextField(
                           //   controller: emailController,
                           //   decoration: InputDecoration(labelText: 'Add Admin'),

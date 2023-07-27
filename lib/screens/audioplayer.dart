@@ -7,17 +7,23 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MyApp456 extends StatefulWidget {
-  String vidurl = '';
-  MyApp456({super.key, required String this.vidurl});
+class audplayer extends StatefulWidget {
+  String audiourl = '';
+  String imageurl = '';
+  String bookname = '';
+  audplayer(
+      {super.key,
+      required String this.audiourl,
+      required String this.imageurl,
+      required String this.bookname});
   @override
-  _MyApp456State createState() => _MyApp456State();
+  _audplayerState createState() => _audplayerState();
 }
 
-class _MyApp456State extends State<MyApp456> {
+class _audplayerState extends State<audplayer> {
   late AudioPlayer _player;
 
-  String _url = "https://samplelib.com/lib/preview/mp3/sample-15s.mp3";
+  
   bool isPlaying = false;
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
@@ -58,7 +64,7 @@ class _MyApp456State extends State<MyApp456> {
   }
 
   void audioplay() async {
-    final videoUrl = widget.vidurl;
+    final videoUrl = widget.audiourl;
     // final audioUrl = await getAudioStreamUrl(videoUrl);
 
     if (_duration.inSeconds == 0.0) {
@@ -68,7 +74,6 @@ class _MyApp456State extends State<MyApp456> {
       _player.resume();
     }
   }
-
 
   void playAudioFromUrl(String audioUrl) async {
     await _player.setUrl(audioUrl);
@@ -84,7 +89,7 @@ class _MyApp456State extends State<MyApp456> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("book name"),
+          title: Text(widget.bookname),
           leading: IconButton(
               onPressed: () {
                 _player.stop();
@@ -95,6 +100,14 @@ class _MyApp456State extends State<MyApp456> {
         body: Center(
           child: Column(
             children: [
+              SizedBox.square(
+                                  dimension: 500,
+                                  // child: Image.asset('assets/book.jpeg')
+                                  child: Image.network(widget.imageurl),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.all(10),
+                                ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: ProgressBar(
@@ -134,7 +147,6 @@ class _MyApp456State extends State<MyApp456> {
                       setState(() {
                         isPlaying = !isPlaying;
                       });
-                     
                     },
                   ),
                   IconButton(
@@ -143,15 +155,16 @@ class _MyApp456State extends State<MyApp456> {
                       _player.seek(_position + Duration(seconds: 10));
                     },
                   ),
-                  Padding(
+                  
+                ],
+              ),
+              Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
                       _duration.toString().substring(0, 7),
                       style: TextStyle(fontSize: 16.0),
                     ),
                   ),
-                ],
-              ),
             ],
           ),
         ),

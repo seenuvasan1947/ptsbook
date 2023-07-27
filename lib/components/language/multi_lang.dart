@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:mybook/screens/admin_screens/splash_screen.dart';
 // import 'package:mentorme/components/language/lang_strings.dart';
 // import 'package:mentorme/screens/welcome_screen.dart';
 import '../../auth/auth.dart';
@@ -38,6 +39,8 @@ class _LangMainPageState extends State<LangMainPage> {
         const MapLocale('en', AppLocale.EN),
         const MapLocale('ta', AppLocale.TM),
         const MapLocale('hi', AppLocale.HI),
+        const MapLocale('ml', AppLocale.ML),
+
         // const MapLocale('ml', AppLocale.ML),
         // const MapLocale('ar', AppLocale.AR),
 
@@ -60,7 +63,7 @@ class _LangMainPageState extends State<LangMainPage> {
     return MaterialApp(
       supportedLocales: _localization.supportedLocales,
       localizationsDelegates: _localization.localizationsDelegates,
-      home: const MyApp(),
+      home: const SplashScreen(),
       // home: const LoginPage(),
     );
   }

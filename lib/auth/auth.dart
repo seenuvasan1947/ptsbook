@@ -12,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/nav_bar_home_screen.dart';
+
 bool validuser = false;
 
 class LoginPage extends StatefulWidget {
@@ -73,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
 
               if (newuser != null) {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MyApp()));
+                    MaterialPageRoute(builder: (context) => const NavBarAtHomePage()));
               }
             } catch (e) {
               print(e);
@@ -104,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                      
                 // await prefs.setString('password', data.name.toString());
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MyApp()));
+                    MaterialPageRoute(builder: (context) => const NavBarAtHomePage()));
               }
               else{
                  await prefs.setString('name', 'guest@gmail.com');
@@ -162,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
 
           onSubmitAnimationCompleted: () => Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (_) => const MyApp()),
+                MaterialPageRoute(builder: (_) => const NavBarAtHomePage()),
               ),
               
               additionalSignupFields: [const UserFormField(keyName: "uname",displayName: "Name",userType: LoginUserType.email)

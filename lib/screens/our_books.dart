@@ -85,6 +85,7 @@ class _ourbooklistState extends State<ourbooklist> {
         .collection('our_books')
         .where('gener', isEqualTo: widget.lable)
         .where('is_published', isEqualTo: true)
+        .where('free_book', isEqualTo: widget.freebook)
         .get();
 
     setState(() {
@@ -175,6 +176,7 @@ class _ourbooklistState extends State<ourbooklist> {
                         .where("${Getcurrentuser.selectlang}.Book_name",
                             isEqualTo: selectedBook)
                         .where('is_published', isEqualTo: true)
+
                         .where('free_book', isEqualTo: widget.freebook)
                         .snapshots(),
 

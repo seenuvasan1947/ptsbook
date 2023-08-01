@@ -1,0 +1,1353 @@
+hr-HR
+
+Croatian (Croatia)
+
+[
+{name: hr-HR-language, locale: hr-HR},(f)++
+{name: hr-hr-x-hra-local, locale: hr-HR},(f)
+{name: hr-hr-x-hrb-network, locale: hr-HR},(m)
+{name: hr-hr-x-hra-network, locale: hr-HR},(f)
+{name: hr-hr-x-hrb-local, locale: hr-HR},(m)
+
+]
+
+ko-KR
+
+Korean (Korea)
+
+[
+{name: ko-kr-x-koc-network, locale: ko-KR},(m)
+{name: ko-kr-x-kod-local, locale: ko-KR},(m)
+{name: ko-kr-x-ism-local, locale: ko-KR},(f)++
+{name: ko-kr-x-kob-network, locale: ko-KR},(f)
+{name: ko-KR-language, locale: ko-KR},(f)
+{name: ko-kr-x-kod-network, locale: ko-KR},
+{name: ko-kr-x-koc-local, locale: ko-KR},
+{name: ko-kr-x-kob-local, locale: ko-KR},
+{name: ko-kr-x-ism-network, locale: ko-KR},
+
+]
+
+
+mr-IN
+
+Marathi (India)
+
+[
+
+{name: mr-IN-language, locale: mr-IN},(f)
+{name: mr-in-x-mrf-network, locale: mr-IN},(f)
+{name: mr-in-x-mrf-local, locale: mr-IN},(f)++
+
+]
+
+ru-RU
+
+Russian (Russia)
+
+[
+
+{name: ru-ru-x-rud-network, locale: ru-RU},(m)
+{name: ru-ru-x-ruf-local, locale: ru-RU},(m)
+{name: ru-ru-x-ruf-network, locale: ru-RU},(m)
+{name: ru-RU-language, locale: ru-RU},(f)
+{name: ru-ru-x-rue-local, locale: ru-RU},(f)++
+{name: ru-ru-x-rue-network, locale: ru-RU},
+{name: ru-ru-x-ruc-network, locale: ru-RU},
+{name: ru-ru-x-rud-local, locale: ru-RU},
+{name: ru-ru-x-dfc-network, locale: ru-RU},
+{name: ru-ru-x-dfc-local, locale: ru-RU},
+{name: ru-ru-x-ruc-local, locale: ru-RU},
+
+]
+
+
+hu-HU
+
+Hungarian (Hungary)
+
+[
+
+{name: hu-HU-language, locale: hu-HU},(f)
+{name: hu-hu-x-kfl-network, locale: hu-HU},(f)++
+{name: hu-hu-x-kfl-local, locale: hu-HU},(f)
+]
+
+sw-KE
+
+Swahili (Kenya)
+
+[
+
+{name: sw-ke-x-swm-local, locale: sw-KE},(m)
+{name: sw-ke-x-swm-network, locale: sw-KE},(m)
+{name: sw-ke-language, locale: sw-KE},(m)++
+
+]
+
+th-TH
+
+Thai (Thailand)
+
+[
+
+{name: th-th-x-mol-local, locale: th-TH},(f)
+{name: th-TH-language, locale: th-TH},(f)++
+{name: th-th-x-mol-network, locale: th-TH},(f)
+
+]
+
+ur-PK
+
+Urdu (Islamic Republic of Pakistan)
+
+[
+
+{name: ur-PK-language, locale: ur-PK},(f)
+{name: ur-pk-x-urm-local, locale: ur-PK},(m)
+{name: ur-pk-x-cfn-local, locale: ur-PK},(f)
+{name: ur-pk-x-cfn-network, locale: ur-PK},(f)++
+{name: ur-pk-x-urm-network, locale: ur-PK},(m)
+
+]
+
+nb-NO
+
+Norwegian (Norway)
+
+[
+
+{name: nb-no-x-cfl-local, locale: nb-NO},(f)
+{name: nb-no-x-rfj-network, locale: nb-NO},(f)++
+{name: nb-no-x-cfl-network, locale: nb-NO},
+{name: nb-no-x-cmj-network, locale: nb-NO},
+{name: nb-no-x-tfs-local, locale: nb-NO},
+{name: nb-NO-language, locale: nb-NO},
+{name: nb-no-x-rfj-local, locale: nb-NO},
+{name: nb-no-x-tmg-local, locale: nb-NO},
+{name: nb-no-x-tfs-network, locale: nb-NO},
+{name: nb-no-x-cmj-local, locale: nb-NO},
+{name: nb-no-x-tmg-network, locale: nb-NO},
+
+]
+
+da-DK
+
+Danish (Denmark)
+
+[
+
+{name: da-dk-x-sfp-network, locale: da-DK},(f)
+
+{name: da-DK-language, locale: da-DK},(f)
+
+{name: da-dk-x-nmm-network, locale: da-DK},(m)
+
+{name: da-dk-x-nmm-local, locale: da-DK},(m)
+
+{name: da-dk-x-vfb-network, locale: da-DK},(f)++
+
+{name: da-dk-x-kfm-network, locale: da-DK},
+
+{name: da-dk-x-kfm-local, locale: da-DK},
+
+{name: da-dk-x-vfb-local, locale: da-DK},
+
+{name: da-dk-x-sfp-local, locale: da-DK},
+
+]
+
+tr-TR
+
+Turkish (Turkey)
+
+[
+
+{name: tr-tr-x-tmc-local, locale: tr-TR},(m)
+
+{name: tr-tr-x-efu-network, locale: tr-TR},(f)
+
+{name: tr-tr-x-mfm-local, locale: tr-TR},(f)++
+
+{name: tr-tr-x-tmc-network, locale: tr-TR},(m)
+
+{name: tr-tr-x-efu-local, locale: tr-TR},
+
+{name: tr-tr-x-cfs-local, locale: tr-TR},
+
+{name: tr-tr-x-ama-network, locale: tr-TR},
+
+{name: tr-TR-language, locale: tr-TR},
+
+{name: tr-tr-x-ama-local, locale: tr-TR},
+
+{name: tr-tr-x-cfs-network, locale: tr-TR},
+
+{name: tr-tr-x-mfm-network, locale: tr-TR},
+
+]
+
+et-EE
+
+Estonian (Estonia)
+
+[
+
+{name: et-ee-x-tms-network, locale: et-EE},(m)
+
+{name: et-ee-x-tms-local, locale: et-EE},(m)
+
+{name: et-EE-language, locale: et-EE},(m)++
+
+]
+
+pt-PT
+
+Portuguese (Portugal)
+
+[
+
+{name: pt-pt-x-jmn-network, locale: pt-PT},(m)
+
+{name: pt-PT-language, locale: pt-PT},(f)
+
+{name: pt-pt-x-jfb-network, locale: pt-PT},(f)
+
+{name: pt-pt-x-sfs-local, locale: pt-PT},(f)
+
+{name: pt-pt-x-pmj-local, locale: pt-PT},(m)
+
+{name: pt-pt-x-sfs-network, locale: pt-PT},(f)++
+
+{name: pt-pt-x-jfb-local, locale: pt-PT},(f)
+
+{name: pt-pt-x-pmj-network, locale: pt-PT},(m)
+
+{name: pt-pt-x-jmn-local, locale: pt-PT},(m)
+
+]
+
+vi-VN
+
+Vietnamese (Viet Nam)
+
+[
+
+{name: vi-vn-x-vif-network, locale: vi-VN},(m)
+
+{name: vi-vn-x-vid-network, locale: vi-VN},(m)
+
+{name: vi-vn-x-vie-local, locale: vi-VN},(f)
+
+{name: vi-vn-x-gft-network, locale: vi-VN},(f)++
+
+{name: vi-vn-x-vie-network, locale: vi-VN},(f)
+
+{name: vi-vn-x-gft-local, locale: vi-VN},
+
+{name: vi-VN-language, locale: vi-VN},
+
+{name: vi-vn-x-vif-local, locale: vi-VN},
+
+{name: vi-vn-x-vic-network, locale: vi-VN},
+
+{name: vi-vn-x-vic-local, locale: vi-VN},
+
+{name: vi-vn-x-vid-local, locale: vi-VN},
+
+]
+
+
+sq-AL
+
+Albanian (Albania)
+
+[
+
+{name: sq-al-x-sqm-network, locale: sq-AL},(m)
+
+{name: sq-al-language, locale: sq-AL},(m)++
+
+{name: sq-al-x-sqm-local, locale: sq-AL},(m)
+
+]
+
+sv-SE
+
+Swedish (Sweden)
+
+[
+
+{name: sv-se-x-lfs-local, locale: sv-SE},(f)
+
+{name: sv-se-x-afp-local, locale: sv-SE},(f)++
+
+{name: sv-se-x-dmc-local, locale: sv-SE},
+
+{name: sv-se-x-dmc-network, locale: sv-SE},
+
+{name: sv-se-x-afp-network, locale: sv-SE},
+
+{name: sv-se-x-cfg-local, locale: sv-SE},
+
+{name: sv-se-x-cmh-network, locale: sv-SE},
+
+{name: sv-se-x-cfg-network, locale: sv-SE},
+
+{name: sv-se-x-cmh-local, locale: sv-SE},
+
+{name: sv-se-x-lfs-network, locale: sv-SE},
+
+{name: sv-SE-language, locale: sv-SE},
+
+]
+
+ar
+
+Arabic 
+
+[
+
+{name: ar-xa-x-arz-local, locale: ar},(f)
+
+{name: ar-xa-x-ard-local, locale: ar},(m)
+
+{name: ar-xa-x-arc-network, locale: ar},
+
+{name: ar-xa-x-are-local, locale: ar},
+
+{name: ar-xa-x-ard-network, locale: ar},
+
+{name: ar-xa-x-arz-network, locale: ar},
+
+{name: ar-xa-x-arc-local, locale: ar},
+
+{name: ar-language, locale: ar},
+
+{name: ar-xa-x-are-network, locale: ar},
+
+]
+
+su-ID
+
+Sundanese (Indonesia)
+
+[
+
+{name: su-id-x-suf-network, locale: su-ID},(f)
+
+{name: su-ID-language, locale: su-ID},(f)++
+
+{name: su-id-x-suf-local, locale: su-ID},
+
+]
+
+
+
+bs-BA
+
+Bosnian (Bosnia and Herzegovina)
+
+[
+
+{name: bs-ba-x-bsm-local, locale: bs-BA},(m)
+
+{name: bs-ba-language, locale: bs-BA},(m)
+
+{name: bs-ba-x-bsm-network, locale: bs-BA},(m)++
+
+]
+
+gu-IN
+
+Gujarati (India)
+
+[
+{name: gu-in-x-gum-network, locale: gu-IN},(m)
+
+{name: gu-in-x-guf-network, locale: gu-IN},(f)
+
+{name: gu-IN-language, locale: gu-IN},(f)++
+
+{name: gu-in-x-guf-local, locale: gu-IN},
+
+{name: gu-in-x-gum-local, locale: gu-IN},
+
+]
+
+kn-IN
+
+Kannada (India)
+
+[
+{name: kn-in-x-knm-network, locale: kn-IN},(m)
+
+{name: kn-in-x-knf-local, locale: kn-IN},(f)
+
+{name: kn-in-x-knf-network, locale: kn-IN},(f)
+
+{name: kn-in-x-knm-local, locale: kn-IN},(m)
+
+{name: kn-IN-language, locale: kn-IN},(f)++
+]
+
+el-GR
+
+Greek (Greece)
+
+[
+{name: el-GR-language, locale: el-GR},(f)
+
+{name: el-gr-x-vfz-local, locale: el-GR},(f)
+
+{name: el-gr-x-vfz-network, locale: el-GR},(f)++
+
+]
+
+hi-IN
+
+Hindi (India)
+
+[
+{name: hi-in-x-hia-local, locale: hi-IN},(f)++
+
+{name: hi-in-x-hie-network, locale: hi-IN},(m)
+
+{name: hi-in-x-hic-network, locale: hi-IN},
+
+{name: hi-IN-language, locale: hi-IN},
+
+{name: hi-in-x-hid-local, locale: hi-IN},
+
+{name: hi-in-x-hia-network, locale: hi-IN},
+
+{name: hi-in-x-hid-network, locale: hi-IN},
+
+{name: hi-in-x-hic-local, locale: hi-IN},
+
+{name: hi-in-x-hie-local, locale: hi-IN},
+
+]
+
+he-IL
+
+Hebrew (Israel)
+
+[
+{name: he-il-x-hec-local, locale: he-IL},(f)++
+
+{name: he-il-x-hee-network, locale: he-IL},
+
+{name: he-il-language, locale: he-IL},
+
+{name: he-il-x-hec-network, locale: he-IL},
+
+{name: he-il-x-heb-network, locale: he-IL},
+
+{name: he-il-x-hee-local, locale: he-IL},
+
+{name: he-il-x-hed-network, locale: he-IL},
+
+{name: he-il-x-hed-local, locale: he-IL},
+
+{name: he-il-x-heb-local, locale: he-IL},
+
+]
+
+fi-FI
+
+Finnish (Finland)
+
+[
+{name: fi-FI-language, locale: fi-FI},(f)++
+
+{name: fi-fi-x-afi-local, locale: fi-FI},
+
+{name: fi-fi-x-afi-network, locale: fi-FI},
+
+]
+
+bn-IN
+
+Bengali (India)
+
+[
+
+{name: bn-in-x-bin-network, locale: bn-IN},(f)
+
+{name: bn-IN-language, locale: bn-IN},(f)
+
+{name: bn-in-x-bnx-network, locale: bn-IN},(f)++
+
+{name: bn-in-x-bnm-network, locale: bn-IN},
+
+{name: bn-in-x-bnf-network, locale: bn-IN},
+
+{name: bn-in-x-bnf-local, locale: bn-IN},
+
+{name: bn-in-x-bin-local, locale: bn-IN},
+
+{name: bn-in-x-bnm-local, locale: bn-IN},
+
+{name: bn-in-x-bnx-local, locale: bn-IN},
+
+]
+
+km-KH
+
+Khmer (Cambodia)
+
+[
+
+{name: km-kh-x-khm-network, locale: km-KH},(f)
+
+{name: km-kh-x-khm-local, locale: km-KH},(f)
+
+{name: km-KH-language, locale: km-KH},(f)++
+
+]
+
+fr-FR
+
+French (France)
+
+[
+{name: fr-fr-x-frc-local, locale: fr-FR},(f)
+
+{name: fr-FR-language, locale: fr-FR},(f)
+
+{name: fr-fr-x-frb-local, locale: fr-FR},(m)
+
+{name: fr-fr-x-fra-local, locale: fr-FR},(f)++
+
+{name: fr-fr-x-frd-network, locale: fr-FR},(m)
+
+{name: fr-fr-x-vlf-local, locale: fr-FR},
+
+{name: fr-fr-x-frd-local, locale: fr-FR},
+
+{name: fr-fr-x-frc-network, locale: fr-FR},
+
+{name: fr-fr-x-vlf-network, locale: fr-FR},
+
+{name: fr-fr-x-fra-network, locale: fr-FR},
+
+{name: fr-fr-x-frb-network, locale: fr-FR},
+
+]
+
+uk-UA
+
+Ukrainian (Ukraine)
+
+[
+{name: uk-UA-language, locale: uk-UA},(f)
+
+{name: uk-ua-x-hfd-local, locale: uk-UA},(f)
+
+{name: uk-ua-x-hfd-network, locale: uk-UA},(f)++
+
+]
+
+pa-IN
+
+Punjabi (India)
+
+[
+{name: pa-in-x-pac-local, locale: pa-IN},(f)
+
+{name: pa-in-x-pag-local, locale: pa-IN},(m)
+
+{name: pa-IN-language, locale: pa-IN},(f)++
+
+{name: pa-in-x-pag-network, locale: pa-IN},(m)
+
+{name: pa-in-x-pae-local, locale: pa-IN},
+
+{name: pa-in-x-pac-network, locale: pa-IN},
+
+{name: pa-in-x-pad-network, locale: pa-IN},
+
+{name: pa-in-x-pae-network, locale: pa-IN},
+
+{name: pa-in-x-pad-local, locale: pa-IN},
+
+]
+
+
+
+nl-NL
+
+Dutch (Netherlands)
+
+[
+{name: nl-nl-x-yfr-network, locale: nl-NL},(f)
+
+{name: nl-nl-x-yfr-local, locale: nl-NL},(f)
+
+{name: nl-nl-x-lfc-network, locale: nl-NL},(f)++
+
+{name: nl-nl-x-dma-network, locale: nl-NL},
+
+{name: nl-nl-x-lfc-local, locale: nl-NL},
+
+{name: nl-nl-x-tfb-network, locale: nl-NL},
+
+{name: nl-nl-x-tfb-local, locale: nl-NL},
+
+{name: nl-nl-x-bmh-network, locale: nl-NL},
+
+{name: nl-nl-x-bmh-local, locale: nl-NL},
+
+{name: nl-NL-language, locale: nl-NL},
+
+{name: nl-nl-x-dma-local, locale: nl-NL},
+
+]
+
+
+
+lv-LV
+
+Latvian (Latvia)
+
+[
+{name: lv-LV-language, locale: lv-LV},(m)
+
+{name: lv-lv-x-imr-local, locale: lv-LV},(m)++
+
+{name: lv-lv-x-imr-network, locale: lv-LV},(m)
+
+]
+
+sr
+
+Serbian
+
+[
+
+{name: sr, locale: sr},(f)++
+
+]
+
+pt-BR
+
+Portuguese (Brazil)
+
+[
+{name: pt-br-x-pte-local, locale: pt-BR},(f)
+
+{name: pt-BR-language, locale: pt-BR},(f)++
+
+{name: pt-br-x-afs-local, locale: pt-BR},(f)
+
+{name: pt-br-x-ptd-local, locale: pt-BR},(m)
+
+{name: pt-br-x-pte-network, locale: pt-BR},
+
+{name: pt-br-x-ptd-network, locale: pt-BR},
+
+{name: pt-br-x-afs-network, locale: pt-BR},
+
+]
+
+de-DE
+
+German (Germany)
+
+[
+{name: de-de-x-deb-network, locale: de-DE},(m)
+
+{name: de-DE-language, locale: de-DE},(f)
+
+{name: de-de-x-dea-network, locale: de-DE},(f)++
+
+{name: de-de-x-deg-network, locale: de-DE},
+
+{name: de-de-x-deb-local, locale: de-DE},
+
+{name: de-de-x-deg-local, locale: de-DE},
+
+{name: de-de-x-nfh-local, locale: de-DE},
+
+{name: de-de-x-nfh-network, locale: de-DE},
+
+{name: de-de-x-dea-local, locale: de-DE},
+
+]
+
+ml-IN
+
+Malayalam (India)
+
+[
+{name: ml-IN-language, locale: ml-IN},(f)
+
+{name: ml-in-x-mlm-local, locale: ml-IN},(m)
+
+{name: ml-IN, locale: ml-IN},(f)++
+
+{name: ml-in-x-mlm-network, locale: ml-IN},(m)
+
+{name: ml-in-x-mlf-network, locale: ml-IN},(f)
+
+]
+
+si-LK
+
+Sinhala (Sri Lanka)
+
+[
+{name: si-lk-x-sin-local, locale: si-LK},(f)
+
+{name: si-lk-x-sin-network, locale: si-LK},(f)++
+
+{name: si-LK-language, locale: si-LK},(f)
+
+]
+
+cs-CZ
+
+Czech (Czech Republic)
+
+[
+{name: cs-cz-x-jfs-local, locale: cs-CZ},(f)
+
+{name: cs-cz-x-jfs-network, locale: cs-CZ},(f)++
+
+{name: cs-CZ-language, locale: cs-CZ},(f)
+
+]
+
+is-IS
+
+Icelandic (Iceland)
+
+[
+
+{name: is-is-x-isf-local, locale: is-IS},(f)
+
+{name: is-is-x-isf-network, locale: is-IS},(f)++
+
+{name: is-is-language, locale: is-IS},(f)
+
+]
+
+pl-PL
+
+Polish (Poland)
+
+[
+{name: pl-pl-x-afb-local, locale: pl-PL},(f)
+
+{name: pl-pl-x-bmg-network, locale: pl-PL},(m)
+
+{name: pl-pl-x-zfg-network, locale: pl-PL},(f)++
+
+{name: pl-pl-x-jmk-network, locale: pl-PL},
+
+{name: pl-pl-x-afb-network, locale: pl-PL},
+
+{name: pl-pl-x-jmk-local, locale: pl-PL},
+
+{name: pl-pl-x-zfg-local, locale: pl-PL},
+
+{name: pl-pl-x-oda-network, locale: pl-PL},
+
+{name: pl-pl-x-oda-local, locale: pl-PL},
+
+{name: pl-PL-language, locale: pl-PL},
+
+{name: pl-pl-x-bmg-local, locale: pl-PL},
+
+]
+
+ca-ES
+
+Catalan (Spain)
+
+[
+{name: ca-ES-language, locale: ca-ES},(f)
+
+{name: ca-es-x-caf-network, locale: ca-ES},(f)
+
+{name: ca-es-x-caf-local, locale: ca-ES},(f)++
+
+]
+
+sk-SK
+
+Slovak (Slovakia)
+
+[
+{name: sk-sk-x-sfk-local, locale: sk-SK},(f)
+
+{name: sk-sk-x-sfk-network, locale: sk-SK},(f)++
+
+{name: sk-SK-language, locale: sk-SK},(f)
+
+]
+
+it-IT
+
+Italian (Italy)
+
+[
+{name: it-it-x-itd-local, locale: it-IT},(m)
+
+{name: it-IT-language, locale: it-IT},(f)
+
+{name: it-it-x-itb-local, locale: it-IT},(f)++
+
+{name: it-it-x-kda-network, locale: it-IT},(f)
+
+{name: it-it-x-kda-local, locale: it-IT},
+
+{name: it-it-x-itc-local, locale: it-IT},
+
+{name: it-it-x-itc-network, locale: it-IT},
+
+{name: it-it-x-itb-network, locale: it-IT},
+
+{name: it-it-x-itd-network, locale: it-IT},
+
+]
+
+fil-PH
+
+Filipino (Philippines)
+
+[
+{name: fil-PH-language, locale: fil-PH},(f)++
+
+{name: fil-ph-x-fie-local, locale: fil-PH},(m)
+
+{name: fil-ph-x-fid-network, locale: fil-PH},(m)
+
+{name: fil-ph-x-fid-local, locale: fil-PH},(m)
+
+{name: fil-ph-x-fie-network, locale: fil-PH},
+
+{name: fil-ph-x-fic-local, locale: fil-PH},
+
+{name: fil-ph-x-fic-network, locale: fil-PH},
+
+{name: fil-ph-x-cfc-network, locale: fil-PH},
+
+{name: fil-ph-x-cfc-local, locale: fil-PH},
+
+]
+
+lt-LT
+
+Lithuanian (Lithuania)
+
+[
+{name: lt-lt-language, locale: lt-LT},(m)
+
+{name: lt-lt-x-amc-network, locale: lt-LT},(m)
+
+{name: lt-lt-x-amc-local, locale: lt-LT},(m)++
+
+]
+
+ne-NP
+
+Nepali (Nepal)
+
+[
+{name: ne-np-x-nep-local, locale: ne-NP},(f)
+
+{name: ne-np-x-nep-network, locale: ne-NP},(f)
+
+{name: ne-NP-language, locale: ne-NP},(f)++
+
+]
+
+ms-MY
+
+Malay (Malaysia)
+
+[
+{name: ms-my-x-msc-local, locale: ms-MY},(f)++
+
+{name: ms-my-x-msg-network, locale: ms-MY},(m)
+
+{name: ms-my-x-msg-local, locale: ms-MY},(m)
+
+{name: ms-MY-language, locale: ms-MY},
+
+{name: ms-my-x-mse-network, locale: ms-MY},
+
+{name: ms-my-x-msd-local, locale: ms-MY},
+
+{name: ms-my-x-msd-network, locale: ms-MY},
+
+{name: ms-my-x-msc-network, locale: ms-MY},
+
+{name: ms-my-x-mse-local, locale: ms-MY},
+
+]
+
+
+zh-CN
+
+Chinese (China)
+
+[
+{name: cmn-cn-x-cce-local, locale: zh-CN},(m)
+
+{name: cmn-cn-x-ssa-local, locale: zh-CN},(f)++
+
+{name: cmn-cn-x-ccd-network, locale: zh-CN},(m)
+
+{name: zh-CN-language, locale: zh-CN},
+
+{name: cmn-cn-x-ccc-local, locale: zh-CN},
+
+{name: cmn-cn-x-ccc-network, locale: zh-CN},
+
+{name: cmn-cn-x-ccd-local, locale: zh-CN},
+
+{name: cmn-cn-x-cce-network, locale: zh-CN},
+
+{name: cmn-cn-x-ssa-network, locale: zh-CN},
+
+]
+
+es-ES
+
+Spanish (Spain)
+
+[
+{name: es-es-x-eef-local, locale: es-ES},(m)
+
+{name: es-es-x-eec-local, locale: es-ES},(f)
+
+{name: es-es-x-eed-local, locale: es-ES},(m)
+
+{name: es-ES-language, locale: es-ES},(f)++
+
+{name: es-es-x-eee-local, locale: es-ES},
+
+{name: es-es-x-eea-network, locale: es-ES},
+
+{name: es-es-x-eea-local, locale: es-ES},
+
+{name: es-es-x-eec-network, locale: es-ES},
+
+{name: es-es-x-eed-network, locale: es-ES},
+
+]
+
+ja-JP
+
+Japanese (Japan)
+
+[
+{name: ja-jp-x-htm-network, locale: ja-JP},(f)++
+
+{name: ja-jp-x-jab-network, locale: ja-JP},(f)
+
+{name: ja-jp-x-jad-network, locale: ja-JP},(m)
+
+{name: ja-jp-x-jad-local, locale: ja-JP},
+
+{name: ja-JP-language, locale: ja-JP},
+
+{name: ja-jp-x-jac-local, locale: ja-JP},
+
+{name: ja-jp-x-htm-local, locale: ja-JP},
+
+{name: ja-jp-x-jac-network, locale: ja-JP},
+
+{name: ja-jp-x-jab-local, locale: ja-JP},
+
+]
+
+ta-IN
+
+Tamil (India)
+
+[
+{name: ta-in-x-tac-network, locale: ta-IN},(f)
+
+{name: ta-in-x-tad-network, locale: ta-IN},(m)
+
+{name: ta-in-x-tac-local, locale: ta-IN},(f)++
+
+{name: ta-IN-language, locale: ta-IN},(f)+
+
+{name: ta-in-x-tad-local, locale: ta-IN},(m)
+
+]
+
+bg-BG
+
+Bulgarian (Bulgaria)
+
+[
+{name: bg-bg-x-ifk-local, locale: bg-BG},(f)
+
+{name: bg-bg-x-ifk-network, locale: bg-BG},(f)
+
+{name: bg-bg-language, locale: bg-BG},(f)++
+
+]
+
+cy-GB
+
+Welsh (United Kingdom)
+
+[
+{name: cy-gb-x-cyf-local, locale: cy-GB},(f)
+
+{name: cy-gb-x-cyf-network, locale: cy-GB},(f)
+
+{name: cy-GB-language, locale: cy-GB},(f)++
+
+]
+
+
+en-IN
+
+English (India)
+
+[
+
+{name: en-in-x-ene-network, locale: en-IN},(m)
+
+{name: en-in-x-enc-network, locale: en-IN},(f)
+
+{name: en-in-x-enc-local, locale: en-IN},(f)
+
+{name: en-in-x-end-local, locale: en-IN},(m)
+
+{name: en-in-x-ena-network, locale: en-IN},(f) +
+
+{name: en-in-x-ahp-local, locale: en-IN},(f)
+
+{name: en-in-x-ahp-network, locale: en-IN},(f)++
+
+{name: en-in-x-end-network, locale: en-IN},(m)
+
+{name: en-in-x-ene-local, locale: en-IN},(m)
+
+{name: en-in-x-ena-local, locale: en-IN},(f)
+
+{name: en-IN-language, locale: en-IN},(f)
+
+]
+
+jv-ID
+
+Javanese (Indonesia)
+
+[
+{name: jv-id-x-jvf-local, locale: jv-ID},(f)
+
+{name: jv-id-x-jvf-network, locale: jv-ID},(f)
+
+{name: jv-ID-language, locale: jv-ID},(f)++
+
+]
+
+id-ID
+
+Indonesian (Indonesia)
+
+[
+
+{name: id-id-x-dfz-network, locale: id-ID},(f)
+
+{name: id-id-x-ide-local, locale: id-ID},(m)
+
+{name: id-id-x-idd-network, locale: id-ID},(m)
+
+{name: id-id-x-ide-network, locale: id-ID},(m)
+
+{name: id-id-x-idc-network, locale: id-ID},(f)++
+
+{name: id-ID-language, locale: id-ID},
+
+{name: id-id-x-idd-local, locale: id-ID},
+
+{name: id-id-x-dfz-local, locale: id-ID},
+
+{name: id-id-x-idc-local, locale: id-ID},
+
+]
+
+te-IN
+
+Telugu (India)
+
+[
+{name: te-in-x-tem-network, locale: te-IN},(m)
+
+{name: te-in-x-tef-local, locale: te-IN},(f)
+
+{name: te-in-x-tem-local, locale: te-IN},(m)
+
+{name: te-IN-language, locale: te-IN},(f)
+
+{name: te-in-x-tef-network, locale: te-IN},(f)++
+
+]
+
+ro-RO
+
+Romanian (Romania)
+
+[
+{name: ro-ro-x-vfv-network, locale: ro-RO},(f)
+{name: ro-RO-language, locale: ro-RO},(f)++
+{name: ro-ro-x-vfv-local, locale: ro-RO},(f)
+
+]
+
+
+en-US
+
+English - United States
+
+[
+
+{name: en-us-x-tpf-local, locale: en-US},(f)
+
+{name: en-us-x-sfg-network, locale: en-US},(f)
+
+{name: en-us-x-sfg-local, locale: en-US},(f)++
+
+{name: en-us-x-iob-local, locale: en-US},
+
+{name: en-us-x-tpd-network, locale: en-US},
+
+{name: en-us-x-tpc-network, locale: en-US},
+
+{name: en-us-x-iob-network, locale: en-US},
+
+{name: en-us-x-iol-network, locale: en-US},
+
+{name: en-us-x-iom-network, locale: en-US},
+
+{name: en-us-x-iom-local, locale: en-US},
+
+{name: en-US-language, locale: en-US},
+
+{name: en-us-x-tpd-local, locale: en-US},
+
+{name: en-us-x-iog-network, locale: en-US},
+
+{name: en-us-x-tpf-network, locale: en-US},
+
+{name: en-us-x-iog-local, locale: en-US},
+
+{name: en-us-x-tpc-local, locale: en-US},
+
+{name: en-us-x-iol-local, locale: en-US}
+
+]
+
+
+
+es-US
+
+//Spanish (United States)
+
+[
+{name: es-us-x-sfb-network, locale: es-US},
+
+{name: es-US-language, locale: es-US},
+
+{name: es-us-x-esc-network, locale: es-US},
+
+{name: es-us-x-esd-local, locale: es-US},
+
+{name: es-us-x-esf-local, locale: es-US},
+
+{name: es-us-x-esc-local, locale: es-US},
+
+{name: es-us-x-esf-network, locale: es-US},
+
+{name: es-us-x-sfb-local, locale: es-US},
+
+{name: es-us-x-esd-network, locale: es-US},
+
+]
+
+
+en-GB
+
+//English (United Kingdom)
+
+[
+{name: en-GB-language, locale: en-GB},
+
+{name: en-gb-x-gba-network, locale: en-GB},
+
+{name: en-gb-x-gbc-network, locale: en-GB},
+
+{name: en-gb-x-gbc-local, locale: en-GB},
+
+{name: en-gb-x-gbb-local, locale: en-GB},
+
+{name: en-gb-x-gbd-local, locale: en-GB},
+
+{name: en-gb-x-gbg-local, locale: en-GB},
+
+{name: en-gb-x-rjs-local, locale: en-GB},
+
+{name: en-gb-x-gba-local, locale: en-GB},
+
+{name: en-gb-x-rjs-network, locale: en-GB},
+
+{name: en-gb-x-gbb-network, locale: en-GB},
+
+{name: en-gb-x-gbg-network, locale: en-GB},
+
+{name: en-gb-x-gbd-network, locale: en-GB},
+
+]
+
+
+zh-TW
+
+//Chinese (Taiwan)
+
+[
+{name: cmn-tw-x-ctc-network, locale: zh-TW},
+{name: zh-TW-language, locale: zh-TW},
+{name: cmn-tw-x-ctc-local, locale: zh-TW},
+{name: cmn-tw-x-ctd-network, locale: zh-TW},
+{name: cmn-tw-x-cte-local, locale: zh-TW},
+{name: cmn-tw-x-ctd-local, locale: zh-TW},
+{name: cmn-tw-x-cte-network, locale: zh-TW},
+
+]
+
+
+bn-BD
+
+//Bangla (Bangladesh)
+
+[
+
+{name: bn-BD-language, locale: bn-BD},
+
+{name: bn-bd-x-ban-network, locale: bn-BD},
+
+{name: bn-bd-x-ban-local, locale: bn-BD},
+
+]
+
+en-AU
+
+//English (Australia)
+
+[
+{name: en-au-x-aub-network, locale: en-AU},
+
+{name: en-au-x-auc-local, locale: en-AU},
+
+{name: en-au-x-aud-network, locale: en-AU},
+
+{name: en-au-x-aub-local, locale: en-AU},
+
+{name: en-AU-language, locale: en-AU},
+
+{name: en-au-x-auc-network, locale: en-AU},
+
+{name: en-au-x-aua-network, locale: en-AU},
+
+{name: en-au-x-aua-local, locale: en-AU},
+
+{name: en-au-x-aud-local, locale: en-AU},
+
+]
+
+fr-CA
+
+//French (Canada)
+
+[
+{name: fr-ca-x-cab-local, locale: fr-CA},
+
+{name: fr-CA-language, locale: fr-CA},
+
+{name: fr-ca-x-cab-network, locale: fr-CA},
+
+{name: fr-ca-x-cac-local, locale: fr-CA},
+
+{name: fr-ca-x-caa-network, locale: fr-CA},
+
+{name: fr-ca-x-caa-local, locale: fr-CA},
+
+{name: fr-ca-x-cad-local, locale: fr-CA},
+
+{name: fr-ca-x-cac-network, locale: fr-CA},
+
+{name: fr-ca-x-cad-network, locale: fr-CA},
+
+]
+
+
+en-NG
+
+//English (Nigeria)
+
+[
+{name: en-NG-language, locale: en-NG},
+
+{name: en-ng-x-tfn-network, locale: en-NG},
+
+{name: en-ng-x-tfn-local, locale: en-NG},
+
+]
+
+nl-BE
+
+//Dutch (Belgium)
+
+[
+{name: nl-be-x-bed-network, locale: nl-BE},
+
+{name: nl-be-x-bec-network, locale: nl-BE},
+
+{name: nl-be-x-bec-local, locale: nl-BE},
+
+{name: nl-BE-language, locale: nl-BE},
+
+{name: nl-be-x-bed-local, locale: nl-BE},
+
+]
+
+
+yue-HK
+
+//Cantonese (Hong Kong)
+
+[
+{name: yue-hk-x-yuf-network, locale: yue-HK},
+
+{name: yue-hk-x-yud-network, locale: yue-HK},
+
+{name: yue-hk-x-jar-network, locale: yue-HK},
+
+{name: yue-hk-x-yuf-local, locale: yue-HK},
+
+{name: yue-hk-x-jar-local, locale: yue-HK},
+
+{name: yue-hk-x-yue-local, locale: yue-HK},
+
+{name: yue-HK-language, locale: yue-HK},
+
+{name: yue-hk-x-yuc-network, locale: yue-HK},
+
+{name: yue-hk-x-yud-local, locale: yue-HK},
+
+{name: yue-hk-x-yuc-local, locale: yue-HK},
+
+{name: yue-hk-x-yue-network, locale: yue-HK},
+
+]

@@ -5,6 +5,8 @@ import '../components/provider.dart';
 import 'package:provider/provider.dart';
 
 class AdminBookAddPage extends StatefulWidget {
+
+  const AdminBookAddPage({super.key});
   @override
   _AdminBookAddPageState createState() => _AdminBookAddPageState();
 }

@@ -9,6 +9,7 @@ import 'package:mybook/screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../auth/auth.dart';
+import '../nav_bar_home_screen.dart';
 
 bool  user_login=false;
 class SplashScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ else{
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
       
       // ignore: unrelated_type_equality_checks
-      user_login==true? MyApp():LoginPage()));
+      user_login==true? NavBarAtHomePage():LoginPage()));
       // Navigator.popAndPushNamed(context, demo() as String);
     });
   

@@ -68,6 +68,9 @@ dependencies:
   flutter_ffmpeg: ^0.4.2
   permission_handler: ^10.4.3
   file_picker: ^5.3.3
+  animated_notch_bottom_bar: ^1.0.0
+  flashy_tab_bar2: ^0.0.6
+  contactus: ^1.2.3
   # audio_service: ^0.19.2
   # audio_cache: ^2.0.0
   # audioplayers: ^4.1.0

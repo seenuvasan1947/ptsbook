@@ -27,7 +27,9 @@ import 'apl.dart';
 
 import 'audio_check.dart';
 import 'audio_create.dart';
+import 'audio_download.dart';
 import 'favouritebook.dart';
+import 'nav_bar_home_screen.dart';
 import 'our_books.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:flutter/services.dart';
@@ -52,14 +54,14 @@ bool heisguest =
     false; // Set it to false if you don't want to auto-consume products
 // bool heisvalid = false;
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class HomeScreenMainPage extends StatefulWidget {
+  const HomeScreenMainPage({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _HomeScreenMainPageState createState() => _HomeScreenMainPageState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
   final db = FirebaseFirestore.instance;
 
   @override
@@ -90,7 +92,11 @@ class _MyAppState extends State<MyApp> {
       context.read<Getcurrentuser>().getgenerlist();
     });
   }
-
+@override
+void dispose() {
+  
+  super.dispose();
+}
   Future<void> check_valid() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -122,11 +128,10 @@ class _MyAppState extends State<MyApp> {
             heisvalid = false;
           });
         }
-      } 
-    }
-    else {
-        heisguest = true;
       }
+    } else {
+      heisguest = true;
+    }
   }
 
   Future<void> setcontentlang(String selectedlang) async {
@@ -265,7 +270,7 @@ class _MyAppState extends State<MyApp> {
       check_valid();
       if (_isPurchased == true) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MyApp()));
+            context, MaterialPageRoute(builder: (context) => HomeScreenMainPage()));
       }
     } catch (e) {
       // Handle Firestore update error
@@ -365,7 +370,14 @@ class _MyAppState extends State<MyApp> {
                             SizedBox(
                               height: 20,
                             ),
+
                             Text('${Getcurrentuser.userName}'),
+                            // Divider(
+                            //   color: Colors.pink,
+                            //   thickness: 3,
+                            // ),
+                         
+                            
                           ],
                         ),
                       ),
@@ -374,6 +386,7 @@ class _MyAppState extends State<MyApp> {
                       ),
                       ListTile(
                         title: const Text('write your book'),
+                        
                         onTap: () {
                           Navigator.push(
                               context,
@@ -423,6 +436,7 @@ class _MyAppState extends State<MyApp> {
                                   return ListTile(
                                     splashColor: Colors.cyan,
                                     selectedColor: Colors.deepPurple,
+                                    selectedTileColor: Colors.indigoAccent,
                                     onTap: () async {
                                       // set_app_lang();
                                       final prefs =
@@ -502,7 +516,7 @@ class _MyAppState extends State<MyApp> {
                           ],
                         ),
                       ),
- Divider(
+                      Divider(
                         color: Colors.purple[200],
                         thickness: 3,
                       ),
@@ -514,24 +528,19 @@ class _MyAppState extends State<MyApp> {
                             ListView.builder(
                                 itemBuilder: (context, Index) {
                                   return ListTile(
-                                    onTap: ()  {
-                                       Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ourbooklist(
-                                                        lable: Getcurrentuser
-                                                                .GenerList[
-                                                            Index],
-                                                            freebook: true),
-                                              ),
-                                            );
-                                          
-
-                                     
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ourbooklist(
+                                              lable: Getcurrentuser
+                                                  .GenerList[Index],
+                                              freebook: true),
+                                        ),
+                                      );
                                     },
-                                    title: Text(
-                                        Getcurrentuser.GenerList[Index]),
+                                    title:
+                                        Text(Getcurrentuser.GenerList[Index]),
                                   );
                                 },
                                 itemCount: Getcurrentuser.GenerList.length,
@@ -543,7 +552,6 @@ class _MyAppState extends State<MyApp> {
                         color: Colors.purple[200],
                         thickness: 3,
                       ),
-
 
                       RefreshIndicator(
                         onRefresh: _refreshData,
@@ -561,9 +569,8 @@ class _MyAppState extends State<MyApp> {
                                                 builder: (context) =>
                                                     ourbooklist(
                                                         lable: Getcurrentuser
-                                                                .GenerList[
-                                                            Index],
-                                                            freebook: false),
+                                                            .GenerList[Index],
+                                                        freebook: false),
                                               ),
                                             )
                                           : showDialog(
@@ -602,7 +609,7 @@ class _MyAppState extends State<MyApp> {
                                                                     fontSize:
                                                                         16),
                                                               )
-                                                            :Text(
+                                                            : Text(
                                                                 "${Getcurrentuser.userName}",
                                                                 style: TextStyle(
                                                                     color: Colors
@@ -610,9 +617,8 @@ class _MyAppState extends State<MyApp> {
                                                                     fontSize:
                                                                         16),
                                                               ),
-                                                            
-                                                             SizedBox(
-                                                                height: 10),
+
+                                                        SizedBox(height: 10),
                                                         Text(
                                                           'Available Subscriptions:',
                                                           style: TextStyle(
@@ -712,8 +718,8 @@ class _MyAppState extends State<MyApp> {
                                       //   ),
                                       // );
                                     },
-                                    title: Text(
-                                        Getcurrentuser.GenerList[Index]),
+                                    title:
+                                        Text(Getcurrentuser.GenerList[Index]),
                                   );
                                 },
                                 itemCount: Getcurrentuser.GenerList.length,
@@ -756,6 +762,14 @@ class _MyAppState extends State<MyApp> {
                               color: Colors.white,
                               thickness: 3,
                             ),
+                             Divider(
+                        color: Colors.purple[200],
+                        thickness: 3,
+                      ),
+                            SizedBox(
+                              height: MediaQuery.sizeOf(context).height*0.3,
+                            ),
+                           
                     ],
                   ),
                 ),
@@ -779,6 +793,7 @@ class _MyAppState extends State<MyApp> {
                           //   },
                           //   child: Text('Add'),
                           // ),
+                          
                           Container(
                             // margin: EdgeInsets.only(top: 150),
                             margin: EdgeInsets.all(20),
@@ -798,8 +813,7 @@ class _MyAppState extends State<MyApp> {
                                         .textTheme
                                         .displayMedium),
                                 SizedBox(height: 40.0),
-                                Text(
-                                    'unleash your skill, write book discription here',
+                                Text('Knowledge is power',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineMedium),

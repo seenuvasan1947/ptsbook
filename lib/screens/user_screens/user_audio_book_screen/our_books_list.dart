@@ -1,21 +1,15 @@
-// ignore_for_file: camel_case_types, must_be_immutable
+// ignore_for_file: camel_case_types, must_be_immutable, unnecessary_null_comparison, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mybook/screens/book_text_read_page.dart';
+import 'package:mybook/screens/user_screens/user_audio_book_screen/book_text_read_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
-
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:search_choices/search_choices.dart';
-
-import '../components/provider.dart';
-import 'audio_create.dart';
+import '../../../components/provider.dart';
+import '../user_home_screens/home_screen.dart';
+import '../user_home_screens/nav_bar_home_screen.dart';
 import 'audioplayer.dart';
 import 'package:provider/provider.dart';
 
@@ -32,14 +26,6 @@ class ourbooklist extends StatefulWidget {
 class _ourbooklistState extends State<ourbooklist> {
   final db = FirebaseFirestore.instance;
   late Uri tempurl;
-  bool isFavorite = false;
-  late AudioPlayer _player;
-
-  String _url = "https://samplelib.com/lib/preview/mp3/sample-15s.mp3";
-  bool isPlaying = false;
-  Duration _duration = Duration.zero;
-  Duration _position = Duration.zero;
-
   var selectedBook = 'abc';
   List bookNames = [];
 
@@ -53,30 +39,7 @@ class _ourbooklistState extends State<ourbooklist> {
   void initState() {
     super.initState();
     context.read<Getcurrentuser>().getselectedcontentlang();
-    _player = AudioPlayer();
-    _player.onAudioPositionChanged.listen((position) {
-      if (mounted) {
-        setState(() {
-          _position = position;
-        });
-      }
 
-      // setState(() {
-      //   _position = position;
-      // });
-    });
-    _player.onDurationChanged.listen((duration) {
-      if (mounted) {
-        setState(() {
-          _duration = duration;
-        });
-      }
-
-      // setState(() {
-      //   _duration = duration;
-      // });
-    });
-    // setplayerstate();
     fetchBookNames();
   }
 
@@ -89,18 +52,6 @@ class _ourbooklistState extends State<ourbooklist> {
         .get();
 
     setState(() {
-      print('999');
-      print("${Getcurrentuser.selectlang}");
-      print(widget.lable);
-      // bookNames =bookNames =
-      //  querySnapshot.docs.map((doc) => doc['Book_Name']).toList();
-      print('999');
-      print("${Getcurrentuser.selectlang}");
-      print(querySnapshot.docs.map((doc) => doc['Book_Name']).toList());
-      print(querySnapshot.docs
-          .map((doc) => doc.get("${Getcurrentuser.selectlang}")['Book_name'])
-          .toList());
-
       /* 
        bookNames =bookNames =
        querySnapshot.docs.map((doc) => doc['Book_Name']).toList();
@@ -131,14 +82,24 @@ class _ourbooklistState extends State<ourbooklist> {
       appBar: AppBar(
         title: const Text('Books List'),
         centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+             Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NavBarAtHomePage()),
+                                            );
+            },
+            icon: Icon(Icons.arrow_back_sharp)),
       ),
       body: RefreshIndicator(
         onRefresh: refreshdata,
         child: Column(
           children: [
-            Divider(color: Colors.deepPurple, thickness: 2.2),
+            const Divider(color: Colors.deepPurple, thickness: 2.2),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: SearchChoices.single(
                 items: buildDropdownMenuItems(),
                 value: selectedBook,
@@ -153,7 +114,7 @@ class _ourbooklistState extends State<ourbooklist> {
                 isExpanded: true,
               ),
             ),
-            Divider(color: Colors.deepPurple, thickness: 2.2),
+            const Divider(color: Colors.deepPurple, thickness: 2.2),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 // stream: db
@@ -176,7 +137,6 @@ class _ourbooklistState extends State<ourbooklist> {
                         .where("${Getcurrentuser.selectlang}.Book_name",
                             isEqualTo: selectedBook)
                         .where('is_published', isEqualTo: true)
-
                         .where('free_book', isEqualTo: widget.freebook)
                         .snapshots(),
 
@@ -194,6 +154,7 @@ class _ourbooklistState extends State<ourbooklist> {
                       children: snapshot.data!.docs.map((doc) {
                         // var _isFavorite;
                         return Card(
+                          // color: Index==0? Colors.indigoAccent:Color.fromARGB(255, 64, 251, 148),
                           child: InkWell(
                             onTap: () {
                               var urllan = doc.get('Blog_Link');
@@ -206,7 +167,7 @@ class _ourbooklistState extends State<ourbooklist> {
                                 _launchUrl(tempurl);
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text('blog link not found'),
                                   ),
                                 );
@@ -229,7 +190,6 @@ class _ourbooklistState extends State<ourbooklist> {
                                         ['Book_name']),
                                     Text(doc["${Getcurrentuser.selectlang}"]
                                         ['author_name']),
-                                    Text(doc.get('Book_Name')),
                                     Row(
                                       children: [
                                         IconButton(
@@ -250,6 +210,35 @@ class _ourbooklistState extends State<ourbooklist> {
                                         ),
                                         IconButton(
                                           onPressed: () {
+                                            if (doc["${Getcurrentuser.selectlang}"]
+                                                        ['Audio_File'] !=
+                                                    '' &&
+                                                doc["${Getcurrentuser.selectlang}"]
+                                                        ['Audio_File'] !=
+                                                    null) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          audplayer(
+                                                            audiourl: doc[
+                                                                    "${Getcurrentuser.selectlang}"]
+                                                                ['Audio_File'],
+                                                            imageurl: doc.get(
+                                                                'image_url'),
+                                                            bookname: doc[
+                                                                    "${Getcurrentuser.selectlang}"]
+                                                                ['Book_name'],
+                                                          )));
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Audio file not found'),
+                                                ),
+                                              );
+                                            }
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -281,7 +270,7 @@ class _ourbooklistState extends State<ourbooklist> {
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                   content: Text(
                                                       'video link not found'),
                                                 ),
@@ -307,7 +296,7 @@ class _ourbooklistState extends State<ourbooklist> {
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                   content: Text(
                                                       'blog link not found'),
                                                 ),
@@ -325,15 +314,6 @@ class _ourbooklistState extends State<ourbooklist> {
                               ],
                             ),
                           ),
-                          // child: ListTile(
-                          //   title: Text(doc.get('Book_Name')),
-                          //   onTap: () {
-                          //     var urllan = doc.get('Blog_Link');
-                          //     tempurl = Uri.parse(urllan);
-
-                          //     _launchUrl(tempurl);
-                          //   },
-                          // ),
                         );
                       }).toList(),
                     );

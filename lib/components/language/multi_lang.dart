@@ -6,7 +6,7 @@ import 'package:mybook/screens/admin_screens/splash_screen.dart';
 // import 'package:mentorme/components/language/lang_strings.dart';
 // import 'package:mentorme/screens/welcome_screen.dart';
 import '../../auth/auth.dart';
-import '../../screens/home_screen.dart';
+import '../../screens/user_screens/user_home_screens/home_screen.dart';
 import '/components/language/lang_strings.dart';
 import '/components/provider.dart';
 
@@ -26,7 +26,7 @@ class LangMainPage extends StatefulWidget {
 // }
 
 class _LangMainPageState extends State<LangMainPage> {
-  final FlutterLocalization _localization = FlutterLocalization.instance;
+  final FlutterLocalization localization = FlutterLocalization.instance;
 
   @override
   void initState() {
@@ -34,7 +34,51 @@ class _LangMainPageState extends State<LangMainPage> {
     // _localization.translate(LangPropHandler.crnt_lang_code);
     // _localization.translate('en');
     // _localization.translate('tm');
-    _localization.init(
+    
+    // localization.init(
+    //   mapLocales: [
+    //     const MapLocale('en', AppLocale.EN),
+    //     const MapLocale('ta', AppLocale.TM),
+    //     const MapLocale('hi', AppLocale.HI),
+    //     const MapLocale('ml', AppLocale.ML),
+
+    //     // const MapLocale('ml', AppLocale.ML),
+    //     // const MapLocale('ar', AppLocale.AR),
+
+      
+    //   ],
+
+    //   initLanguageCode: LangPropHandler.crnt_lang_code,
+    // );
+    lang_init_local().lang_init();
+    localization.onTranslatedLanguage = _onTranslatedLanguage;
+    super.initState();
+    localization.translate(LangPropHandler.crnt_lang_code);
+  }
+
+  void _onTranslatedLanguage(Locale? locale) {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      
+      supportedLocales: localization.supportedLocales,
+      localizationsDelegates: localization.localizationsDelegates,
+      home: const SplashScreen(),
+      // home: const LoginPage(),
+    );
+  }
+}
+
+class lang_init_local {
+final FlutterLocalization localization = FlutterLocalization.instance;
+
+  lang_init() async{
+
+ 
+    localization.init(
       mapLocales: [
         const MapLocale('en', AppLocale.EN),
         const MapLocale('ta', AppLocale.TM),
@@ -49,22 +93,8 @@ class _LangMainPageState extends State<LangMainPage> {
 
       initLanguageCode: LangPropHandler.crnt_lang_code,
     );
-    _localization.onTranslatedLanguage = _onTranslatedLanguage;
-    super.initState();
-    _localization.translate(LangPropHandler.crnt_lang_code);
-  }
 
-  void _onTranslatedLanguage(Locale? locale) {
-    setState(() {});
-  }
+  
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      supportedLocales: _localization.supportedLocales,
-      localizationsDelegates: _localization.localizationsDelegates,
-      home: const SplashScreen(),
-      // home: const LoginPage(),
-    );
-  }
-}
+
+}}

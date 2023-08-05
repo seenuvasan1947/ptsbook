@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,9 +30,8 @@ class _book_readState extends State<book_read> {
   Future<void> getbook() async {
     final response = await http.get(Uri.parse(widget.book_text_file));
     setState(() {
-      cap=response.body;
+      cap = response.body;
     });
-    
   }
 
   @override
@@ -47,9 +48,10 @@ class _book_readState extends State<book_read> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
-Text(cap),
-
+                  SizedBox(
+                      height: MediaQuery.sizeOf(context).height,
+                      width: MediaQuery.sizeOf(context).width * 0.8,
+                      child: Text(cap)),
                 ],
               ),
             ),

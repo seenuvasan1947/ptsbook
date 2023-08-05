@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:mybook/auth/auth.dart';
 import 'package:mybook/components/provider.dart';
-import 'package:mybook/screens/home_screen.dart';
+import 'package:mybook/screens/user_screens/user_home_screens/home_screen.dart';
 import 'package:scroll_navigation/scroll_navigation.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';

@@ -5,11 +5,10 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:mybook/screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../auth/auth.dart';
-import '../nav_bar_home_screen.dart';
+import '../user_screens/user_home_screens/nav_bar_home_screen.dart';
 
 bool  user_login=false;
 class SplashScreen extends StatefulWidget {
@@ -41,7 +40,7 @@ else{
 }
 
 
- Future.delayed(Duration(seconds: 3)).then((value) {
+ Future.delayed(Duration(seconds: 1)).then((value) {
       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyApp()));
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
       

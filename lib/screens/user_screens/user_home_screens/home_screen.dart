@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_function_type_syntax_for_parameters, depend_on_referenced_packages
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -9,34 +8,26 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mybook/auth/auth.dart';
-import 'package:mybook/components/language/lang_select.dart';
 import 'package:mybook/components/provider.dart';
 
 import 'package:provider/provider.dart';
-import 'package:mybook/screens/book_add_page.dart';
-import 'package:mybook/screens/book_list.dart';
-import 'package:mybook/screens/my_book.dart';
+import 'package:mybook/screens/user_screens/user_book/user_books_add_page.dart';
+import 'package:mybook/screens/user_screens/user_book/user_added_book_list.dart';
+import 'package:mybook/screens/user_screens/user_book/login_user_added_book.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import '../components/language/lang_strings.dart';
-import '../components/language/lang_strings.dart';
-import '../components/language/multi_lang.dart';
-import 'admin_book_add.dart';
-import 'admin_screens/admin_home_page.dart';
-import 'apl.dart';
+import '../../../components/language/lang_strings.dart';
+import '../../../components/language/multi_lang.dart';
+import '../../admin_screens/admin_home_page.dart';
 
-import 'audio_check.dart';
-import 'audio_create.dart';
-import 'audio_download.dart';
-import 'favouritebook.dart';
-import 'nav_bar_home_screen.dart';
-import 'our_books.dart';
-import 'package:restart_app/restart_app.dart';
-import 'package:flutter/services.dart';
+import '../../payment/payment_page.dart';
+import '../user_audio_book_screen/our_books_list.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+
+import 'lang_select_page.dart';
+import 'nav_bar_home_screen.dart';
+
 
 bool heisvalid = false;
 bool isselected = false;
@@ -50,8 +41,13 @@ var purchased_product_raw_price;
 var purchased_product_discription;
 var purchased_product_title;
 const bool kAutoConsume = true;
-bool heisguest =
-    false; // Set it to false if you don't want to auto-consume products
+bool heisguest = false;
+
+List<dynamic> code_list = [];
+List<dynamic> date_for_code_list = [];
+List<dynamic> user_for_code_list = [];
+TextEditingController coupon_code_user_entered = TextEditingController();
+// Set it to false if you don't want to auto-consume products
 // bool heisvalid = false;
 
 class HomeScreenMainPage extends StatefulWidget {
@@ -63,16 +59,30 @@ class HomeScreenMainPage extends StatefulWidget {
 
 class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
   final db = FirebaseFirestore.instance;
+  final FlutterLocalization localization = FlutterLocalization.instance;
+
+
+
 
   @override
   initState() {
+    super.initState();
     context.read<Getcurrentuser>().getuser();
     context.read<Getcurrentuser>().getgenerlist();
     context.read<Getcurrentuser>().getcontentlanglist();
     context.read<Getcurrentuser>().getselectedcontentlang();
     context.read<Getcurrentuser>().getadminlist();
+    context.read<LangPropHandler>().getlangindex();
+     lang_init_local().lang_init();
+    localization.onTranslatedLanguage = _onTranslatedLanguage;
+    super.initState();
+    localization.translate(LangPropHandler.crnt_lang_code);
+
+
+
     _refreshData();
     // getgenerlist();
+    // localization.init();
     _initializeProducts();
 
     // Listen for purchases updates
@@ -80,6 +90,10 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
       _handlePurchaseUpdates(data);
     });
     check_valid();
+  }
+
+void _onTranslatedLanguage(Locale? locale) {
+    setState(() {});
   }
 
   Future<void> _refreshData() async {
@@ -92,11 +106,12 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
       context.read<Getcurrentuser>().getgenerlist();
     });
   }
-@override
-void dispose() {
-  
-  super.dispose();
-}
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Future<void> check_valid() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -129,6 +144,7 @@ void dispose() {
           });
         }
       }
+      print('valid check');
     } else {
       heisguest = true;
     }
@@ -206,15 +222,6 @@ void dispose() {
     }
   }
 
-  // DateTime _calculateValidDate(PurchaseDetails purchaseDetails) {
-  //   if (purchaseDetails.billingPeriod == BillingPeriod.month) {
-  //     return purchaseDetails.purchaseDate.add(Duration(days: 31));
-  //   } else if (purchaseDetails.billingPeriod == BillingPeriod.sixMonths) {
-  //     return purchaseDetails.purchaseDate.add(Duration(days: 186));
-  //   }
-  //   return null;
-  // }
-
   void _verifyPurchase(PurchaseDetails purchaseDetails) async {
     // Verify the purchase if necessary
     if (purchaseDetails.pendingCompletePurchase) {
@@ -269,51 +276,17 @@ void dispose() {
       });
       check_valid();
       if (_isPurchased == true) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreenMainPage()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => NavBarAtHomePage()));
       }
     } catch (e) {
       // Handle Firestore update error
     }
   }
 
-  // Future<void> check_valid() async {
-  //   final userDoc = await _firestore.collection('users').doc('user_id').get();
-  //   bool isPurchased = userDoc.get('purchased');
-  //   final isvalid = userDoc.get('validDate') as Timestamp;
-  //   final validDate = isvalid.toDate();
-  //   final now = DateTime.now();
-  //   //  DateTime isvalid =userDoc.get('validDate') ;
-  //   //  DateTime now=DateTime.now();
-  //   if (isPurchased == true && now.isBefore(validDate)) {
-  //     heisvalid = true;
-  //     print(heisvalid);
-  //     setState(() {
-  //       heisvalid = true;
-  //     });
-  //   } else {
-  //     heisvalid = false;
-  //     print(heisvalid);
-  //     setState(() {
-  //       heisvalid = false;
-  //     });
-  //   }
-  // }
-
   Future<void> _buySubscription() async {
-    print(purchased_product_id);
-    // int index = _products.indexOf(ProductDetails(
-    //     id: prod.id,
-    //     title: prod.title,
-    //     description: prod.description,
-    //     price: prod.price,
-    //     rawPrice: prod.rawPrice,
-    //     currencyCode: prod.currencyCode));
-    // int index= _products.indexOf(_products)
-
-    // int index=_products.indexOf(prod);
     int index = 0;
-    print(_products.elementAt(0));
+
     // print(prod);
     for (int i = 0; i < _products.length; i++) {
       if (_products[i].id == purchased_product_id &&
@@ -324,8 +297,6 @@ void dispose() {
       }
     }
     final PurchaseParam purchaseParam = PurchaseParam(
-      // productDetails: prod,
-
       productDetails: _products[index],
       applicationUserName:
           null, // Set it if you want to use an application-specific username
@@ -342,14 +313,138 @@ void dispose() {
     }
   }
 
+  void availCode(String code) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    String? user = prefs.getString('name');
+    CollectionReference collection =
+        FirebaseFirestore.instance.collection('metadata');
+
+    DocumentSnapshot snapshot = await collection.doc('coupon_code_data').get();
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+    if (data != null &&
+        data.containsKey('coupon_code_list') &&
+        data.containsKey('no_of_days') &&
+        data.containsKey(code)) {
+      code_list = data['coupon_code_list'];
+      date_for_code_list = data['no_of_days'];
+      user_for_code_list = data[code];
+      print(code_list);
+
+      print(code_list.contains('seenu'));
+       print(code_list.contains('swetha'));
+      print(code_list.contains(code));
+      print(code_list.contains('element'));
+
+      // if (code == '' || code == null||code.isEmpty==true) {
+      //   Fluttertoast.showToast(
+      //     msg: 'enter code',
+      //     toastLength: Toast.LENGTH_LONG,
+      //     backgroundColor: Colors.pink.shade200,
+      //     textColor: Colors.black,
+      //     gravity: ToastGravity.CENTER,
+      //     fontSize: 20.0,
+      //   );
+      // } else 
+      
+      if (heisguest == false &&
+          code_list.contains(code) == true &&
+          user_for_code_list.contains(user) == false) {
+        FirebaseFirestore.instance
+            .collection('metadata')
+            .doc('coupon_code_data')
+            .update({
+          code: FieldValue.arrayUnion([user])
+        });
+        int dataNo = date_for_code_list[code_list.indexOf(code)];
+        DateTime purchaseDate = DateTime.now();
+
+        DateTime validDate = purchaseDate.add(Duration(days: dataNo));
+
+        await db.collection('users').doc(Getcurrentuser.user).update({
+          'purchased': true,
+          'purchaseDate': purchaseDate,
+          'validDate': validDate,
+          'no_of_days': dataNo
+        });
+        Fluttertoast.showToast(
+          msg: 'code redemed',
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Colors.pink.shade200,
+          textColor: Colors.black,
+          gravity: ToastGravity.CENTER,
+          fontSize: 20.0,
+        );
+        // Navigator.pop(context);
+        setState(() {
+          _isPurchased = true;
+        });
+        check_valid();
+        if (_isPurchased == true) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => NavBarAtHomePage()));
+        }
+      } else if (heisguest == true) {
+        Fluttertoast.showToast(
+          msg: 'guest user not able to avail',
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Colors.pink.shade200,
+          textColor: Colors.black,
+          gravity: ToastGravity.CENTER,
+          fontSize: 20.0,
+        );
+      }  else if (user_for_code_list.contains(user) == true) {
+        Fluttertoast.showToast(
+          msg: 'code already redemed by you',
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Colors.pink.shade200,
+          textColor: Colors.black,
+          gravity: ToastGravity.CENTER,
+          fontSize: 20.0,
+        );
+      }
+      else{
+        print('else    bolock');
+      }
+      // admin_list[admin_list.indexOf('seenu')];
+    }
+    else if (code_list.contains(code) == false) {
+        print('swe#######');
+        Fluttertoast.showToast(
+          msg: 'code is not valid',
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Colors.pink.shade200,
+          textColor: Colors.black,
+          gravity: ToastGravity.CENTER,
+          fontSize: 20.0,
+        );
+      }
+
+    // if(heisguest==false&&user)
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Getcurrentuser>(
         builder: ((context, Getcurrentuser, child) => MaterialApp(
+          supportedLocales: localization.supportedLocales,
+      localizationsDelegates: localization.localizationsDelegates,
               home: Scaffold(
+                
                 appBar: AppBar(
                   title: Text(AppLocale.welcome.getString(context)),
                   centerTitle: true,
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SettingsPage(),
+                              ));
+                        },
+                        icon: Icon(Icons.g_translate_rounded))
+                  ],
                 ),
                 drawer: Drawer(
                   child: ListView(
@@ -367,6 +462,7 @@ void dispose() {
                               height: 20,
                             ),
                             Text('Welcome'),
+                            
                             SizedBox(
                               height: 20,
                             ),
@@ -376,8 +472,6 @@ void dispose() {
                             //   color: Colors.pink,
                             //   thickness: 3,
                             // ),
-                         
-                            
                           ],
                         ),
                       ),
@@ -386,7 +480,6 @@ void dispose() {
                       ),
                       ListTile(
                         title: const Text('write your book'),
-                        
                         onTap: () {
                           Navigator.push(
                               context,
@@ -426,100 +519,85 @@ void dispose() {
                         thickness: 3,
                       ),
 
-                      RefreshIndicator(
-                        onRefresh: _refreshData,
-                        child: ExpansionTile(
-                          title: Text('app language'),
-                          children: [
-                            ListView.builder(
-                                itemBuilder: (context, Index) {
-                                  return ListTile(
-                                    splashColor: Colors.cyan,
-                                    selectedColor: Colors.deepPurple,
-                                    selectedTileColor: Colors.indigoAccent,
-                                    onTap: () async {
-                                      // set_app_lang();
-                                      final prefs =
-                                          await SharedPreferences.getInstance();
-                                      print(prefs.getString('crnt_lang_code'));
-                                      print('=0=0=0=0');
-                                      prefs.setString('crnt_lang_code',
-                                          Getcurrentuser.lang_list[Index]);
+                      // RefreshIndicator(
+                      //   onRefresh: _refreshData,
+                      //   child: SingleChildScrollView(
+                      //     child: ExpansionTile(
+                      //       title: Text('app language'),
+                      //       children: [
+                      //         ListView.builder(
+                      //             itemBuilder: (context, Index) {
+                      //               return ListTile(
+                      //                 splashColor: Colors.cyan,
+                      //                 selectedColor: Colors.deepPurple,
+                      //                 selectedTileColor: Colors.indigoAccent,
+                      //                 onTap: () async {
+                      //                   // set_app_lang();
+                      //                   final prefs =
+                      //                       await SharedPreferences.getInstance();
+                      //                   prefs.setString('crnt_lang_code',
+                      //                       Getcurrentuser.lang_list[Index]);
 
-                                      localization.translate(
-                                          Getcurrentuser.lang_list[Index]);
-                                      // localization.translate('en');
-                                      print(prefs.getString('crnt_lang_code'));
-                                      print(
-                                          AppLocale.welcome.getString(context));
+                      //                   localization.translate(
+                      //                       Getcurrentuser.lang_list[Index]);
 
-                                      // setcontentlang(Getcurrentuser
-                                      //     .contentlangList[Index]);
-                                      // isselected == true
-                                      //     ? ScaffoldMessenger.of(context)
-                                      //         .showSnackBar(
-                                      //         SnackBar(
-                                      //           content: Text(
-                                      //               'content lang ${Getcurrentuser.contentlangList[Index]} is selected'),
-                                      //         ),
-                                      //       )
-                                      //     : null;
-                                    },
-                                    title:
-                                        Text(Getcurrentuser.lang_list[Index]),
-                                    subtitle: Text(
-                                        Getcurrentuser.lang_name_list[Index]),
-                                  );
-                                },
-                                itemCount: Getcurrentuser.lang_list.length,
-                                shrinkWrap: true),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.purple[200],
-                        thickness: 3,
-                      ),
+                      //                 },
+                      //                 title:
+                      //                     Text(Getcurrentuser.lang_list[Index]),
+                      //                 subtitle: Text(
+                      //                     Getcurrentuser.lang_name_list[Index]),
+                      //               );
+                      //             },
+                      //             itemCount: Getcurrentuser.lang_list.length,
+                      //             shrinkWrap: true),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // Divider(
+                      //   color: Colors.purple[200],
+                      //   thickness: 3,
+                      // ),
 
-                      RefreshIndicator(
-                        onRefresh: _refreshData,
-                        child: ExpansionTile(
-                          title: Text('content language'),
-                          children: [
-                            ListView.builder(
-                                itemBuilder: (context, Index) {
-                                  return ListTile(
-                                    splashColor: Colors.cyan,
-                                    selectedColor: Colors.deepPurple,
-                                    onTap: () async {
-                                      setcontentlang(Getcurrentuser
-                                          .contentlangList[Index]);
-                                      isselected == true
-                                          ? ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                    'content lang ${Getcurrentuser.contentlangList[Index]} is selected'),
-                                              ),
-                                            )
-                                          : null;
-                                    },
-                                    title: Text(
-                                        Getcurrentuser.contentlangList[Index]),
-                                    subtitle: Text(
-                                        Getcurrentuser.lang_name_list[Index]),
-                                  );
-                                },
-                                itemCount:
-                                    Getcurrentuser.contentlangList.length,
-                                shrinkWrap: true),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.purple[200],
-                        thickness: 3,
-                      ),
+                      // RefreshIndicator(
+                      //   onRefresh: _refreshData,
+                      //   child: ExpansionTile(
+                      //     title: Text('content language'),
+                      //     children: [
+                      //       ListView.builder(
+                      //           itemBuilder: (context, Index) {
+                      //             return ListTile(
+                      //               splashColor: Colors.cyan,
+                      //               selectedColor: Colors.deepPurple,
+                      //               onTap: () async {
+                      //                 setcontentlang(Getcurrentuser
+                      //                     .contentlangList[Index]);
+                      //                 isselected == true
+                      //                     ? ScaffoldMessenger.of(context)
+                      //                         .showSnackBar(
+                      //                         SnackBar(
+                      //                           content: Text(
+                      //                               'content lang ${Getcurrentuser.contentlangList[Index]} is selected'),
+                      //                         ),
+                      //                       )
+                      //                     : null;
+                      //               },
+                      //               title: Text(
+                      //                   Getcurrentuser.contentlangList[Index]),
+                      //               subtitle: Text(
+                      //                   Getcurrentuser.lang_name_list[Index]),
+                      //             );
+                      //           },
+                      //           itemCount:
+                      //               Getcurrentuser.contentlangList.length,
+                      //           shrinkWrap: true),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Divider(
+                      //   color: Colors.purple[200],
+                      //   thickness: 3,
+                      // ),
                       RefreshIndicator(
                         onRefresh: _refreshData,
                         child: ExpansionTile(
@@ -563,7 +641,7 @@ void dispose() {
                                   return ListTile(
                                     onTap: () async {
                                       heisvalid == true
-                                          ? Navigator.push(
+                                          ? Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
@@ -573,6 +651,13 @@ void dispose() {
                                                         freebook: false),
                                               ),
                                             )
+                                          // : Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             Payment()),
+                                          //   );
+
                                           : showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
@@ -664,14 +749,14 @@ void dispose() {
                                                                         fontSize:
                                                                             20.0,
                                                                       );
-                                                                      ScaffoldMessenger.of(
-                                                                              context)
-                                                                          .showSnackBar(
-                                                                        SnackBar(
-                                                                          content:
-                                                                              Text('you still have premium access so not need to purchase'),
-                                                                        ),
-                                                                      );
+                                                                      // ScaffoldMessenger.of(
+                                                                      //         context)
+                                                                      //     .showSnackBar(
+                                                                      //   SnackBar(
+                                                                      //     content:
+                                                                      //         Text('you still have premium access so not need to purchase'),
+                                                                      //   ),
+                                                                      // );
                                                                     } else if (_isPurchased ==
                                                                         false) {
                                                                       setState(
@@ -687,6 +772,8 @@ void dispose() {
                                                                         _buySubscription();
                                                                       });
                                                                     }
+                                                                    Navigator.of(context)
+                                                                  .pop();
                                                                   },
                                                                   // onPressed: _isPurchased ? null : _buySubscription,
                                                                   child: Text(
@@ -697,6 +784,66 @@ void dispose() {
                                                               );
                                                             }).toList(),
                                                           ),
+                                                        Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              width: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
+                                                                      .width *
+                                                                  0.25,
+                                                            ),
+                                                            Text(
+                                                              'OR',
+                                                              style: TextStyle(
+                                                                  fontSize: 18),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        TextField(
+                                                          controller:
+                                                              coupon_code_user_entered,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelText:
+                                                                'Enter code',
+                                                            border:
+                                                                OutlineInputBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20.0),
+                                                            ),
+                                                            enabledBorder:
+                                                                const OutlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: Colors
+                                                                      .black38),
+                                                            ),
+                                                            focusedBorder:
+                                                                const OutlineInputBorder(
+                                                              borderSide: BorderSide(
+                                                                  color: Colors
+                                                                      .blueAccent),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        ElevatedButton(
+                                                            onPressed: () {
+                                                              availCode(
+                                                                  coupon_code_user_entered
+                                                                      .text
+                                                                      .toString());
+                                                              print(
+                                                                  coupon_code_user_entered);
+                                                              coupon_code_user_entered
+                                                                  .clear();
+                                                              Navigator.of(context)
+                                                                  .pop();
+                                                            },
+                                                            child: Text(
+                                                                'Avail code'))
+
                                                         // ElevatedButton(
                                                         //     onPressed:
                                                         //         check_valid,
@@ -716,6 +863,17 @@ void dispose() {
                                       //     content: Text(
                                       //         'please subscribe for access premium content'),
                                       //   ),
+                                      // );
+
+
+                                      // Fluttertoast.showToast(
+                                      //   msg:
+                                      //       'please subscribe for access premium content',
+                                      //   toastLength: Toast.LENGTH_LONG,
+                                      //   backgroundColor: Colors.pink.shade200,
+                                      //   textColor: Colors.black,
+                                      //   gravity: ToastGravity.CENTER,
+                                      //   fontSize: 20.0,
                                       // );
                                     },
                                     title:
@@ -762,14 +920,13 @@ void dispose() {
                               color: Colors.white,
                               thickness: 3,
                             ),
-                             Divider(
-                        color: Colors.purple[200],
-                        thickness: 3,
+                      // Divider(
+                      //   color: Colors.purple[200],
+                      //   thickness: 3,
+                      // ),
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.3,
                       ),
-                            SizedBox(
-                              height: MediaQuery.sizeOf(context).height*0.3,
-                            ),
-                           
                     ],
                   ),
                 ),
@@ -778,22 +935,6 @@ void dispose() {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          // TextField(
-                          //   controller: emailController,
-                          //   decoration: InputDecoration(labelText: 'Add Admin'),
-                          // ),
-                          // SizedBox(height: 16.0),
-                          // ElevatedButton(
-                          //   onPressed: () {
-                          //     String email = emailController.text.trim();
-                          //     if (email.isNotEmpty) {
-                          //       addAdmin(email);
-                          //       emailController.clear();
-                          //     }
-                          //   },
-                          //   child: Text('Add'),
-                          // ),
-                          
                           Container(
                             // margin: EdgeInsets.only(top: 150),
                             margin: EdgeInsets.all(20),

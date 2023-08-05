@@ -15,7 +15,7 @@ import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import '../components/provider.dart';
+import '../../components/provider.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 String cap = 'a';
 String response_trans = 'b';
@@ -73,7 +73,8 @@ class _AudioCreateState extends State<AudioCreate> {
   lang_list=data!['lang_list'];
   voice_list=data!['Voice_list'];
   }
-   
+    lang_list=data!['lang_list'];
+  voice_list=data!['Voice_list'];
    
 
     book_text_link_list =text_file_list_snap.docs.map((doc) => doc["en-IN"]['Text_File']).toList();

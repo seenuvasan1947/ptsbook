@@ -10,6 +10,8 @@ import 'contact_us_page.dart';
 import 'home_screen.dart';
 import 'how_to_use.dart';
 import 'package:provider/provider.dart';
+
+import 'lang_select_page.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
 class NavBarAtHomePage extends StatefulWidget {
@@ -39,6 +41,7 @@ class _NavBarAtHomePageState extends State<NavBarAtHomePage> {
     const ContactusPage(),
     // const Page2(),
     const HomeScreenMainPage(),
+   
     const HowToUse(),
   ];
 
@@ -126,55 +129,5 @@ class _NavBarAtHomePageState extends State<NavBarAtHomePage> {
                     )
                   : null,
             )));
-  }
-}
-
-class Page1 extends StatelessWidget {
-  const Page1({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white, child: const Center(child: Text('Page 1')));
-  }
-}
-
-class Page2 extends StatelessWidget {
-  const Page2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white, child: const Center(child: Text('Page 2')));
-  }
-}
-
-class Page3 extends StatelessWidget {
-  const Page3({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white, child: const Center(child: Text('Page 3')));
-  }
-}
-
-class Page4 extends StatelessWidget {
-  const Page4({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white, child: const Center(child: Text('Page 4')));
-  }
-}
-
-class Page5 extends StatelessWidget {
-  const Page5({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white, child: const Center(child: Text('Page 5')));
   }
 }

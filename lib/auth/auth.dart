@@ -6,13 +6,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:mybook/components/provider.dart';
-import 'package:mybook/screens/home_screen.dart';
+import 'package:mybook/screens/user_screens/user_home_screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/nav_bar_home_screen.dart';
+import '../screens/user_screens/user_home_screens/nav_bar_home_screen.dart';
 
 bool validuser = false;
 

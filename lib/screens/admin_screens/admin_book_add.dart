@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../components/provider.dart';
+import '../../components/provider.dart';
 import 'package:provider/provider.dart';
 
 class AdminBookAddPage extends StatefulWidget {
@@ -182,6 +182,7 @@ class _AdminBookAddPageState extends State<AdminBookAddPage> {
                     'image_url': '',
                     'added_on': DateTime.now(),
                     'free_book': isFreeBook,
+                    'Blog_Link':'',
                   });
                   for (var i = 0;
                       i < Getcurrentuser.contentlangList.length;

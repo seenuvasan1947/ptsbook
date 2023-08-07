@@ -63,7 +63,7 @@ class HomeScreenMainPage extends StatefulWidget {
 
 class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
   final db = FirebaseFirestore.instance;
-    ScrollController _scrollController = ScrollController();
+  ScrollController _scrollController = ScrollController();
   final FlutterLocalization localization = FlutterLocalization.instance;
 //  final db = FirebaseFirestore.instance;
   late Uri tempurl;
@@ -599,38 +599,38 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                       //   color: Colors.purple[200],
                       //   thickness: 3,
                       // ),
-                      RefreshIndicator(
-                        onRefresh: _refreshData,
-                        child: ExpansionTile(
-                          title: Text('free books'),
-                          children: [
-                            ListView.builder(
-                                itemBuilder: (context, Index) {
-                                  return ListTile(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ourbooklist(
-                                              lable: Getcurrentuser
-                                                  .GenerList[Index],
-                                              freebook: true),
-                                        ),
-                                      );
-                                    },
-                                    title:
-                                        Text(Getcurrentuser.GenerList[Index]),
-                                  );
-                                },
-                                itemCount: Getcurrentuser.GenerList.length,
-                                shrinkWrap: true),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.purple[200],
-                        thickness: 3,
-                      ),
+                      // RefreshIndicator(
+                      //   onRefresh: _refreshData,
+                      //   child: ExpansionTile(
+                      //     title: Text('free books'),
+                      //     children: [
+                      //       ListView.builder(
+                      //           itemBuilder: (context, Index) {
+                      //             return ListTile(
+                      //               onTap: () {
+                      //                 Navigator.push(
+                      //                   context,
+                      //                   MaterialPageRoute(
+                      //                     builder: (context) => ourbooklist(
+                      //                         lable: Getcurrentuser
+                      //                             .GenerList[Index],
+                      //                         freebook: true),
+                      //                   ),
+                      //                 );
+                      //               },
+                      //               title:
+                      //                   Text(Getcurrentuser.GenerList[Index]),
+                      //             );
+                      //           },
+                      //           itemCount: Getcurrentuser.GenerList.length,
+                      //           shrinkWrap: true),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Divider(
+                      //   color: Colors.purple[200],
+                      //   thickness: 3,
+                      // ),
 
                       RefreshIndicator(
                         onRefresh: _refreshData,
@@ -946,37 +946,49 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                         //         .headlineMedium),
                         // SizedBox(height: 40.0),
                         // Image.asset("assets/book.jpeg"),
+                        Text('Gener List',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall),
 
-                                            SizedBox(
-                                              height: MediaQuery.sizeOf(context).height*0.45,
-                                              width: MediaQuery.sizeOf(context).width*0.8,
-                                              child: GridView.builder(
-                                                
-                                                 shrinkWrap: true,
-                                                itemCount: Getcurrentuser.GenerList.length,
-                                                gridDelegate:
-                                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 2,
-                                                ),
-                                                itemBuilder: (context, index) {
-                                                  return  Container(
-                                                    margin: EdgeInsets.all(10),
-                                                    decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color.fromARGB(255, 166, 80, 188), Color.fromARGB(255, 125, 120, 35),Colors.purple],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.0,0.6,1.7]
-              ),
-            ),
-                                                    padding: const EdgeInsets.all(30),
-      // color: Colors.teal[500],
-                                                                      child: Text(Getcurrentuser.GenerList[index], style: Theme.of(context).textTheme.titleMedium),
-                                                                    );
-                                                },
-                                              ),
-                                            ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.45,
+                          width: MediaQuery.sizeOf(context).width * 0.8,
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: Getcurrentuser.GenerList.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.all(10),
 
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.horizontal(
+                                      left: Radius.elliptical(10, 10),
+                                      right: Radius.elliptical(10, 10)),
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        Color.fromARGB(255, 166, 80, 188),
+                                        Color.fromARGB(255, 125, 120, 35),
+                                        Colors.purple
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      stops: [0.0, 0.6, 1.7]),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 25.0),
+                                // color: Colors.teal[500],
+                                child: Text(Getcurrentuser.GenerList[index],
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge),
+                              );
+                            },
+                          ),
+                        ),
 
 //                         GridView.builder(
 //                           shrinkWrap: true,
@@ -996,22 +1008,21 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                         SingleChildScrollView(
                           child: Scrollbar(
                             isAlwaysShown: true,
-                             controller: _scrollController,
+                            controller: _scrollController,
                             child: StreamBuilder<QuerySnapshot>(
-                              
                               // stream: db
                               //     .collection('our_books')
                               //     .where("gener", isEqualTo: widget.lable  )
-                                                  
+
                               //     .snapshots(),
-                                                  
+
                               stream: db
                                   .collection('our_books')
                                   // .where("gener", isEqualTo: widget.lable)
                                   .where('is_published', isEqualTo: true)
                                   .where('free_book', isEqualTo: true)
                                   .snapshots(),
-                                                  
+
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
                                   return const Center(
@@ -1019,21 +1030,20 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                   );
                                 } else {
                                   return ListView(
-                                     controller: _scrollController,
-                                    padding: const EdgeInsetsDirectional.symmetric(
-                                        vertical: 2),
+                                    controller: _scrollController,
+                                    padding:
+                                        const EdgeInsetsDirectional.symmetric(
+                                            vertical: 2),
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
                                     children: snapshot.data!.docs.map((doc) {
-                                      
                                       return Card(
                                         color: Colors.deepPurple[200],
-                                        
                                         child: InkWell(
                                           onTap: () {
                                             var urllan = doc.get('Blog_Link');
                                             tempurl = Uri.parse(urllan);
-                                                  
+
                                             if (tempurl != '' &&
                                                 urllan != '' &&
                                                 tempurl != null &&
@@ -1043,8 +1053,8 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 const SnackBar(
-                                                  content:
-                                                      Text('blog link not found'),
+                                                  content: Text(
+                                                      'blog link not found'),
                                                 ),
                                               );
                                             }
@@ -1081,10 +1091,10 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                                           doc["${Getcurrentuser.non_static_selectlang}"]
                                                                               [
                                                                               'Text_File'],
-                                                                      book_name: doc[
-                                                                              "${Getcurrentuser.non_static_selectlang}"]
-                                                                          [
-                                                                          'Book_name'])));
+                                                                      book_name:
+                                                                          doc["${Getcurrentuser.non_static_selectlang}"]
+                                                                              [
+                                                                              'Book_name'])));
                                                         },
                                                         icon: const Icon(
                                                             Icons.menu_book,
@@ -1106,16 +1116,13 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                                     builder:
                                                                         (context) =>
                                                                             audplayer(
-                                                                              audiourl:
-                                                                                  doc["${Getcurrentuser.non_static_selectlang}"]['Audio_File'],
-                                                                              imageurl:
-                                                                                  doc.get('image_url'),
-                                                                              bookname:
-                                                                                  doc["${Getcurrentuser.non_static_selectlang}"]['Book_name'],
+                                                                              audiourl: doc["${Getcurrentuser.non_static_selectlang}"]['Audio_File'],
+                                                                              imageurl: doc.get('image_url'),
+                                                                              bookname: doc["${Getcurrentuser.non_static_selectlang}"]['Book_name'],
                                                                             )));
                                                           } else {
-                                                            ScaffoldMessenger.of(
-                                                                    context)
+                                                            ScaffoldMessenger
+                                                                    .of(context)
                                                                 .showSnackBar(
                                                               const SnackBar(
                                                                 content: Text(
@@ -1140,12 +1147,13 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                         icon: const Icon(
                                                             Icons
                                                                 .audiotrack_rounded,
-                                                            color: Colors.purple),
+                                                            color:
+                                                                Colors.purple),
                                                       ),
                                                       IconButton(
                                                         onPressed: () {
-                                                          var urllan =
-                                                              doc.get('Video_Link');
+                                                          var urllan = doc.get(
+                                                              'Video_Link');
                                                           tempurl =
                                                               Uri.parse(urllan);
                                                           if (tempurl != '' &&
@@ -1154,8 +1162,8 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                               urllan != null) {
                                                             _launchUrl(tempurl);
                                                           } else {
-                                                            ScaffoldMessenger.of(
-                                                                    context)
+                                                            ScaffoldMessenger
+                                                                    .of(context)
                                                                 .showSnackBar(
                                                               const SnackBar(
                                                                 content: Text(
@@ -1166,15 +1174,16 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                           // _launchUrl(tempurl);
                                                         },
                                                         icon: const Icon(
-                                                          FontAwesomeIcons.youtube,
+                                                          FontAwesomeIcons
+                                                              .youtube,
                                                           color: Color.fromARGB(
                                                               255, 172, 48, 48),
                                                         ),
                                                       ),
                                                       IconButton(
                                                         onPressed: () {
-                                                          var urllan =
-                                                              doc.get('Blog_Link');
+                                                          var urllan = doc
+                                                              .get('Blog_Link');
                                                           tempurl =
                                                               Uri.parse(urllan);
                                                           if (tempurl != '' &&
@@ -1183,8 +1192,8 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                               urllan != null) {
                                                             _launchUrl(tempurl);
                                                           } else {
-                                                            ScaffoldMessenger.of(
-                                                                    context)
+                                                            ScaffoldMessenger
+                                                                    .of(context)
                                                                 .showSnackBar(
                                                               const SnackBar(
                                                                 content: Text(
@@ -1194,8 +1203,10 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                           }
                                                         },
                                                         icon: const Icon(
-                                                            Icons.language_rounded,
-                                                            color: Colors.black26),
+                                                            Icons
+                                                                .language_rounded,
+                                                            color:
+                                                                Colors.black26),
                                                       ),
                                                     ],
                                                   )

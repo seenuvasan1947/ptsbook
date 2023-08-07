@@ -11,6 +11,8 @@ import '/components/language/lang_strings.dart';
 import '/components/provider.dart';
 
 import 'package:provider/provider.dart';
+
+import 'data/lang_maplocals.dart';
 class LangMainPage extends StatefulWidget {
   const LangMainPage({super.key});
 
@@ -71,30 +73,3 @@ class _LangMainPageState extends State<LangMainPage> {
     );
   }
 }
-
-class lang_init_local {
-final FlutterLocalization localization = FlutterLocalization.instance;
-
-  lang_init() async{
-
- 
-    localization.init(
-      mapLocales: [
-        const MapLocale('en', AppLocale.EN),
-        const MapLocale('ta', AppLocale.TM),
-        const MapLocale('hi', AppLocale.HI),
-        const MapLocale('ml', AppLocale.ML),
-
-        // const MapLocale('ml', AppLocale.ML),
-        // const MapLocale('ar', AppLocale.AR),
-
-      
-      ],
-
-      initLanguageCode: LangPropHandler.crnt_lang_code,
-    );
-
-  
-
-
-}}

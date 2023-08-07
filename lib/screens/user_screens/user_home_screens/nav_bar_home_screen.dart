@@ -105,7 +105,7 @@ class _NavBarAtHomePageState extends State<NavBarAtHomePage> {
                             Icons.home_filled,
                             color: Colors.blueAccent,
                           ),
-                          itemLabel: 'Home',
+                          itemLabel: 'Home page',
                         ),
 
                         const BottomBarItem(

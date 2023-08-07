@@ -3,6 +3,20 @@
 // ignore_for_file: constant_identifier_names
 
 mixin AppLocale {
+
+
+// /* nav bar page */
+// static const String contact_us='contact us';
+// static const String home_page='Home page';
+// static const String know_more='Know more';
+
+// /* home screen user page */
+
+// static const String code_redemed='code redemed';
+// static const String guest_user_not_able_to_avail='guest user not able to avail';
+// static const String code_already_redemed_by_you ='code already redemed by you';
+// static const String code_is_not_valid ='code is not valid';
+
   static const String welcome = 'Welcome';
 
   static const String Enter_Your_Name = 'Enter Your Name';

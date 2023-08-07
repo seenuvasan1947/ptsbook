@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../components/provider.dart';
 import '../../../components/provider.dart';
-import '../../admin_screens/data/lang_data.dart';
+import '../../../components/language/data/lang_data.dart';
 import 'home_screen.dart';
 import 'package:provider/provider.dart';
 

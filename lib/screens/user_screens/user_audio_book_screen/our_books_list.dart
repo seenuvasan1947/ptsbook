@@ -114,7 +114,9 @@ class _ourbooklistState extends State<ourbooklist> {
                 isExpanded: true,
               ),
             ),
+       
             const Divider(color: Colors.deepPurple, thickness: 2.2),
+       
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 // stream: db
@@ -152,8 +154,10 @@ class _ourbooklistState extends State<ourbooklist> {
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       children: snapshot.data!.docs.map((doc) {
-                        // var _isFavorite;
+                        
                         return Card(
+                         color: Colors.deepPurple[200],
+
                           // color: Index==0? Colors.indigoAccent:Color.fromARGB(255, 64, 251, 148),
                           child: InkWell(
                             onTap: () {
@@ -321,6 +325,7 @@ class _ourbooklistState extends State<ourbooklist> {
                 },
               ),
             ),
+       
           ],
         ),
       ),

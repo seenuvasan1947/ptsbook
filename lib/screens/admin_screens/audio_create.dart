@@ -17,6 +17,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../components/provider.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+
+import '../../components/language/data/lang_data.dart';
 String cap = 'a';
 String response_trans = 'b';
 final chunks = <String>[];
@@ -52,7 +54,7 @@ class _AudioCreateState extends State<AudioCreate> {
   @override
   void initState() {
     super.initState();
-    context.read<Getcurrentuser>().getcontentlanglist();
+    // context.read<Getcurrentuser>().getcontentlanglist();
     getcap();
    
   }
@@ -67,14 +69,14 @@ class _AudioCreateState extends State<AudioCreate> {
     //  CollectionReference collection =
     //     FirebaseFirestore.instance.collection('metadata');
  
- DocumentSnapshot snapshot = await db.collection('metadata').doc('content_lang').get();
-  Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
-  if (data != null && data.containsKey('lang_list') && data.containsKey('Voice_list')){
-  lang_list=data!['lang_list'];
-  voice_list=data!['Voice_list'];
-  }
-    lang_list=data!['lang_list'];
-  voice_list=data!['Voice_list'];
+//  DocumentSnapshot snapshot = await db.collection('metadata').doc('content_lang').get();
+//   Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+//   if (data != null && data.containsKey('lang_list') && data.containsKey('Voice_list')){
+//   lang_list=data!['lang_list'];
+//   voice_list=data!['Voice_list'];
+//   }
+    lang_list=LangData.ContentLang;
+  voice_list=LangData.VoiceList;
    
 
     book_text_link_list =text_file_list_snap.docs.map((doc) => doc["en-IN"]['Text_File']).toList();
@@ -146,6 +148,15 @@ final response = await http.get(Uri.parse(
         setState(() {
               audcount = audcount+1;
         });
+        flutterTts.setCompletionHandler(() async {
+        print('complete');
+
+        setState(() {
+          audcomcount = audcomcount + 1;
+          print(audcomcount);
+        });
+
+      });
     
        
         // chunks.add(chunk);
@@ -166,13 +177,7 @@ final response = await http.get(Uri.parse(
     
       
       await flutterTts.synthesizeToFile(text, '${book_name_list[k]}/${lang_list[s]}/audio.mp3');
-    }
-   
-  }
-
-
-}
- flutterTts.setCompletionHandler(() async {
+      flutterTts.setCompletionHandler(() async {
         print('complete');
 
         setState(() {
@@ -181,6 +186,13 @@ final response = await http.get(Uri.parse(
         });
 
       });
+    }
+   
+  }
+
+
+}
+ 
 
    
   }
@@ -193,37 +205,39 @@ final response = await http.get(Uri.parse(
         onRefresh: getcap,
         child: SingleChildScrollView(
           // child:cap=='a'? CircularProgressIndicator(): Column(
-          child: Column(
-            children: [
-// Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: TextFormField(
-//             controller: textController,
-
-//             minLines: 10,
-//       maxLines: null, // Set maxLines to null to allow unlimited lines
-//       keyboardType: TextInputType.multiline,
-//       decoration: InputDecoration(
-//         border: OutlineInputBorder(),
-//         hintText: 'Type here...',
-//       ),
-//           ),
-//         ),
-              // Spacer(),
-              ElevatedButton(
-                  onPressed: () async {
-                    await getcap();
-                    //                     await flutterTts.setLanguage(crntlang);
-                    //   // await flutterTts.play(audioFilePath);
-                    //  await flutterTts.speak(cap);
-                  },
-                  child: Text('get')),
-
-// Text(audcount as String),
-
-              Text('${audcount}'),
-              Text('${audcomcount}'),
-            ],
+          child: Center(
+            child: Column(
+              children: [
+          // Padding(
+          //           padding: const EdgeInsets.all(8.0),
+          //           child: TextFormField(
+          //             controller: textController,
+          
+          //             minLines: 10,
+          //       maxLines: null, // Set maxLines to null to allow unlimited lines
+          //       keyboardType: TextInputType.multiline,
+          //       decoration: InputDecoration(
+          //         border: OutlineInputBorder(),
+          //         hintText: 'Type here...',
+          //       ),
+          //           ),
+          //         ),
+                // Spacer(),
+                ElevatedButton(
+                    onPressed: () async {
+                      await getcap();
+                      //                     await flutterTts.setLanguage(crntlang);
+                      //   // await flutterTts.play(audioFilePath);
+                      //  await flutterTts.speak(cap);
+                    },
+                    child: Text('get')),
+          
+          // Text(audcount as String),
+          
+                Text('${audcount}'),
+                Text('${audcomcount}'),
+              ],
+            ),
           ),
         ),
       ),

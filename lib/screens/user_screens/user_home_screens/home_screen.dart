@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mybook/auth/auth.dart';
 import 'package:mybook/components/provider.dart';
 
@@ -15,19 +16,22 @@ import 'package:mybook/screens/user_screens/user_book/user_books_add_page.dart';
 import 'package:mybook/screens/user_screens/user_book/user_added_book_list.dart';
 import 'package:mybook/screens/user_screens/user_book/login_user_added_book.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // import '../components/language/lang_strings.dart';
+import '../../../components/language/data/lang_maplocals.dart';
 import '../../../components/language/lang_strings.dart';
 import '../../../components/language/multi_lang.dart';
 import '../../admin_screens/admin_home_page.dart';
 
 import '../../payment/payment_page.dart';
+import '../user_audio_book_screen/audioplayer.dart';
+import '../user_audio_book_screen/book_text_read_page.dart';
 import '../user_audio_book_screen/our_books_list.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'lang_select_page.dart';
 import 'nav_bar_home_screen.dart';
-
 
 bool heisvalid = false;
 bool isselected = false;
@@ -59,10 +63,18 @@ class HomeScreenMainPage extends StatefulWidget {
 
 class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
   final db = FirebaseFirestore.instance;
+    ScrollController _scrollController = ScrollController();
   final FlutterLocalization localization = FlutterLocalization.instance;
+//  final db = FirebaseFirestore.instance;
+  late Uri tempurl;
+  var selectedBook = 'abc';
+  List bookNames = [];
 
-
-
+  Future<void> _launchUrl(Uri tempurl) async {
+    if (!await launchUrl(tempurl, mode: LaunchMode.inAppWebView)) {
+      throw Exception('Could not launch $tempurl');
+    }
+  }
 
   @override
   initState() {
@@ -73,12 +85,10 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
     context.read<Getcurrentuser>().getselectedcontentlang();
     context.read<Getcurrentuser>().getadminlist();
     context.read<LangPropHandler>().getlangindex();
-     lang_init_local().lang_init();
+    lang_init_local().lang_init();
     localization.onTranslatedLanguage = _onTranslatedLanguage;
     super.initState();
     localization.translate(LangPropHandler.crnt_lang_code);
-
-
 
     _refreshData();
     // getgenerlist();
@@ -92,7 +102,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
     check_valid();
   }
 
-void _onTranslatedLanguage(Locale? locale) {
+  void _onTranslatedLanguage(Locale? locale) {
     setState(() {});
   }
 
@@ -331,11 +341,6 @@ void _onTranslatedLanguage(Locale? locale) {
       user_for_code_list = data[code];
       print(code_list);
 
-      print(code_list.contains('seenu'));
-       print(code_list.contains('swetha'));
-      print(code_list.contains(code));
-      print(code_list.contains('element'));
-
       // if (code == '' || code == null||code.isEmpty==true) {
       //   Fluttertoast.showToast(
       //     msg: 'enter code',
@@ -345,8 +350,8 @@ void _onTranslatedLanguage(Locale? locale) {
       //     gravity: ToastGravity.CENTER,
       //     fontSize: 20.0,
       //   );
-      // } else 
-      
+      // } else
+
       if (heisguest == false &&
           code_list.contains(code) == true &&
           user_for_code_list.contains(user) == false) {
@@ -393,7 +398,7 @@ void _onTranslatedLanguage(Locale? locale) {
           gravity: ToastGravity.CENTER,
           fontSize: 20.0,
         );
-      }  else if (user_for_code_list.contains(user) == true) {
+      } else if (user_for_code_list.contains(user) == true) {
         Fluttertoast.showToast(
           msg: 'code already redemed by you',
           toastLength: Toast.LENGTH_LONG,
@@ -402,23 +407,20 @@ void _onTranslatedLanguage(Locale? locale) {
           gravity: ToastGravity.CENTER,
           fontSize: 20.0,
         );
-      }
-      else{
+      } else {
         print('else    bolock');
       }
       // admin_list[admin_list.indexOf('seenu')];
+    } else if (code_list.contains(code) == false) {
+      Fluttertoast.showToast(
+        msg: 'code is not valid',
+        toastLength: Toast.LENGTH_LONG,
+        backgroundColor: Colors.pink.shade200,
+        textColor: Colors.black,
+        gravity: ToastGravity.CENTER,
+        fontSize: 20.0,
+      );
     }
-    else if (code_list.contains(code) == false) {
-        print('swe#######');
-        Fluttertoast.showToast(
-          msg: 'code is not valid',
-          toastLength: Toast.LENGTH_LONG,
-          backgroundColor: Colors.pink.shade200,
-          textColor: Colors.black,
-          gravity: ToastGravity.CENTER,
-          fontSize: 20.0,
-        );
-      }
 
     // if(heisguest==false&&user)
   }
@@ -427,12 +429,11 @@ void _onTranslatedLanguage(Locale? locale) {
   Widget build(BuildContext context) {
     return Consumer<Getcurrentuser>(
         builder: ((context, Getcurrentuser, child) => MaterialApp(
-          supportedLocales: localization.supportedLocales,
-      localizationsDelegates: localization.localizationsDelegates,
+              supportedLocales: localization.supportedLocales,
+              localizationsDelegates: localization.localizationsDelegates,
               home: Scaffold(
-                
                 appBar: AppBar(
-                  title: Text(AppLocale.welcome.getString(context)),
+                  title: Text('ptsbook'),
                   centerTitle: true,
                   actions: [
                     IconButton(
@@ -462,7 +463,7 @@ void _onTranslatedLanguage(Locale? locale) {
                               height: 20,
                             ),
                             Text('Welcome'),
-                            
+
                             SizedBox(
                               height: 20,
                             ),
@@ -772,8 +773,9 @@ void _onTranslatedLanguage(Locale? locale) {
                                                                         _buySubscription();
                                                                       });
                                                                     }
-                                                                    Navigator.of(context)
-                                                                  .pop();
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pop();
                                                                   },
                                                                   // onPressed: _isPurchased ? null : _buySubscription,
                                                                   child: Text(
@@ -838,7 +840,8 @@ void _onTranslatedLanguage(Locale? locale) {
                                                                   coupon_code_user_entered);
                                                               coupon_code_user_entered
                                                                   .clear();
-                                                              Navigator.of(context)
+                                                              Navigator.of(
+                                                                      context)
                                                                   .pop();
                                                             },
                                                             child: Text(
@@ -864,7 +867,6 @@ void _onTranslatedLanguage(Locale? locale) {
                                       //         'please subscribe for access premium content'),
                                       //   ),
                                       // );
-
 
                                       // Fluttertoast.showToast(
                                       //   msg:
@@ -932,39 +934,289 @@ void _onTranslatedLanguage(Locale? locale) {
                 ),
                 body: SingleChildScrollView(
                   child: Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            // margin: EdgeInsets.only(top: 150),
-                            margin: EdgeInsets.all(20),
-                            height: MediaQuery.of(context).size.height / 1,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 250, 252, 250),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(40),
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                SizedBox(height: 110.0),
-                                Text('Welcome ...',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium),
-                                SizedBox(height: 40.0),
-                                Text('Knowledge is power',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium),
-                                SizedBox(height: 40.0),
-                                Image.asset("assets/book.jpeg"),
-                              ],
+                    child: Column(
+                      children: [
+                        SizedBox(height: 110.0),
+                        Text('Welcome ...',
+                            style: Theme.of(context).textTheme.displayMedium),
+                        // SizedBox(height: 40.0),
+                        // Text('Knowledge is power',
+                        //     style: Theme.of(context)
+                        //         .textTheme
+                        //         .headlineMedium),
+                        // SizedBox(height: 40.0),
+                        // Image.asset("assets/book.jpeg"),
+
+                                            SizedBox(
+                                              height: MediaQuery.sizeOf(context).height*0.45,
+                                              width: MediaQuery.sizeOf(context).width*0.8,
+                                              child: GridView.builder(
+                                                
+                                                 shrinkWrap: true,
+                                                itemCount: Getcurrentuser.GenerList.length,
+                                                gridDelegate:
+                                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 2,
+                                                ),
+                                                itemBuilder: (context, index) {
+                                                  return  Container(
+                                                    margin: EdgeInsets.all(10),
+                                                    decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color.fromARGB(255, 166, 80, 188), Color.fromARGB(255, 125, 120, 35),Colors.purple],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.0,0.6,1.7]
+              ),
+            ),
+                                                    padding: const EdgeInsets.all(30),
+      // color: Colors.teal[500],
+                                                                      child: Text(Getcurrentuser.GenerList[index], style: Theme.of(context).textTheme.titleMedium),
+                                                                    );
+                                                },
+                                              ),
+                                            ),
+
+
+//                         GridView.builder(
+//                           shrinkWrap: true,
+//   itemCount: 100,
+//   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//     crossAxisCount: 2,
+//   ),
+//   itemBuilder: (context, index) {
+//     return Container(
+//       child: Text('Item $index'),
+//     );
+//   },
+// ),
+                        // SizedBox(height: 110.0),
+                        const Divider(color: Colors.deepPurple, thickness: 2.2),
+
+                        SingleChildScrollView(
+                          child: Scrollbar(
+                            isAlwaysShown: true,
+                             controller: _scrollController,
+                            child: StreamBuilder<QuerySnapshot>(
+                              
+                              // stream: db
+                              //     .collection('our_books')
+                              //     .where("gener", isEqualTo: widget.lable  )
+                                                  
+                              //     .snapshots(),
+                                                  
+                              stream: db
+                                  .collection('our_books')
+                                  // .where("gener", isEqualTo: widget.lable)
+                                  .where('is_published', isEqualTo: true)
+                                  .where('free_book', isEqualTo: true)
+                                  .snapshots(),
+                                                  
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else {
+                                  return ListView(
+                                     controller: _scrollController,
+                                    padding: const EdgeInsetsDirectional.symmetric(
+                                        vertical: 2),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    children: snapshot.data!.docs.map((doc) {
+                                      
+                                      return Card(
+                                        color: Colors.deepPurple[200],
+                                        
+                                        child: InkWell(
+                                          onTap: () {
+                                            var urllan = doc.get('Blog_Link');
+                                            tempurl = Uri.parse(urllan);
+                                                  
+                                            if (tempurl != '' &&
+                                                urllan != '' &&
+                                                tempurl != null &&
+                                                urllan != null) {
+                                              _launchUrl(tempurl);
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content:
+                                                      Text('blog link not found'),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          splashColor: Colors.pink,
+                                          child: Row(
+                                            children: [
+                                              SizedBox.square(
+                                                dimension: 110.0,
+                                                // child: Image.asset('assets/book.jpeg')
+                                                child: Image.network(
+                                                    doc.get('image_url')),
+                                              ),
+                                              const Padding(
+                                                padding: EdgeInsets.all(10),
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                      doc["${Getcurrentuser.non_static_selectlang}"]
+                                                          ['Book_name']),
+                                                  Text(
+                                                      doc["${Getcurrentuser.non_static_selectlang}"]
+                                                          ['author_name']),
+                                                  Row(
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => book_read(
+                                                                      book_text_file:
+                                                                          doc["${Getcurrentuser.non_static_selectlang}"]
+                                                                              [
+                                                                              'Text_File'],
+                                                                      book_name: doc[
+                                                                              "${Getcurrentuser.non_static_selectlang}"]
+                                                                          [
+                                                                          'Book_name'])));
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.menu_book,
+                                                            color: Colors.red),
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          if (doc["${Getcurrentuser.non_static_selectlang}"]
+                                                                      [
+                                                                      'Audio_File'] !=
+                                                                  '' &&
+                                                              doc["${Getcurrentuser.non_static_selectlang}"]
+                                                                      [
+                                                                      'Audio_File'] !=
+                                                                  null) {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            audplayer(
+                                                                              audiourl:
+                                                                                  doc["${Getcurrentuser.non_static_selectlang}"]['Audio_File'],
+                                                                              imageurl:
+                                                                                  doc.get('image_url'),
+                                                                              bookname:
+                                                                                  doc["${Getcurrentuser.non_static_selectlang}"]['Book_name'],
+                                                                            )));
+                                                          } else {
+                                                            ScaffoldMessenger.of(
+                                                                    context)
+                                                                .showSnackBar(
+                                                              const SnackBar(
+                                                                content: Text(
+                                                                    'Audio file not found'),
+                                                              ),
+                                                            );
+                                                          }
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          audplayer(
+                                                                            audiourl:
+                                                                                doc["${Getcurrentuser.non_static_selectlang}"]['Audio_File'],
+                                                                            imageurl:
+                                                                                doc.get('image_url'),
+                                                                            bookname:
+                                                                                doc["${Getcurrentuser.non_static_selectlang}"]['Book_name'],
+                                                                          )));
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons
+                                                                .audiotrack_rounded,
+                                                            color: Colors.purple),
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          var urllan =
+                                                              doc.get('Video_Link');
+                                                          tempurl =
+                                                              Uri.parse(urllan);
+                                                          if (tempurl != '' &&
+                                                              urllan != '' &&
+                                                              tempurl != null &&
+                                                              urllan != null) {
+                                                            _launchUrl(tempurl);
+                                                          } else {
+                                                            ScaffoldMessenger.of(
+                                                                    context)
+                                                                .showSnackBar(
+                                                              const SnackBar(
+                                                                content: Text(
+                                                                    'video link not found'),
+                                                              ),
+                                                            );
+                                                          }
+                                                          // _launchUrl(tempurl);
+                                                        },
+                                                        icon: const Icon(
+                                                          FontAwesomeIcons.youtube,
+                                                          color: Color.fromARGB(
+                                                              255, 172, 48, 48),
+                                                        ),
+                                                      ),
+                                                      IconButton(
+                                                        onPressed: () {
+                                                          var urllan =
+                                                              doc.get('Blog_Link');
+                                                          tempurl =
+                                                              Uri.parse(urllan);
+                                                          if (tempurl != '' &&
+                                                              urllan != '' &&
+                                                              tempurl != null &&
+                                                              urllan != null) {
+                                                            _launchUrl(tempurl);
+                                                          } else {
+                                                            ScaffoldMessenger.of(
+                                                                    context)
+                                                                .showSnackBar(
+                                                              const SnackBar(
+                                                                content: Text(
+                                                                    'blog link not found'),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.language_rounded,
+                                                            color: Colors.black26),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                }
+                              },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                        )
+                      ],
                     ),
                   ),
                 ),

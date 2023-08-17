@@ -1,6 +1,8 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
+// import 'package:youtube_caption_scraper/youtube_caption_scraper.dart';
 
 import 'dart:io';
 
@@ -11,12 +13,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
-import 'package:google_mlkit_translation/google_mlkit_translation.dart';
+// import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../components/provider.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+// import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 
 import '../../components/language/data/lang_data.dart';
 String cap = 'a';

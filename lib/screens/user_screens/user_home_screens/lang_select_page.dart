@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../components/language/lang_strings.dart';
 import '../../../components/provider.dart';
 import '../../../components/provider.dart';
 import '../../../components/language/data/lang_data.dart';
 import 'home_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'nav_bar_home_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -30,6 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
     // TODO: implement initState
     super.initState();
     context.read<LangPropHandler>().getlangindex();
+    context.read<LangPropHandler>().getprop_selectedcontentlang();
     getAppLang();
     getContentLang();
   }
@@ -63,14 +68,17 @@ class _SettingsPageState extends State<SettingsPage> {
       print('@@@@@');
        print(crnt_app_lang);
     }
+
+    getContentLang();
   }
   void getContentLang() async {
     final prefs = await SharedPreferences.getInstance();
 
       crnt_content_lang = await prefs.getString('selectlang')!;
-   
+   print('object');
+   print(crnt_content_lang);
 
-    if (crnt_content_lang ==''&&crnt_content_lang==null) {
+    if (crnt_content_lang =='') {
       print('*****');
       print(crnt_content_lang);
       setState(() {
@@ -91,7 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Consumer<LangPropHandler>(
         builder: ((context, LangPropHandler, child) => Scaffold(
               appBar: AppBar(
-                title: Text('Languages'),
+                title: Text(AppLocale.languages.getString(context)),
               ),
               body: Center(
                 child: Column(
@@ -154,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               height: MediaQuery.sizeOf(context).height * 0.1,
                             ),
                             ExpansionTile(
-                              title: Text('app language'),
+                              title: Text(AppLocale.app_language.getString(context)),
                               children: [
                                 Scrollbar(
                                   isAlwaysShown: true,
@@ -170,6 +178,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                               Colors.indigoAccent,
                                           onTap: () async {
                                             // set_app_lang();
+                                            setState(() {
+                                              localization.translate(
+                                                LangData.appLang[Index]);
+                                            });
 
                                             final prefs =
                                                 await SharedPreferences
@@ -177,12 +189,12 @@ class _SettingsPageState extends State<SettingsPage> {
                                             prefs.setString('crnt_lang_code',
                                                 LangData.appLang[Index]);
 // print(prefs.getString('crnt_lang_code'));
-                                            localization.translate(
-                                                LangData.appLang[Index]);
+                                            
 
                                             ExpansionTileController.of(context)
                                                 .collapse();
                                             getAppLang();
+                                            Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>NavBarAtHomePage()));
                                           },
                                           title: Text(LangData.appLang[Index]),
                                           subtitle:
@@ -195,10 +207,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                 // ScrollHandle(),
                               ],
                             ),
-                            Text('current app language'),
+                            Text(AppLocale.current_app_language.getString(context)),
                             Text(crnt_app_lang),
                             ExpansionTile(
-                              title: Text('content language'),
+                              title: Text(AppLocale.content_language.getString(context)),
                               children: [
                                 Scrollbar(
                                   isAlwaysShown: true,
@@ -214,21 +226,26 @@ class _SettingsPageState extends State<SettingsPage> {
                                               Colors.indigoAccent,
                                           onTap: () async {
                                             // set_app_lang();
-
+                                             final prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                                    prefs.setString('selectlang',
+                                                LangData.ContentLang[Index]);
                                             setcontentlang(
                                                 LangData.ContentLang[Index]);
-                                            isselected == true
-                                                ? ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                          'content lang ${LangData.ContentLang[Index]} is selected'),
-                                                    ),
-                                                  )
-                                                : null;
+                                            // isselected == true
+                                            //     ? ScaffoldMessenger.of(context)
+                                            //         .showSnackBar(
+                                            //         SnackBar(
+                                            //           content: Text(
+                                            //               'content lang ${LangData.ContentLang[Index]} is selected'),
+                                            //         ),
+                                            //       )
+                                            //     : null;
                                             ExpansionTileController.of(context)
                                                 .collapse();
                                             getContentLang();
+                                            Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=>NavBarAtHomePage()));
                                           },
                                           title:
                                               Text(LangData.ContentLang[Index]),
@@ -242,8 +259,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                 // ScrollHandle(),
                               ],
                             ),
-                            Text('Current content Language'),
+                            Text(AppLocale.current_content_language.getString(context)),
                             Text(crnt_content_lang),
+                            
                           ],
                         ),
                       ),

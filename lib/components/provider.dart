@@ -17,6 +17,7 @@ class Getcurrentuser with ChangeNotifier, DiagnosticableTreeMixin {
   List<dynamic> lang_name_list=[];
   List<dynamic> lang_voice_list=[];
   List<dynamic> admin_list=[];
+  var home_img='';
   bool heisvalid=false;
 
   String? get userName => user;
@@ -24,7 +25,7 @@ class Getcurrentuser with ChangeNotifier, DiagnosticableTreeMixin {
   void getuser() async {
     final prefs = await SharedPreferences.getInstance();
 // prefs.setString('name', 'guest@gmail.com');
-prefs.setString('name', 'seenuthiruvpm@gmail.com');
+// prefs.setString('name', 'seenuthiruvpm@gmail.com');
    user = prefs.getString('name');
    password = prefs.getString('password');
 
@@ -122,6 +123,22 @@ void getselectedcontentlang() async {
     notifyListeners();
   }
 
+  Future<dynamic> gethomepageimg() async {
+    CollectionReference collection =
+        FirebaseFirestore.instance.collection('metadata');
+
+    DocumentSnapshot snapshot = await collection.doc('home_page_img').get();
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+    if (data != null && data.containsKey('home_img_url')) {
+       home_img = data['home_img_url'];
+       print('12343212312');
+      print(home_img);
+      return home_img;
+    } else {
+      return [];
+    }
+    // notifyListeners();
+  }
 
 
 }
@@ -146,6 +163,7 @@ class LangPropHandler with ChangeNotifier, DiagnosticableTreeMixin {
     if(crnt_lang_code_temp==''||crnt_lang_code_temp==null){
       crnt_lang_code="ta";
       non_static_crnt_lang_code='ta';
+      prefs.setString('crnt_lang_code', "ta");
     }
     else{
       crnt_lang_code=crnt_lang_code_temp;
@@ -164,6 +182,7 @@ class LangPropHandler with ChangeNotifier, DiagnosticableTreeMixin {
    var  temp_selectlang = prefs.getString('selectlang');
     if(temp_selectlang==''||temp_selectlang==null){
       selectlang="ta-IN";
+      prefs.setString('selectlang', "ta-IN");
     }
     else{
       selectlang=temp_selectlang;

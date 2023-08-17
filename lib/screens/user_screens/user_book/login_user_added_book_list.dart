@@ -1,22 +1,27 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:mybook/components/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../components/language/data/lang_maplocals.dart';
 import '../../../components/language/lang_strings.dart';
-import '../../../components/provider.dart';
 import 'user_book_read_page.dart';
 
-class booklist extends StatefulWidget {
-  const booklist({super.key});
+// import 'package:provider/provider.dart';
+class mybooklist extends StatefulWidget {
+  const mybooklist({super.key});
 
   @override
-  State<booklist> createState() => _booklistState();
+  State<mybooklist> createState() => _mybooklistState();
 }
 
-class _booklistState extends State<booklist> {
+class _mybooklistState extends State<mybooklist> {
   final db = FirebaseFirestore.instance;
+  final prefs = SharedPreferences.getInstance();
 
   final FlutterLocalization localization = FlutterLocalization.instance;
 
@@ -40,14 +45,17 @@ class _booklistState extends State<booklist> {
       localizationsDelegates: localization.localizationsDelegates,
       home: Scaffold(
         appBar: AppBar(
-          title: Text(AppLocale.books_list.getString(context)),
+          title: Text(AppLocale.my_books_list.getString(context)),
           centerTitle: true,
         ),
         body: Column(
           children: [
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: db.collection('books').snapshots(),
+                stream: db
+                    .collection('books')
+                    .where("poster_name", isEqualTo: '${Getcurrentuser.user}')
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(
@@ -62,6 +70,14 @@ class _booklistState extends State<booklist> {
                           child: ListTile(
                             title: Text(doc['book_name']),
                             subtitle: Text(doc['author_name']),
+                            trailing: IconButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection("books")
+                                      .doc(doc['book_name'])
+                                      .delete();
+                                },
+                                icon: const Icon(Icons.remove)),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -72,6 +88,11 @@ class _booklistState extends State<booklist> {
                                             shortdisc: doc['short_discription'],
                                             longdisc: doc['long_discription'],
                                           )));
+
+                              /* 
+                            
+                            doc['book_name'],doc['author_name'],doc['short_discription'],doc['long_discription']
+                             */
                             },
                           ),
                         );

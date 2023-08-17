@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mybook/screens/user_screens/user_audio_book_screen/book_text_read_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:search_choices/search_choices.dart';
+import '../../../components/language/lang_strings.dart';
 import '../../../components/provider.dart';
 import '../user_home_screens/home_screen.dart';
 import '../user_home_screens/nav_bar_home_screen.dart';
@@ -80,7 +83,7 @@ class _ourbooklistState extends State<ourbooklist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Books List'),
+        title:  Text(AppLocale.books_list.getString(context)),
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
@@ -103,8 +106,8 @@ class _ourbooklistState extends State<ourbooklist> {
               child: SearchChoices.single(
                 items: buildDropdownMenuItems(),
                 value: selectedBook,
-                hint: 'Select a book',
-                searchHint: 'Search for a book',
+                hint: AppLocale.select_a_book.getString(context),
+                searchHint: AppLocale.search_for_a_book.getString(context),
                 onChanged: (value) {
                   setState(() {
                     selectedBook = value;
@@ -161,21 +164,27 @@ class _ourbooklistState extends State<ourbooklist> {
                           // color: Index==0? Colors.indigoAccent:Color.fromARGB(255, 64, 251, 148),
                           child: InkWell(
                             onTap: () {
-                              var urllan = doc.get('Blog_Link');
-                              tempurl = Uri.parse(urllan);
+                              // var urllan = doc.get('Blog_Link');
+                              // tempurl = Uri.parse(urllan);
 
-                              if (tempurl != '' &&
-                                  urllan != '' &&
-                                  tempurl != null &&
-                                  urllan != null) {
-                                _launchUrl(tempurl);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('blog link not found'),
-                                  ),
-                                );
-                              }
+                              // if (tempurl != '' &&
+                              //     urllan != '' &&
+                              //     tempurl != null &&
+                              //     urllan != null) {
+                              //   _launchUrl(tempurl);
+                              // } else {
+                              //   Fluttertoast.showToast(
+                              //                   msg: AppLocale
+                              //                       .blog_link_not_found
+                              //                       .getString(context),
+                              //                   toastLength: Toast.LENGTH_LONG,
+                              //                   backgroundColor:
+                              //                       Colors.pink.shade200,
+                              //                   textColor: Colors.black,
+                              //                   gravity: ToastGravity.CENTER,
+                              //                   fontSize: 20.0,
+                              //                 );
+                              // }
                             },
                             splashColor: Colors.pink,
                             child: Row(
@@ -235,12 +244,16 @@ class _ourbooklistState extends State<ourbooklist> {
                                                                 ['Book_name'],
                                                           )));
                                             } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'Audio file not found'),
-                                                ),
+                                              Fluttertoast.showToast(
+                                                msg: AppLocale
+                                                    .audio_file_not_found
+                                                    .getString(context),
+                                                toastLength: Toast.LENGTH_LONG,
+                                                backgroundColor:
+                                                    Colors.pink.shade200,
+                                                textColor: Colors.black,
+                                                gravity: ToastGravity.CENTER,
+                                                fontSize: 20.0,
                                               );
                                             }
                                             Navigator.push(
@@ -272,12 +285,16 @@ class _ourbooklistState extends State<ourbooklist> {
                                                 urllan != null) {
                                               _launchUrl(tempurl);
                                             } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'video link not found'),
-                                                ),
+                                             Fluttertoast.showToast(
+                                                msg: AppLocale
+                                                    .video_link_not_found
+                                                    .getString(context),
+                                                toastLength: Toast.LENGTH_LONG,
+                                                backgroundColor:
+                                                    Colors.pink.shade200,
+                                                textColor: Colors.black,
+                                                gravity: ToastGravity.CENTER,
+                                                fontSize: 20.0,
                                               );
                                             }
                                             // _launchUrl(tempurl);
@@ -288,29 +305,29 @@ class _ourbooklistState extends State<ourbooklist> {
                                                 255, 172, 48, 48),
                                           ),
                                         ),
-                                        IconButton(
-                                          onPressed: () {
-                                            var urllan = doc.get('Blog_Link');
-                                            tempurl = Uri.parse(urllan);
-                                            if (tempurl != '' &&
-                                                urllan != '' &&
-                                                tempurl != null &&
-                                                urllan != null) {
-                                              _launchUrl(tempurl);
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'blog link not found'),
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          icon: const Icon(
-                                              Icons.language_rounded,
-                                              color: Colors.black26),
-                                        ),
+                                        // IconButton(
+                                        //   onPressed: () {
+                                        //     var urllan = doc.get('Blog_Link');
+                                        //     tempurl = Uri.parse(urllan);
+                                        //     if (tempurl != '' &&
+                                        //         urllan != '' &&
+                                        //         tempurl != null &&
+                                        //         urllan != null) {
+                                        //       _launchUrl(tempurl);
+                                        //     } else {
+                                        //       ScaffoldMessenger.of(context)
+                                        //           .showSnackBar(
+                                        //         const SnackBar(
+                                        //           content: Text(
+                                        //               'blog link not found'),
+                                        //         ),
+                                        //       );
+                                        //     }
+                                        //   },
+                                        //   icon: const Icon(
+                                        //       Icons.language_rounded,
+                                        //       color: Colors.black26),
+                                        // ),
                                       ],
                                     )
                                   ],

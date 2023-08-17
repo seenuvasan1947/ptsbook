@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
               await prefs.setBool('is_login', true);
 
               if (newuser != null) {
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => const NavBarAtHomePage()));
               }
             } catch (e) {
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                      await prefs.setBool('is_login', true);
                      
                 // await prefs.setString('password', data.name.toString());
-                Navigator.push(context,
+                Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => const NavBarAtHomePage()));
               }
               else{

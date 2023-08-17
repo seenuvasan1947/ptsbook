@@ -1,0 +1,9 @@
+step 1 : first ready the string what are need to convert
+step 2: use google translater and paste the complete string in from lang and now you get the to lang strings 
+step 3: use clipboard copy option (that was shape as squre and placed in bottom of translation) to copy the converted string
+step 4: make sure the single line gap between the each string 
+step 5: make the lang variable in vs code and also it need to have a single line space 
+step 6: now paste the string that was copyed in translator 
+step 7: now copy the variable that was used for lang conversition
+step 8: use ctrl+shift+down key to select (front or starting of translated string) 
+step 9: now paste it then you continue

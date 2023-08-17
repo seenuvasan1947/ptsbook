@@ -14,7 +14,7 @@ import 'package:mybook/components/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mybook/screens/user_screens/user_book/user_books_add_page.dart';
 import 'package:mybook/screens/user_screens/user_book/user_added_book_list.dart';
-import 'package:mybook/screens/user_screens/user_book/login_user_added_book.dart';
+import 'package:mybook/screens/user_screens/user_book/login_user_added_book_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -85,10 +85,12 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
     context.read<Getcurrentuser>().getselectedcontentlang();
     context.read<Getcurrentuser>().getadminlist();
     context.read<LangPropHandler>().getlangindex();
+    context.read<Getcurrentuser>().gethomepageimg();
+
     lang_init_local().lang_init();
     localization.onTranslatedLanguage = _onTranslatedLanguage;
-    super.initState();
     localization.translate(LangPropHandler.crnt_lang_code);
+    super.initState();
 
     _refreshData();
     // getgenerlist();
@@ -373,7 +375,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
           'no_of_days': dataNo
         });
         Fluttertoast.showToast(
-          msg: 'code redemed',
+          msg: AppLocale.code_redemed.getString(context),
           toastLength: Toast.LENGTH_LONG,
           backgroundColor: Colors.pink.shade200,
           textColor: Colors.black,
@@ -391,7 +393,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
         }
       } else if (heisguest == true) {
         Fluttertoast.showToast(
-          msg: 'guest user not able to avail',
+          msg: AppLocale.guest_user_not_able_to_avail.getString(context),
           toastLength: Toast.LENGTH_LONG,
           backgroundColor: Colors.pink.shade200,
           textColor: Colors.black,
@@ -400,7 +402,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
         );
       } else if (user_for_code_list.contains(user) == true) {
         Fluttertoast.showToast(
-          msg: 'code already redemed by you',
+          msg: AppLocale.code_already_redemed_by_you.getString(context),
           toastLength: Toast.LENGTH_LONG,
           backgroundColor: Colors.pink.shade200,
           textColor: Colors.black,
@@ -413,7 +415,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
       // admin_list[admin_list.indexOf('seenu')];
     } else if (code_list.contains(code) == false) {
       Fluttertoast.showToast(
-        msg: 'code is not valid',
+        msg: AppLocale.code_is_not_valid.getString(context),
         toastLength: Toast.LENGTH_LONG,
         backgroundColor: Colors.pink.shade200,
         textColor: Colors.black,
@@ -462,7 +464,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            Text('Welcome'),
+                            Text(AppLocale.welcome.getString(context)),
 
                             SizedBox(
                               height: 20,
@@ -480,7 +482,8 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                         height: 20,
                       ),
                       ListTile(
-                        title: const Text('write your book'),
+                        title:
+                            Text(AppLocale.write_your_book.getString(context)),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -493,7 +496,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                         thickness: 3,
                       ),
                       ListTile(
-                        title: const Text('My book'),
+                        title: Text(AppLocale.my_book.getString(context)),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -506,7 +509,8 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                         thickness: 3,
                       ),
                       ListTile(
-                        title: const Text('others Book List'),
+                        title:
+                            Text(AppLocale.others_book_list.getString(context)),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -635,7 +639,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                       RefreshIndicator(
                         onRefresh: _refreshData,
                         child: ExpansionTile(
-                          title: Text('books'),
+                          title: Text(AppLocale.paid_books.getString(context)),
                           children: [
                             ListView.builder(
                                 itemBuilder: (context, Index) {
@@ -893,7 +897,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                         thickness: 3,
                       ),
                       ListTile(
-                        title: const Text('Logout'),
+                        title: Text(AppLocale.logout.getString(context)),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -937,8 +941,17 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                     child: Column(
                       children: [
                         SizedBox(height: 110.0),
-                        Text('Welcome ...',
-                            style: Theme.of(context).textTheme.displayMedium),
+
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.3,
+                          width: MediaQuery.sizeOf(context).width * 0.8,
+                          
+                          child: Image.network(Getcurrentuser.home_img),
+
+                        ),
+                        // Text('Welcome ...',
+                        //     style: Theme.of(context).textTheme.displayMedium),
+
                         // SizedBox(height: 40.0),
                         // Text('Knowledge is power',
                         //     style: Theme.of(context)
@@ -946,49 +959,48 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                         //         .headlineMedium),
                         // SizedBox(height: 40.0),
                         // Image.asset("assets/book.jpeg"),
-                        Text('Gener List',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall),
+                        // Text('Gener List',
+                        //     style: Theme.of(context).textTheme.headlineSmall),
 
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.45,
-                          width: MediaQuery.sizeOf(context).width * 0.8,
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            itemCount: Getcurrentuser.GenerList.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                            ),
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: EdgeInsets.all(10),
+                        // SizedBox(
+                        //   height: MediaQuery.sizeOf(context).height * 0.45,
+                        //   width: MediaQuery.sizeOf(context).width * 0.8,
+                        //   child: GridView.builder(
+                        //     shrinkWrap: true,
+                        //     scrollDirection: Axis.horizontal,
+                        //     itemCount: Getcurrentuser.GenerList.length,
+                        //     gridDelegate:
+                        //         SliverGridDelegateWithFixedCrossAxisCount(
+                        //       crossAxisCount: 2,
+                        //     ),
+                        //     itemBuilder: (context, index) {
+                        //       return Container(
+                        //         margin: EdgeInsets.all(10),
 
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.horizontal(
-                                      left: Radius.elliptical(10, 10),
-                                      right: Radius.elliptical(10, 10)),
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Color.fromARGB(255, 166, 80, 188),
-                                        Color.fromARGB(255, 125, 120, 35),
-                                        Colors.purple
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      stops: [0.0, 0.6, 1.7]),
-                                ),
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 25.0),
-                                // color: Colors.teal[500],
-                                child: Text(Getcurrentuser.GenerList[index],
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge),
-                              );
-                            },
-                          ),
-                        ),
+                        //         decoration: const BoxDecoration(
+                        //           borderRadius: BorderRadius.horizontal(
+                        //               left: Radius.elliptical(10, 10),
+                        //               right: Radius.elliptical(10, 10)),
+                        //           gradient: LinearGradient(
+                        //               colors: [
+                        //                 Color.fromARGB(255, 166, 80, 188),
+                        //                 Color.fromARGB(255, 125, 120, 35),
+                        //                 Colors.purple
+                        //               ],
+                        //               begin: Alignment.topCenter,
+                        //               end: Alignment.bottomCenter,
+                        //               stops: [0.0, 0.6, 1.7]),
+                        //         ),
+                        //         padding: const EdgeInsets.symmetric(
+                        //             horizontal: 10, vertical: 25.0),
+                        //         // color: Colors.teal[500],
+                        //         child: Text(Getcurrentuser.GenerList[index],
+                        //             style:
+                        //                 Theme.of(context).textTheme.titleLarge),
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
 
 //                         GridView.builder(
 //                           shrinkWrap: true,
@@ -1041,23 +1053,27 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                         color: Colors.deepPurple[200],
                                         child: InkWell(
                                           onTap: () {
-                                            var urllan = doc.get('Blog_Link');
-                                            tempurl = Uri.parse(urllan);
+                                            // var urllan = doc.get('Blog_Link');
+                                            // tempurl = Uri.parse(urllan);
 
-                                            if (tempurl != '' &&
-                                                urllan != '' &&
-                                                tempurl != null &&
-                                                urllan != null) {
-                                              _launchUrl(tempurl);
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'blog link not found'),
-                                                ),
-                                              );
-                                            }
+                                            // if (tempurl != '' &&
+                                            //     urllan != '' &&
+                                            //     tempurl != null &&
+                                            //     urllan != null) {
+                                            //   _launchUrl(tempurl);
+                                            // } else {
+                                            //   Fluttertoast.showToast(
+                                            //     msg: AppLocale
+                                            //         .blog_link_not_found
+                                            //         .getString(context),
+                                            //     toastLength: Toast.LENGTH_LONG,
+                                            //     backgroundColor:
+                                            //         Colors.pink.shade200,
+                                            //     textColor: Colors.black,
+                                            //     gravity: ToastGravity.CENTER,
+                                            //     fontSize: 20.0,
+                                            //   );
+                                            // }
                                           },
                                           splashColor: Colors.pink,
                                           child: Row(
@@ -1121,13 +1137,23 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                                               bookname: doc["${Getcurrentuser.non_static_selectlang}"]['Book_name'],
                                                                             )));
                                                           } else {
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(
-                                                              const SnackBar(
-                                                                content: Text(
-                                                                    'Audio file not found'),
-                                                              ),
+                                                            Fluttertoast
+                                                                .showToast(
+                                                              msg: AppLocale
+                                                                  .audio_file_not_found
+                                                                  .getString(
+                                                                      context),
+                                                              toastLength: Toast
+                                                                  .LENGTH_LONG,
+                                                              backgroundColor:
+                                                                  Colors.pink
+                                                                      .shade200,
+                                                              textColor:
+                                                                  Colors.black,
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .CENTER,
+                                                              fontSize: 20.0,
                                                             );
                                                           }
                                                           Navigator.push(
@@ -1162,13 +1188,23 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                               urllan != null) {
                                                             _launchUrl(tempurl);
                                                           } else {
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(
-                                                              const SnackBar(
-                                                                content: Text(
-                                                                    'video link not found'),
-                                                              ),
+                                                            Fluttertoast
+                                                                .showToast(
+                                                              msg: AppLocale
+                                                                  .video_link_not_found
+                                                                  .getString(
+                                                                      context),
+                                                              toastLength: Toast
+                                                                  .LENGTH_LONG,
+                                                              backgroundColor:
+                                                                  Colors.pink
+                                                                      .shade200,
+                                                              textColor:
+                                                                  Colors.black,
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .CENTER,
+                                                              fontSize: 20.0,
                                                             );
                                                           }
                                                           // _launchUrl(tempurl);
@@ -1180,34 +1216,44 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                               255, 172, 48, 48),
                                                         ),
                                                       ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          var urllan = doc
-                                                              .get('Blog_Link');
-                                                          tempurl =
-                                                              Uri.parse(urllan);
-                                                          if (tempurl != '' &&
-                                                              urllan != '' &&
-                                                              tempurl != null &&
-                                                              urllan != null) {
-                                                            _launchUrl(tempurl);
-                                                          } else {
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(
-                                                              const SnackBar(
-                                                                content: Text(
-                                                                    'blog link not found'),
-                                                              ),
-                                                            );
-                                                          }
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons
-                                                                .language_rounded,
-                                                            color:
-                                                                Colors.black26),
-                                                      ),
+                                                      // IconButton(
+                                                      //   onPressed: () {
+                                                      //     var urllan = doc
+                                                      //         .get('Blog_Link');
+                                                      //     tempurl =
+                                                      //         Uri.parse(urllan);
+                                                      //     if (tempurl != '' &&
+                                                      //         urllan != '' &&
+                                                      //         tempurl != null &&
+                                                      //         urllan != null) {
+                                                      //       _launchUrl(tempurl);
+                                                      //     } else {
+                                                      //       Fluttertoast
+                                                      //           .showToast(
+                                                      //         msg: AppLocale
+                                                      //             .blog_link_not_found
+                                                      //             .getString(
+                                                      //                 context),
+                                                      //         toastLength: Toast
+                                                      //             .LENGTH_LONG,
+                                                      //         backgroundColor:
+                                                      //             Colors.pink
+                                                      //                 .shade200,
+                                                      //         textColor:
+                                                      //             Colors.black,
+                                                      //         gravity:
+                                                      //             ToastGravity
+                                                      //                 .CENTER,
+                                                      //         fontSize: 20.0,
+                                                      //       );
+                                                      //     }
+                                                      //   },
+                                                      //   icon: const Icon(
+                                                      //       Icons
+                                                      //           .language_rounded,
+                                                      //       color:
+                                                      //           Colors.black26),
+                                                      // ),
                                                     ],
                                                   )
                                                 ],

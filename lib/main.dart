@@ -4,19 +4,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:just_audio_background/just_audio_background.dart';
+
 import 'package:mybook/auth/auth.dart';
 import 'package:mybook/components/provider.dart';
 import 'package:mybook/screens/user_screens/user_home_screens/home_screen.dart';
-import 'package:scroll_navigation/scroll_navigation.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'components/language/multi_lang.dart';
+import 'screens/admin_screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,7 @@ ChangeNotifierProvider(create: (_) => LangPropHandler())
 
   ],
   // child: MaterialApp(home: LoginPage()),
-  // child: MaterialApp(home: MyApp()),
+  // child: MaterialApp(home: SplashScreen()),
   child: MaterialApp(home: LangMainPage()),
   ));
   // reloadApp();
@@ -38,10 +39,5 @@ ChangeNotifierProvider(create: (_) => LangPropHandler())
     Getcurrentuser().getgenerlist();
 }
 
- void reloadApp() {
-    // Restart the Flutter app.
-    // This will reload the app with the latest changes.
-    SystemNavigator.pop();
-    
-  }
+
   

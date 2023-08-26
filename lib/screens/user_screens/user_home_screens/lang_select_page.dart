@@ -165,7 +165,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               title: Text(AppLocale.app_language.getString(context)),
                               children: [
                                 Scrollbar(
-                                  isAlwaysShown: true,
+                                  thumbVisibility: true,
                                   // Set this to true to always show the scrollbar
                                   controller: _scrollController,
                                   child: ListView.builder(
@@ -213,7 +213,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               title: Text(AppLocale.content_language.getString(context)),
                               children: [
                                 Scrollbar(
-                                  isAlwaysShown: true,
+                                  thumbVisibility: true,
                                   // Set this to true to always show the scrollbar
                                   controller: _scrollController,
                                   child: ListView.builder(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_function_type_syntax_for_parameters, depend_on_referenced_packages
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_function_type_syntax_for_parameters, depend_on_referenced_packages, use_build_context_synchronously
 
 import 'dart:async';
 
@@ -8,8 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:mybook/auth/auth.dart';
 import 'package:mybook/components/provider.dart';
+import 'package:mybook/screens/refactored_audioplayer/get_dat.dart';
 
 import 'package:provider/provider.dart';
 import 'package:mybook/screens/user_screens/user_book/user_books_add_page.dart';
@@ -32,6 +34,9 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 
 import 'lang_select_page.dart';
 import 'nav_bar_home_screen.dart';
+import '../../../components/language/data/lang_data.dart';
+
+// import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 
 bool heisvalid = false;
 bool isselected = false;
@@ -70,6 +75,8 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
   var selectedBook = 'abc';
   List bookNames = [];
 
+  String book__name_over_all = '';
+String crnt_content_lang = '';
   Future<void> _launchUrl(Uri tempurl) async {
     if (!await launchUrl(tempurl, mode: LaunchMode.inAppWebView)) {
       throw Exception('Could not launch $tempurl');
@@ -86,7 +93,7 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
     context.read<Getcurrentuser>().getadminlist();
     context.read<LangPropHandler>().getlangindex();
     context.read<Getcurrentuser>().gethomepageimg();
-
+   getContentLang();
     lang_init_local().lang_init();
     localization.onTranslatedLanguage = _onTranslatedLanguage;
     localization.translate(LangPropHandler.crnt_lang_code);
@@ -102,11 +109,60 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
       _handlePurchaseUpdates(data);
     });
     check_valid();
+    // lang_model_manage();
   }
 
   void _onTranslatedLanguage(Locale? locale) {
     setState(() {});
   }
+
+
+
+
+
+  void getContentLang() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    crnt_content_lang = await prefs.getString('selectlang')!;
+    print('object');
+    print(crnt_content_lang);
+
+    if (crnt_content_lang == '') {
+      print('*****');
+      print(crnt_content_lang);
+      setState(() {
+        crnt_content_lang = 'ta-IN';
+      });
+    } else {
+      setState(() {
+        crnt_content_lang = crnt_content_lang;
+      });
+
+      print('@@@@@');
+      print(crnt_content_lang);
+    }
+  }
+
+
+// lang_model_manage()async{
+//   final modelManager = OnDeviceTranslatorModelManager();
+
+//   for (var i=0;i<LangData.translanglist.length;i++){
+
+// final bool response = await modelManager.isModelDownloaded(LangData.translanglist[i].bcpCode);
+//   if(response ==false){
+//  final bool response = await modelManager.downloadModel(LangData.translanglist[i].bcpCode);
+//  if(response==true){
+//   return;
+//  }
+//   }
+//   else{
+//     return ;
+//   }
+
+//   }
+
+// }
 
   Future<void> _refreshData() async {
     // Simulate a delay for fetching new data
@@ -427,6 +483,54 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
     // if(heisguest==false&&user)
   }
 
+  
+  Future<String> getTranslatedText(
+      DocumentSnapshot doc, String fieldName) async {
+    int cont_lang_index = LangData.ContentLang.indexOf(crnt_content_lang);
+    final TranslateLanguage sourceLanguage = TranslateLanguage.english;
+    final TranslateLanguage targetLanguage =
+        LangData.translanglist[cont_lang_index];
+    final onDeviceTranslator = OnDeviceTranslator(
+        sourceLanguage: sourceLanguage, targetLanguage: targetLanguage);
+
+    String originalText = doc.get(fieldName);
+
+    if (fieldName == 'Book_Name') {
+      book__name_over_all =
+          await onDeviceTranslator.translateText(originalText);
+    }
+
+    final String response =
+        await onDeviceTranslator.translateText(originalText);
+
+    // Get the text from Firestore document based on the fieldName
+
+    // Translate the text to Tamil (or any other target language)
+    // Translation translation = await translator.translateText(
+    //   text: originalText,
+    //   sourceLanguage: 'en', // Assuming the source language is English
+    //   targetLanguage: 'ta', // 'ta' represents Tamil
+    // );
+
+    return response;
+  }
+
+
+  Future<String> genertrans(genertext) async {
+    // TranslateLanguage lang=engl;
+
+    //  static List<String>[];
+    int cont_lang_index = LangData.ContentLang.indexOf(crnt_content_lang);
+    final TranslateLanguage sourceLanguage = TranslateLanguage.english;
+    final TranslateLanguage targetLanguage =
+        LangData.translanglist[cont_lang_index];
+    print(LangData.translanglist[0]);
+    final onDeviceTranslator = OnDeviceTranslator(
+        sourceLanguage: sourceLanguage, targetLanguage: targetLanguage);
+    final String response = await onDeviceTranslator.translateText(genertext);
+    return response;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Getcurrentuser>(
@@ -744,7 +848,8 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                                                             64,
                                                                             249,
                                                                             255),
-                                                                        textColor: const Color.fromARGB(
+                                                                        textColor: const Color
+                                                                            .fromARGB(
                                                                             255,
                                                                             15,
                                                                             0,
@@ -882,8 +987,28 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                       //   fontSize: 20.0,
                                       // );
                                     },
-                                    title:
-                                        Text(Getcurrentuser.GenerList[Index]),
+
+                                    title: FutureBuilder(
+                                      future: genertrans(Getcurrentuser.GenerList[Index]),
+                                      // initialData: InitialData,
+                                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                        // return Text(snapshot.data);
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Text(Getcurrentuser.GenerList[Index]); // Display a loading indicator
+                                        } else if (snapshot.hasError) {
+                                          return 
+                                          // Text('Error: ${snapshot.error}');
+                                          Text(Getcurrentuser.GenerList[Index]);
+                                        } else {
+                                          return Text(snapshot
+                                              .data!); // Display the translated text
+                                        }
+
+                                      },
+                                    ),
+
+                                    // title:Text(Getcurrentuser.GenerList[Index]),
                                   );
                                 },
                                 itemCount: Getcurrentuser.GenerList.length,
@@ -940,14 +1065,21 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                   child: Center(
                     child: Column(
                       children: [
-                        SizedBox(height: 110.0),
+                        // ElevatedButton(
+                        //     onPressed: () {
+                        //       Navigator.push(
+                        //           context,
+                        //           MaterialPageRoute(
+                        //               builder: (context) => GetData()));
+                        //     },
+                        //     child: Text('go')),
+                        SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.04),
 
                         SizedBox(
                           height: MediaQuery.sizeOf(context).height * 0.3,
                           width: MediaQuery.sizeOf(context).width * 0.8,
-                          
                           child: Image.network(Getcurrentuser.home_img),
-
                         ),
                         // Text('Welcome ...',
                         //     style: Theme.of(context).textTheme.displayMedium),
@@ -1018,30 +1150,30 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                         const Divider(color: Colors.deepPurple, thickness: 2.2),
 
                         SingleChildScrollView(
-                          child: Scrollbar(
-                            isAlwaysShown: true,
-                            controller: _scrollController,
-                            child: StreamBuilder<QuerySnapshot>(
-                              // stream: db
-                              //     .collection('our_books')
-                              //     .where("gener", isEqualTo: widget.lable  )
+                          child: StreamBuilder<QuerySnapshot>(
+                            // stream: db
+                            //     .collection('our_books')
+                            //     .where("gener", isEqualTo: widget.lable  )
 
-                              //     .snapshots(),
+                            //     .snapshots(),
 
-                              stream: db
-                                  .collection('our_books')
-                                  // .where("gener", isEqualTo: widget.lable)
-                                  .where('is_published', isEqualTo: true)
-                                  .where('free_book', isEqualTo: true)
-                                  .snapshots(),
+                            stream: db
+                                .collection('our_books')
+                                // .where("gener", isEqualTo: widget.lable)
+                                .where('is_published', isEqualTo: true)
+                                .where('free_book', isEqualTo: true)
+                                .snapshots(),
 
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else {
-                                  return ListView(
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return SizedBox(
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.91,
+                                  child: ListView(
                                     controller: _scrollController,
                                     padding:
                                         const EdgeInsetsDirectional.symmetric(
@@ -1052,221 +1184,109 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                       return Card(
                                         color: Colors.deepPurple[200],
                                         child: InkWell(
-                                          onTap: () {
-                                            // var urllan = doc.get('Blog_Link');
-                                            // tempurl = Uri.parse(urllan);
-
-                                            // if (tempurl != '' &&
-                                            //     urllan != '' &&
-                                            //     tempurl != null &&
-                                            //     urllan != null) {
-                                            //   _launchUrl(tempurl);
-                                            // } else {
-                                            //   Fluttertoast.showToast(
-                                            //     msg: AppLocale
-                                            //         .blog_link_not_found
-                                            //         .getString(context),
-                                            //     toastLength: Toast.LENGTH_LONG,
-                                            //     backgroundColor:
-                                            //         Colors.pink.shade200,
-                                            //     textColor: Colors.black,
-                                            //     gravity: ToastGravity.CENTER,
-                                            //     fontSize: 20.0,
-                                            //   );
-                                            // }
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(35.0),
+                                              bottom: Radius.circular(35.0)),
+                                          onTap: () async {
+                                            await getTranslatedText(
+                                                doc, 'Book_Name');
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        audplayer(
+                                                          rooturl: doc.get(
+                                                              'root_path'),
+                                                          imageurl: doc.get(
+                                                              'image_url'),
+                                                          bookname: book__name_over_all,
+                                                          number_of_epi: doc.get(
+                                                              'no_of_episode'),
+                                                          // doc["${Getcurrentuser.selectlang}"]
+                                                          //     ['Book_Name'],
+                                                        )));
                                           },
                                           splashColor: Colors.pink,
-                                          child: Row(
-                                            children: [
-                                              SizedBox.square(
-                                                dimension: 110.0,
-                                                // child: Image.asset('assets/book.jpeg')
-                                                child: Image.network(
-                                                    doc.get('image_url')),
-                                              ),
-                                              const Padding(
-                                                padding: EdgeInsets.all(10),
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                      doc["${Getcurrentuser.non_static_selectlang}"]
-                                                          ['Book_name']),
-                                                  Text(
-                                                      doc["${Getcurrentuser.non_static_selectlang}"]
-                                                          ['author_name']),
-                                                  Row(
-                                                    children: [
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder: (context) => book_read(
-                                                                      book_text_file:
-                                                                          doc["${Getcurrentuser.non_static_selectlang}"]
-                                                                              [
-                                                                              'Text_File'],
-                                                                      book_name:
-                                                                          doc["${Getcurrentuser.non_static_selectlang}"]
-                                                                              [
-                                                                              'Book_name'])));
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons.menu_book,
-                                                            color: Colors.red),
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          if (doc["${Getcurrentuser.non_static_selectlang}"]
-                                                                      [
-                                                                      'Audio_File'] !=
-                                                                  '' &&
-                                                              doc["${Getcurrentuser.non_static_selectlang}"]
-                                                                      [
-                                                                      'Audio_File'] !=
-                                                                  null) {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            audplayer(
-                                                                              audiourl: doc["${Getcurrentuser.non_static_selectlang}"]['Audio_File'],
-                                                                              imageurl: doc.get('image_url'),
-                                                                              bookname: doc["${Getcurrentuser.non_static_selectlang}"]['Book_name'],
-                                                                            )));
-                                                          } else {
-                                                            Fluttertoast
-                                                                .showToast(
-                                                              msg: AppLocale
-                                                                  .audio_file_not_found
-                                                                  .getString(
-                                                                      context),
-                                                              toastLength: Toast
-                                                                  .LENGTH_LONG,
-                                                              backgroundColor:
-                                                                  Colors.pink
-                                                                      .shade200,
-                                                              textColor:
-                                                                  Colors.black,
-                                                              gravity:
-                                                                  ToastGravity
-                                                                      .CENTER,
-                                                              fontSize: 20.0,
-                                                            );
-                                                          }
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          audplayer(
-                                                                            audiourl:
-                                                                                doc["${Getcurrentuser.non_static_selectlang}"]['Audio_File'],
-                                                                            imageurl:
-                                                                                doc.get('image_url'),
-                                                                            bookname:
-                                                                                doc["${Getcurrentuser.non_static_selectlang}"]['Book_name'],
-                                                                          )));
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons
-                                                                .audiotrack_rounded,
-                                                            color:
-                                                                Colors.purple),
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          var urllan = doc.get(
-                                                              'Video_Link');
-                                                          tempurl =
-                                                              Uri.parse(urllan);
-                                                          if (tempurl != '' &&
-                                                              urllan != '' &&
-                                                              tempurl != null &&
-                                                              urllan != null) {
-                                                            _launchUrl(tempurl);
-                                                          } else {
-                                                            Fluttertoast
-                                                                .showToast(
-                                                              msg: AppLocale
-                                                                  .video_link_not_found
-                                                                  .getString(
-                                                                      context),
-                                                              toastLength: Toast
-                                                                  .LENGTH_LONG,
-                                                              backgroundColor:
-                                                                  Colors.pink
-                                                                      .shade200,
-                                                              textColor:
-                                                                  Colors.black,
-                                                              gravity:
-                                                                  ToastGravity
-                                                                      .CENTER,
-                                                              fontSize: 20.0,
-                                                            );
-                                                          }
-                                                          // _launchUrl(tempurl);
-                                                        },
-                                                        icon: const Icon(
-                                                          FontAwesomeIcons
-                                                              .youtube,
-                                                          color: Color.fromARGB(
-                                                              255, 172, 48, 48),
-                                                        ),
-                                                      ),
-                                                      // IconButton(
-                                                      //   onPressed: () {
-                                                      //     var urllan = doc
-                                                      //         .get('Blog_Link');
-                                                      //     tempurl =
-                                                      //         Uri.parse(urllan);
-                                                      //     if (tempurl != '' &&
-                                                      //         urllan != '' &&
-                                                      //         tempurl != null &&
-                                                      //         urllan != null) {
-                                                      //       _launchUrl(tempurl);
-                                                      //     } else {
-                                                      //       Fluttertoast
-                                                      //           .showToast(
-                                                      //         msg: AppLocale
-                                                      //             .blog_link_not_found
-                                                      //             .getString(
-                                                      //                 context),
-                                                      //         toastLength: Toast
-                                                      //             .LENGTH_LONG,
-                                                      //         backgroundColor:
-                                                      //             Colors.pink
-                                                      //                 .shade200,
-                                                      //         textColor:
-                                                      //             Colors.black,
-                                                      //         gravity:
-                                                      //             ToastGravity
-                                                      //                 .CENTER,
-                                                      //         fontSize: 20.0,
-                                                      //       );
-                                                      //     }
-                                                      //   },
-                                                      //   icon: const Icon(
-                                                      //       Icons
-                                                      //           .language_rounded,
-                                                      //       color:
-                                                      //           Colors.black26),
-                                                      // ),
-                                                    ],
-                                                  )
-                                                ],
-                                              )
-                                            ],
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              children: [
+                                                SizedBox.square(
+                                                  dimension: 110.0,
+                                                  // child: Image.asset('assets/book.jpeg')
+                                                  child: Image.network(
+                                                      doc.get('image_url')),
+                                                ),
+                                                const Padding(
+                                                  padding: EdgeInsets.all(10),
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    // Text(
+                                                    //     doc.get('Book_Name')),
+
+                                                    FutureBuilder<String>(
+                                                      future: getTranslatedText(
+                                                          doc, 'Book_Name'),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return Text(
+                                                        doc.get('Book_Name')); // Display a loading indicator
+                                                        } else if (snapshot
+                                                            .hasError) {
+                                                          return 
+                                                          // Text('Error: ${snapshot.error}');
+                                                          Text(
+                                                        doc.get('Book_Name'));
+                                                        } else {
+                                                          return Text(snapshot
+                                                              .data!); // Display the translated text
+                                                        }
+                                                      },
+                                                    ),
+
+                                                    FutureBuilder<String>(
+                                                      future: getTranslatedText(
+                                                          doc, 'Author_name'),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot
+                                                                .connectionState ==
+                                                            ConnectionState
+                                                                .waiting) {
+                                                          return Text(
+                                                        doc.get('Book_Name')); // Display a loading indicator
+                                                        } else if (snapshot
+                                                            .hasError) {
+                                                          return 
+                                                          // Text(    'Error: ${snapshot.error}');
+                                                          Text(
+                                                        doc.get('Book_Name'));
+                                                        } else {
+                                                          return Text(snapshot
+                                                              .data!); // Display the translated text
+                                                        }
+                                                      },
+                                                    ),
+
+                                                    // Text(doc
+                                                    //     .get('Author_name')),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       );
                                     }).toList(),
-                                  );
-                                }
-                              },
-                            ),
+                                  ),
+                                );
+                              }
+                            },
                           ),
                         ),
 

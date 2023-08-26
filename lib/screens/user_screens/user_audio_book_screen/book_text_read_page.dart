@@ -44,9 +44,11 @@ class _book_readState extends State<book_read> {
           onRefresh: getbook,
           child: SingleChildScrollView(
             child: Center(
+
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                
                 children: [
                   SizedBox(
                       height: MediaQuery.sizeOf(context).height,

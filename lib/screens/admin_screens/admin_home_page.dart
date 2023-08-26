@@ -157,9 +157,9 @@ List<dynamic>? currentCodes = snapshot.data()?['coupon_code_list'];
               //   height: MediaQuery.sizeOf(context).height * 0.2,
               // ),
               const SizedBox(height: 16.0,),
-              ElevatedButton(onPressed: (){
-                setLang();
-              }, child: Text('Set Lang')),
+              // ElevatedButton(onPressed: (){
+              //   setLang();
+              // }, child: Text('Set Lang')),
               Divider(
                 color: Colors.purple[200],
                 thickness: 3,
@@ -179,6 +179,16 @@ List<dynamic>? currentCodes = snapshot.data()?['coupon_code_list'];
                     borderSide: BorderSide(color: Colors.blueAccent),
                   ),
                 ),
+              ),
+               ElevatedButton(
+                onPressed: () {
+                  String addadmin = emailController.text.trim();
+                  if (addadmin.isNotEmpty) {
+                    addAdmin(addadmin);
+                    emailController.clear();
+                  }
+                },
+                child: const Text('Add'),
               ),
               const SizedBox(height: 16.0),
                TextField(

@@ -5,9 +5,11 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../auth/auth.dart';
+import '../../components/language/data/lang_data.dart';
 import '../user_screens/user_home_screens/nav_bar_home_screen.dart';
 
 bool  user_login=false;
@@ -22,8 +24,38 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState(){
     super.initState();
-   login_nav_disider();
+    // lang_model_manage();
+     login_nav_disider();
+  
   }
+
+
+
+
+
+lang_model_manage()async{
+  
+  final modelManager = OnDeviceTranslatorModelManager();
+
+  for (var i=0;i<LangData.translanglist.length;i++){
+
+final bool response = await modelManager.isModelDownloaded(LangData.translanglist[i].bcpCode);
+print('~~~~~~~~~~');
+print(response);
+  if(response ==false){
+//  final bool response = await modelManager.downloadModel(LangData.translanglist[i].bcpCode);
+
+// print('~~~~~~~~~~');
+// print(response);
+
+  }
+
+
+  }
+  
+ 
+}
+
 
 void login_nav_disider() async{
 

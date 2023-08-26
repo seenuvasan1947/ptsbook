@@ -1,3 +1,5 @@
+import 'package:google_mlkit_translation/google_mlkit_translation.dart';
+
 class LangData {
 
    static List<String> ContentLang = [
@@ -312,5 +314,75 @@ class LangData {
   
   
   ];
-  
+
+   static List<TranslateLanguage> translanglist=[
+TranslateLanguage.tamil,
+TranslateLanguage.arabic,
+TranslateLanguage.bulgarian,
+TranslateLanguage.bengali,
+TranslateLanguage.english,//'Bosnian (Bosnia and Herzegovina)',
+TranslateLanguage.catalan,
+TranslateLanguage.czech,
+TranslateLanguage.welsh,
+TranslateLanguage.danish,
+TranslateLanguage.german,
+TranslateLanguage.greek,
+TranslateLanguage.english,
+TranslateLanguage.english,
+TranslateLanguage.english,
+TranslateLanguage.spanish,
+TranslateLanguage.estonian,
+TranslateLanguage.finnish,
+TranslateLanguage.english,//'Filipino (Philippines)',
+TranslateLanguage.french,
+TranslateLanguage.gujarati,
+TranslateLanguage.hebrew,
+TranslateLanguage.hindi,
+TranslateLanguage.croatian,
+TranslateLanguage.hungarian,
+TranslateLanguage.indonesian,
+TranslateLanguage.icelandic,
+TranslateLanguage.italian,
+TranslateLanguage.japanese,
+TranslateLanguage.english,// 'Javanese (Indonesia)',
+TranslateLanguage.english,//'Khmer (Cambodia)',
+TranslateLanguage.kannada,
+TranslateLanguage.korean,
+TranslateLanguage.latvian,
+TranslateLanguage.lithuanian,
+TranslateLanguage.english,//'Malayalam (India)',
+TranslateLanguage.marathi,
+TranslateLanguage.malay,
+TranslateLanguage.norwegian,
+TranslateLanguage.english,//'Nepali (Nepal)',
+TranslateLanguage.dutch,
+TranslateLanguage.portuguese,
+TranslateLanguage.portuguese,
+TranslateLanguage.polish,
+TranslateLanguage.english,//'Punjabi (India)',
+TranslateLanguage.romanian,
+TranslateLanguage.russian,
+TranslateLanguage.english,//'Sinhala (Sri Lanka)',
+TranslateLanguage.slovak,
+TranslateLanguage.albanian,
+TranslateLanguage.english,//'Serbian',
+TranslateLanguage.english,//'Sundanese (Indonesia)',
+TranslateLanguage.swedish,
+TranslateLanguage.swahili,
+TranslateLanguage.telugu,
+TranslateLanguage.thai,
+TranslateLanguage.turkish,
+TranslateLanguage.ukrainian,
+TranslateLanguage.urdu,
+TranslateLanguage.vietnamese,
+TranslateLanguage.chinese
+
+
+   ];
+
+
 }
+
+
+
+   

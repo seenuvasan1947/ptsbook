@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'admin_book_add.dart';
 import 'audio_create.dart';
 import '../../components/language/data/lang_data.dart';
 import 'lang_store.dart';
-
+import 'package:http/http.dart' as http;
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
 
@@ -20,7 +21,8 @@ final TextEditingController emailController = TextEditingController();
 final TextEditingController generController = TextEditingController();
 final TextEditingController code = TextEditingController();
 final TextEditingController no_of_days = TextEditingController();
-
+ TextEditingController mail_text_file_url = TextEditingController();
+ String mail_body='';
 // String code='';
 // int no_of_days=0;
 
@@ -118,6 +120,51 @@ List<dynamic>? currentCodes = snapshot.data()?['coupon_code_list'];
                     ),
                   );
   }
+
+Future<void> mailsend(String file_url) async {
+
+final resp = await http.get(Uri.parse(file_url));
+
+mail_body=resp.body;
+
+
+     QuerySnapshot user_list_snap = await db
+        .collection('users')
+        
+        .get();
+
+ final List<String> user_list = user_list_snap.docs
+        .map((doc) => doc['email'] as String)
+        .toList();
+    var recMail = user_list;
+    final Email email = Email(
+      body: mail_body,
+      subject: '<book name>book added',
+      recipients: recMail,
+      isHTML: false,
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      print(error);
+      platformResponse = error.toString();
+    }
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(platformResponse),
+      ),
+    );
+  
+
+
+}
 
   @override
   Widget build(BuildContext context) {
@@ -324,6 +371,49 @@ actions: [
                 },
                 child: const Text('Add  coupen code'),
               ),
+              ElevatedButton(onPressed: (){
+
+showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('send notification'),
+                    content: const Text('send notification to user'),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          // Close the dialog
+                          Navigator.of(context).pop();
+                        },
+                        child:Column(
+                          children: [
+                            TextField(
+                controller: mail_text_file_url,
+                decoration: InputDecoration(
+                  labelText: 'enter file url',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black38),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blueAccent),
+                  ),
+                ),
+              ),
+              ElevatedButton(onPressed: (){
+
+                mailsend(mail_text_file_url.text);
+              }, child: const Text('send'))
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+              }, child: Text('Send mail to user'))
             ],
           ),
         ),

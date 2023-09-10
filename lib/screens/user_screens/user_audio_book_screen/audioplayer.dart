@@ -87,7 +87,7 @@ class _audplayerState extends State<audplayer> {
     });
     // setplayerstate();
     // _checkPermissionStatus();
-    requestPermission();
+    // requestPermission();
   }
 
   // Future<void> _checkPermissionStatus() async {
@@ -99,10 +99,11 @@ class _audplayerState extends State<audplayer> {
 
   Future<void> requestPermission() async {
 
-final permissionStatus = await Permission.manageExternalStorage.status;
+final permissionStatus = await Permission.storage.status;
 if(permissionStatus.isDenied){
 
-final status = await Permission.manageExternalStorage.request();
+// final status = await Permission.manageExternalStorage.request();
+final status = await Permission.storage.request();
     setState(() {
       _hasPermission = status.isGranted;
     });
@@ -124,7 +125,7 @@ else{
       print('*****');
       print(crnt_content_lang);
       setState(() {
-        crnt_content_lang = 'ta-IN';
+        crnt_content_lang = 'en-IN';
       });
     } else {
       setState(() {
@@ -197,7 +198,7 @@ void playEpisode(int index) async {
   //   isPlaying = true;
   // }
 
-  void ttspropset() async {
+  Future<void> ttspropset() async {
     await flutterTts.setSpeechRate(0.25);
     await flutterTts.setPitch(1);
     await flutterTts.setLanguage(crnt_content_lang);
@@ -214,11 +215,11 @@ void playEpisode(int index) async {
   }
 
   Future<void> downloadAudio(String textUrl, int episode) async {
-    requestPermission();
+ await   requestPermission();
     // if(Permission.storage.isGranted==true){
-    ttspropset();
+   await ttspropset();
 
-    if (await Permission.manageExternalStorage.request().isGranted) {
+    if (await Permission.storage.request().isGranted) {
       // Either the permission was already granted before or the user just granted it.
 
       Fluttertoast.showToast(

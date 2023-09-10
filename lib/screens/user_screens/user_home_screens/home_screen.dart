@@ -131,7 +131,7 @@ String crnt_content_lang = '';
       print('*****');
       print(crnt_content_lang);
       setState(() {
-        crnt_content_lang = 'ta-IN';
+        crnt_content_lang = 'en-IN';
       });
     } else {
       setState(() {
@@ -486,6 +486,28 @@ String crnt_content_lang = '';
   
   Future<String> getTranslatedText(
       DocumentSnapshot doc, String fieldName) async {
+          // getContentLang();
+    //        final prefs = await SharedPreferences.getInstance();
+
+    // crnt_content_lang = await prefs.getString('selectlang')!;
+    // print('object');
+    // print(crnt_content_lang);
+
+    // if (crnt_content_lang == '') {
+    //   print('*****');
+    //   print(crnt_content_lang);
+    //   setState(() {
+    //     crnt_content_lang = 'ta-IN';
+    //   });
+    // } else {
+    //   setState(() {
+    //     crnt_content_lang = crnt_content_lang;
+    //   });
+
+    //   print('@@@@@');
+    //   print(crnt_content_lang);
+    // }
+    
     int cont_lang_index = LangData.ContentLang.indexOf(crnt_content_lang);
     final TranslateLanguage sourceLanguage = TranslateLanguage.english;
     final TranslateLanguage targetLanguage =
@@ -547,7 +569,7 @@ String crnt_content_lang = '';
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SettingsPage(),
+                                builder: (context) =>  SettingsPage(),
                               ));
                         },
                         icon: Icon(Icons.g_translate_rounded))

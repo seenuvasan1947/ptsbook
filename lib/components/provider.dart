@@ -7,8 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Getcurrentuser with ChangeNotifier, DiagnosticableTreeMixin {
   static String? user = "";
-  static String? selectlang= "ta-IN";
-  String? non_static_selectlang= "ta-IN";
+  static String? selectlang= "en-IN";
+  String? non_static_selectlang= "en-IN";
   static String? password = "";
   List<dynamic> GenerList = [];
   List<dynamic> contentlangList = [];
@@ -109,8 +109,8 @@ void getselectedcontentlang() async {
 
    var  temp_selectlang = prefs.getString('selectlang');
     if(temp_selectlang==''||temp_selectlang==null){
-      selectlang="ta-IN";
-      non_static_selectlang="ta-IN";
+      selectlang="en-IN";
+      non_static_selectlang="en-IN";
     }
     else{
       selectlang=temp_selectlang;
@@ -149,7 +149,7 @@ class LangPropHandler with ChangeNotifier, DiagnosticableTreeMixin {
   static String crnt_lang_code= 'ta';
   String non_static_crnt_lang_code='ta';
   static var index;
-   static String? selectlang= "ta-IN";
+   static String? selectlang= "en-IN";
   //  get userName => lang_index;
   // String? get userEmail => crnt_emai;
 
@@ -181,8 +181,8 @@ class LangPropHandler with ChangeNotifier, DiagnosticableTreeMixin {
 
    var  temp_selectlang = prefs.getString('selectlang');
     if(temp_selectlang==''||temp_selectlang==null){
-      selectlang="ta-IN";
-      prefs.setString('selectlang', "ta-IN");
+      selectlang="en-IN";
+      prefs.setString('selectlang', "en-IN");
     }
     else{
       selectlang=temp_selectlang;

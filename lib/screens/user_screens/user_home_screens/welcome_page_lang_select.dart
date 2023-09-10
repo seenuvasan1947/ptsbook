@@ -12,15 +12,15 @@ import 'package:provider/provider.dart';
 
 import 'nav_bar_home_screen.dart';
 
-class SettingsPage extends StatefulWidget {
- 
-  SettingsPage({super.key});
+class welcomepropPage extends StatefulWidget {
+
+  welcomepropPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<welcomepropPage> createState() => _welcomepropPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _welcomepropPageState extends State<welcomepropPage> {
   List<String> contentlanglist = LangData.ContentLang;
   String contentlang_selectedValue = 'en-IN';
   String applang_selectedValue = 'ta';
@@ -37,10 +37,17 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
     context.read<LangPropHandler>().getlangindex();
     context.read<LangPropHandler>().getprop_selectedcontentlang();
-   
-    getAppLang();
-    getContentLang();
-   
+  
+    
+      Fluttertoast.showToast(
+          msg: 'select both language for continue',
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Colors.pink.shade200,
+          textColor: Colors.black,
+          gravity: ToastGravity.CENTER,
+          fontSize: 20.0,
+        );
+            
     
 
   }
@@ -52,52 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
     isselected = true;
   }
 
-  void getAppLang() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    crnt_app_lang = await prefs.getString('crnt_lang_code')!;
-
-    if (crnt_app_lang == '') {
-      print('*****');
-      print(crnt_app_lang);
-      setState(() {
-        crnt_app_lang = 'ta';
-      });
-    } else {
-      setState(() {
-        crnt_app_lang = crnt_app_lang;
-      });
-
-      print('@@@@@');
-      print(crnt_app_lang);
-    }
-
-    getContentLang();
-  }
-
-  void getContentLang() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    crnt_content_lang = await prefs.getString('selectlang')!;
-    print('object');
-    print(crnt_content_lang);
-
-    if (crnt_content_lang == '') {
-      print('*****');
-      print(crnt_content_lang);
-      setState(() {
-        crnt_content_lang = 'en-IN';
-      });
-    } else {
-      setState(() {
-        crnt_content_lang = crnt_content_lang;
-      });
-
-      print('@@@@@');
-      print(crnt_content_lang);
-    }
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Consumer<LangPropHandler>(
@@ -108,54 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
               body: Center(
                 child: Column(
                   children: [
-                    // DropdownButton<String>(
-                    //   value: contentlang_selectedValue,
-                    //   onChanged: (String? newValue) async {
-                    //     setState(() {
-                    //       contentlang_selectedValue = newValue!;
-                    //     });
-                    //     setcontentlang(contentlang_selectedValue);
-                    //                               isselected == true
-                    //                                   ? ScaffoldMessenger.of(context)
-                    //                                       .showSnackBar(
-                    //                                       SnackBar(
-                    //                                         content: Text(
-                    //                                             'content lang $contentlang_selectedValue is selected'),
-                    //                                       ),
-                    //                                     )
-                    //                                   : null;
-                    //   },
-                    //   items: LangData.ContentLang.map((String value) {
-                    //     return DropdownMenuItem<String>(
-                    //       value: value,
-                    //       child: Column(children: [Text(value),Text(value)],)
-                    //     );
-                    //   }).toList(),
-                    // ),
-                    // DropdownButton<String>(
-                    //   value: applang_selectedValue,
-                    //   onChanged: (String? newValue) async {
-                    //     setState(() {
-                    //       applang_selectedValue = newValue!;
-                    //     });
-                    //     final prefs = await SharedPreferences.getInstance();
-                    //     prefs.setString('crnt_lang_code', applang_selectedValue);
-
-                    //     localization.translate(applang_selectedValue);
-                    //   },
-                    //   items: LangData.appLang.map((String value) {
-                    //     return DropdownMenuItem<String>(
-                    //         value: value,
-                    //         child: Column(
-                    //           children: [
-                    //             // for(var i=0;i<LangData.LangName.length;i++)
-                    //             Text(
-                    //                 LangData.LangName[LangData.appLang.indexOf(value)]),
-                    //             Text(value)
-                    //           ],
-                    //         ));
-                    //   }).toList(),
-                    // ),
+                    
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.8,
                       width: MediaQuery.sizeOf(context).width * 0.9,
@@ -201,7 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                            
                                             ExpansionTileController.of(context)
                                                 .collapse();
-                                            getAppLang();
+                                           
                                              Fluttertoast.showToast(
           msg: 'app lang ${LangData.ContentLang[Index]} is selected',
           toastLength: Toast.LENGTH_LONG,
@@ -211,11 +126,6 @@ class _SettingsPageState extends State<SettingsPage> {
           fontSize: 20.0,
 
         );
-                                            Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            NavBarAtHomePage()));
                                            
                                           },
                                           title: Text(LangData.appLang[Index]),
@@ -230,12 +140,6 @@ class _SettingsPageState extends State<SettingsPage> {
                               ],
                             ),
                            
-                                Text(AppLocale.current_app_language
-                                    .getString(context)),
-                              
-                           
-                                 Text(crnt_app_lang),
-                             
                             ExpansionTile(
                               title: Text(AppLocale.content_language
                                   .getString(context)),
@@ -276,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                
                                             ExpansionTileController.of(context)
                                                 .collapse();
-                                            getContentLang();
+                                        
                                             Fluttertoast.showToast(
           msg: 'content lang ${LangData.ContentLang[Index]} is selected',
           toastLength: Toast.LENGTH_LONG,
@@ -285,12 +189,7 @@ class _SettingsPageState extends State<SettingsPage> {
           gravity: ToastGravity.CENTER,
           fontSize: 20.0,
         );
-                                            Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            NavBarAtHomePage()));
-                                             
+                                           
                                           },
                                           title:
                                               Text(LangData.ContentLang[Index]),
@@ -304,11 +203,32 @@ class _SettingsPageState extends State<SettingsPage> {
                                 // ScrollHandle(),
                               ],
                             ),
-                             Text(AppLocale.current_content_language
-                                    .getString(context)),
-                               Text(crnt_content_lang)
-                               
-                               
+                           
+                                 Divider(
+                        color: Colors.purple[200],
+                        thickness: 3,
+                      ),
+                      SizedBox(height: MediaQuery.sizeOf(context).height*0.08,),
+                                  ElevatedButton(
+                            onPressed: () {  is_app_lang_selected&&is_content_lang_selected==true?
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+
+                                          // ignore: unrelated_type_equality_checks
+                                          NavBarAtHomePage())):   
+      Fluttertoast.showToast(
+          msg: 'select both language for continue',
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Colors.pink.shade200,
+          textColor: Colors.black,
+          gravity: ToastGravity.CENTER,
+          fontSize: 20.0,
+        );;
+                            },
+                            child: Text('Go'),
+                          )
                           ],
                         ),
                       ),
@@ -344,85 +264,3 @@ class ScrollHandle extends StatelessWidget {
   }
 }
 
-
-// import 'package:flutter/material.dart';
-
-// /// Flutter code sample for [ExpansionTile] and [ExpansionTileController].
-
-// void main() {
-//   runApp(const ExpansionTileControllerApp());
-// }
-
-// class ExpansionTileControllerApp extends StatefulWidget {
-//   const ExpansionTileControllerApp({super.key});
-
-//   @override
-//   State<ExpansionTileControllerApp> createState() =>
-//       _ExpansionTileControllerAppState();
-// }
-
-// class _ExpansionTileControllerAppState
-//     extends State<ExpansionTileControllerApp> {
-//   final ExpansionTileController controller = ExpansionTileController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       theme: ThemeData(useMaterial3: true),
-//       home: Scaffold(
-//         appBar: AppBar(title: const Text('ExpansionTileController Sample')),
-//         body: Column(
-//           children: <Widget>[
-//             // A controller has been provided to the ExpansionTile because it's
-//             // going to be accessed from a component that is not within the
-//             // tile's BuildContext.
-//             ExpansionTile(
-//               controller: controller,
-//               title: const Text('ExpansionTile with explicit controller.'),
-//               children: <Widget>[
-//                 Container(
-//                   alignment: Alignment.center,
-//                   padding: const EdgeInsets.all(24),
-//                   child: const Text('ExpansionTile Contents'),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 8),
-//             ElevatedButton(
-//               child: const Text('Expand/Collapse the Tile Above'),
-//               onPressed: () {
-//                 if (controller.isExpanded) {
-//                   controller.collapse();
-//                 } else {
-//                   controller.expand();
-//                 }
-//               },
-//             ),
-//             const SizedBox(height: 48),
-//             // A controller has not been provided to the ExpansionTile because
-//             // the automatically created one can be retrieved via the tile's BuildContext.
-//             ExpansionTile(
-//               title: const Text('ExpansionTile with implicit controller.'),
-//               children: <Widget>[
-//                 Builder(
-//                   builder: (BuildContext context) {
-//                     return Container(
-//                       padding: const EdgeInsets.all(24),
-//                       alignment: Alignment.center,
-//                       child: ElevatedButton(
-//                         child: const Text('Collapse This Tile'),
-//                         onPressed: () {
-//                           return ExpansionTileController.of(context).collapse();
-//                         },
-//                       ),
-//                     );
-//                   },
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -10,7 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../auth/auth.dart';
 import '../../components/language/data/lang_data.dart';
+import '../user_screens/user_home_screens/lang_select_page.dart';
 import '../user_screens/user_home_screens/nav_bar_home_screen.dart';
+import '../user_screens/user_home_screens/welcome_page_lang_select.dart';
 
 bool  user_login=false;
 class SplashScreen extends StatefulWidget {
@@ -77,11 +79,22 @@ else{
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
       
       // ignore: unrelated_type_equality_checks
+
+
       user_login==true? NavBarAtHomePage():LoginPage()));
+      // user_login==true? welcomepropPage():LoginPage()));
+
+
       // Navigator.popAndPushNamed(context, demo() as String);
     });
   
 }
+
+/*  Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>  SettingsPage(is_welcome_page: false),
+                              )); */
   
   @override
   Widget build(BuildContext context) {

@@ -16,6 +16,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'components/language/data/excell_data.dart';
+import 'components/language/data/user_book_excel_data.dart';
 import 'components/language/multi_lang.dart';
 import 'screens/admin_screens/splash_screen.dart';
 
@@ -26,7 +28,9 @@ Future<void> main() async {
   runApp(MultiProvider(providers: [
 
 ChangeNotifierProvider(create: (_) => Getcurrentuser()),
-ChangeNotifierProvider(create: (_) => LangPropHandler())
+ChangeNotifierProvider(create: (_) => LangPropHandler()),
+ChangeNotifierProvider(create: (_)=> ExcellData()),
+ChangeNotifierProvider(create: (_)=> UserExcellData()),
 
   ],
   // child: MaterialApp(home: LoginPage()),

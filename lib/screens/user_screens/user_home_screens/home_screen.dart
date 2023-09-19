@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:mybook/auth/auth.dart';
+import 'package:mybook/components/language/data/excell_data.dart';
 import 'package:mybook/components/provider.dart';
 import 'package:mybook/screens/refactored_audioplayer/get_dat.dart';
 
@@ -93,6 +94,7 @@ String crnt_content_lang = '';
     context.read<Getcurrentuser>().getadminlist();
     context.read<LangPropHandler>().getlangindex();
     context.read<Getcurrentuser>().gethomepageimg();
+    Provider.of<ExcellData>(context, listen: false).fetchlistforrender('Free');
    getContentLang();
     lang_init_local().lang_init();
     localization.onTranslatedLanguage = _onTranslatedLanguage;
@@ -485,28 +487,8 @@ String crnt_content_lang = '';
 
   
   Future<String> getTranslatedText(
-      DocumentSnapshot doc, String fieldName) async {
-          // getContentLang();
-    //        final prefs = await SharedPreferences.getInstance();
-
-    // crnt_content_lang = await prefs.getString('selectlang')!;
-    // print('object');
-    // print(crnt_content_lang);
-
-    // if (crnt_content_lang == '') {
-    //   print('*****');
-    //   print(crnt_content_lang);
-    //   setState(() {
-    //     crnt_content_lang = 'ta-IN';
-    //   });
-    // } else {
-    //   setState(() {
-    //     crnt_content_lang = crnt_content_lang;
-    //   });
-
-    //   print('@@@@@');
-    //   print(crnt_content_lang);
-    // }
+       String string_to_conver_excel_data) async {
+      final String response;
     
     int cont_lang_index = LangData.ContentLang.indexOf(crnt_content_lang);
     final TranslateLanguage sourceLanguage = TranslateLanguage.english;
@@ -515,15 +497,15 @@ String crnt_content_lang = '';
     final onDeviceTranslator = OnDeviceTranslator(
         sourceLanguage: sourceLanguage, targetLanguage: targetLanguage);
 
-    String originalText = doc.get(fieldName);
+    // String originalText = doc.get(fieldName);
 
-    if (fieldName == 'Book_Name') {
-      book__name_over_all =
-          await onDeviceTranslator.translateText(originalText);
-    }
+    // if (string_to_conver_excel_data == 'Book_Name') {
+      book__name_over_all = response=
+          await onDeviceTranslator.translateText(string_to_conver_excel_data);
+    // }
 
-    final String response =
-        await onDeviceTranslator.translateText(originalText);
+    // final String response =
+    //     await onDeviceTranslator.translateText(string_to_conver_excel_data);
 
     // Get the text from Firestore document based on the fieldName
 
@@ -538,20 +520,20 @@ String crnt_content_lang = '';
   }
 
 
-  Future<String> genertrans(genertext) async {
-    // TranslateLanguage lang=engl;
+  // Future<String> genertrans(genertext) async {
+  //   // TranslateLanguage lang=engl;
 
-    //  static List<String>[];
-    int cont_lang_index = LangData.ContentLang.indexOf(crnt_content_lang);
-    final TranslateLanguage sourceLanguage = TranslateLanguage.english;
-    final TranslateLanguage targetLanguage =
-        LangData.translanglist[cont_lang_index];
-    print(LangData.translanglist[0]);
-    final onDeviceTranslator = OnDeviceTranslator(
-        sourceLanguage: sourceLanguage, targetLanguage: targetLanguage);
-    final String response = await onDeviceTranslator.translateText(genertext);
-    return response;
-  }
+  //   //  static List<String>[];
+  //   int cont_lang_index = LangData.ContentLang.indexOf(crnt_content_lang);
+  //   final TranslateLanguage sourceLanguage = TranslateLanguage.english;
+  //   final TranslateLanguage targetLanguage =
+  //       LangData.translanglist[cont_lang_index];
+  //   print(LangData.translanglist[0]);
+  //   final onDeviceTranslator = OnDeviceTranslator(
+  //       sourceLanguage: sourceLanguage, targetLanguage: targetLanguage);
+  //   final String response = await onDeviceTranslator.translateText(genertext);
+  //   return response;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -634,134 +616,23 @@ String crnt_content_lang = '';
                         color: Colors.purple[200],
                         thickness: 3,
                       ),
-                      ListTile(
-                        title:
-                            Text(AppLocale.others_book_list.getString(context)),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const booklist()));
-                        },
-                      ),
-
-                      Divider(
-                        color: Colors.purple[200],
-                        thickness: 3,
-                      ),
-
-                      // RefreshIndicator(
-                      //   onRefresh: _refreshData,
-                      //   child: SingleChildScrollView(
-                      //     child: ExpansionTile(
-                      //       title: Text('app language'),
-                      //       children: [
-                      //         ListView.builder(
-                      //             itemBuilder: (context, Index) {
-                      //               return ListTile(
-                      //                 splashColor: Colors.cyan,
-                      //                 selectedColor: Colors.deepPurple,
-                      //                 selectedTileColor: Colors.indigoAccent,
-                      //                 onTap: () async {
-                      //                   // set_app_lang();
-                      //                   final prefs =
-                      //                       await SharedPreferences.getInstance();
-                      //                   prefs.setString('crnt_lang_code',
-                      //                       Getcurrentuser.lang_list[Index]);
-
-                      //                   localization.translate(
-                      //                       Getcurrentuser.lang_list[Index]);
-
-                      //                 },
-                      //                 title:
-                      //                     Text(Getcurrentuser.lang_list[Index]),
-                      //                 subtitle: Text(
-                      //                     Getcurrentuser.lang_name_list[Index]),
-                      //               );
-                      //             },
-                      //             itemCount: Getcurrentuser.lang_list.length,
-                      //             shrinkWrap: true),
-                      //       ],
-                      //     ),
-                      //   ),
+                      // ListTile(
+                      //   title:
+                      //       Text(AppLocale.others_book_list.getString(context)),
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //             builder: (context) => const booklist()));
+                      //   },
                       // ),
+
                       // Divider(
                       //   color: Colors.purple[200],
                       //   thickness: 3,
                       // ),
 
-                      // RefreshIndicator(
-                      //   onRefresh: _refreshData,
-                      //   child: ExpansionTile(
-                      //     title: Text('content language'),
-                      //     children: [
-                      //       ListView.builder(
-                      //           itemBuilder: (context, Index) {
-                      //             return ListTile(
-                      //               splashColor: Colors.cyan,
-                      //               selectedColor: Colors.deepPurple,
-                      //               onTap: () async {
-                      //                 setcontentlang(Getcurrentuser
-                      //                     .contentlangList[Index]);
-                      //                 isselected == true
-                      //                     ? ScaffoldMessenger.of(context)
-                      //                         .showSnackBar(
-                      //                         SnackBar(
-                      //                           content: Text(
-                      //                               'content lang ${Getcurrentuser.contentlangList[Index]} is selected'),
-                      //                         ),
-                      //                       )
-                      //                     : null;
-                      //               },
-                      //               title: Text(
-                      //                   Getcurrentuser.contentlangList[Index]),
-                      //               subtitle: Text(
-                      //                   Getcurrentuser.lang_name_list[Index]),
-                      //             );
-                      //           },
-                      //           itemCount:
-                      //               Getcurrentuser.contentlangList.length,
-                      //           shrinkWrap: true),
-                      //     ],
-                      //   ),
-                      // ),
-                      // Divider(
-                      //   color: Colors.purple[200],
-                      //   thickness: 3,
-                      // ),
-                      // RefreshIndicator(
-                      //   onRefresh: _refreshData,
-                      //   child: ExpansionTile(
-                      //     title: Text('free books'),
-                      //     children: [
-                      //       ListView.builder(
-                      //           itemBuilder: (context, Index) {
-                      //             return ListTile(
-                      //               onTap: () {
-                      //                 Navigator.push(
-                      //                   context,
-                      //                   MaterialPageRoute(
-                      //                     builder: (context) => ourbooklist(
-                      //                         lable: Getcurrentuser
-                      //                             .GenerList[Index],
-                      //                         freebook: true),
-                      //                   ),
-                      //                 );
-                      //               },
-                      //               title:
-                      //                   Text(Getcurrentuser.GenerList[Index]),
-                      //             );
-                      //           },
-                      //           itemCount: Getcurrentuser.GenerList.length,
-                      //           shrinkWrap: true),
-                      //     ],
-                      //   ),
-                      // ),
-                      // Divider(
-                      //   color: Colors.purple[200],
-                      //   thickness: 3,
-                      // ),
-
+                   
                       RefreshIndicator(
                         onRefresh: _refreshData,
                         child: ExpansionTile(
@@ -1011,7 +882,7 @@ String crnt_content_lang = '';
                                     },
 
                                     title: FutureBuilder(
-                                      future: genertrans(Getcurrentuser.GenerList[Index]),
+                                      future: getTranslatedText(Getcurrentuser.GenerList[Index]),
                                       // initialData: InitialData,
                                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                                         // return Text(snapshot.data);
@@ -1172,143 +1043,143 @@ String crnt_content_lang = '';
                         const Divider(color: Colors.deepPurple, thickness: 2.2),
 
                         SingleChildScrollView(
-                          child: StreamBuilder<QuerySnapshot>(
-                            // stream: db
-                            //     .collection('our_books')
-                            //     .where("gener", isEqualTo: widget.lable  )
 
-                            //     .snapshots(),
+                          child: Consumer<ExcellData>(
 
-                            stream: db
-                                .collection('our_books')
-                                // .where("gener", isEqualTo: widget.lable)
-                                .where('is_published', isEqualTo: true)
-                                .where('free_book', isEqualTo: true)
-                                .snapshots(),
 
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else {
-                                return SizedBox(
-                                  width:
-                                      MediaQuery.sizeOf(context).width * 0.91,
-                                  child: ListView(
-                                    controller: _scrollController,
-                                    padding:
-                                        const EdgeInsetsDirectional.symmetric(
-                                            vertical: 2),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    children: snapshot.data!.docs.map((doc) {
-                                      return Card(
-                                        color: Colors.deepPurple[200],
-                                        child: InkWell(
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(35.0),
-                                              bottom: Radius.circular(35.0)),
-                                          onTap: () async {
-                                            await getTranslatedText(
-                                                doc, 'Book_Name');
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        audplayer(
-                                                          rooturl: doc.get(
-                                                              'root_path'),
-                                                          imageurl: doc.get(
-                                                              'image_url'),
-                                                          bookname: book__name_over_all,
-                                                          number_of_epi: doc.get(
-                                                              'no_of_episode'),
-                                                          // doc["${Getcurrentuser.selectlang}"]
-                                                          //     ['Book_Name'],
-                                                        )));
-                                          },
-                                          splashColor: Colors.pink,
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Row(
-                                              children: [
-                                                SizedBox.square(
-                                                  dimension: 110.0,
-                                                  // child: Image.asset('assets/book.jpeg')
-                                                  child: Image.network(
-                                                      doc.get('image_url')),
-                                                ),
-                                                const Padding(
-                                                  padding: EdgeInsets.all(10),
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    // Text(
-                                                    //     doc.get('Book_Name')),
 
-                                                    FutureBuilder<String>(
-                                                      future: getTranslatedText(
-                                                          doc, 'Book_Name'),
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        if (snapshot
-                                                                .connectionState ==
-                                                            ConnectionState
-                                                                .waiting) {
-                                                          return Text(
-                                                        doc.get('Book_Name')); // Display a loading indicator
-                                                        } else if (snapshot
-                                                            .hasError) {
-                                                          return 
-                                                          // Text('Error: ${snapshot.error}');
-                                                          Text(
-                                                        doc.get('Book_Name'));
-                                                        } else {
-                                                          return Text(snapshot
-                                                              .data!); // Display the translated text
-                                                        }
-                                                      },
-                                                    ),
-
-                                                    FutureBuilder<String>(
-                                                      future: getTranslatedText(
-                                                          doc, 'Author_name'),
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        if (snapshot
-                                                                .connectionState ==
-                                                            ConnectionState
-                                                                .waiting) {
-                                                          return Text(
-                                                        doc.get('Book_Name')); // Display a loading indicator
-                                                        } else if (snapshot
-                                                            .hasError) {
-                                                          return 
-                                                          // Text(    'Error: ${snapshot.error}');
-                                                          Text(
-                                                        doc.get('Book_Name'));
-                                                        } else {
-                                                          return Text(snapshot
-                                                              .data!); // Display the translated text
-                                                        }
-                                                      },
-                                                    ),
-
-                                                    // Text(doc
-                                                    //     .get('Author_name')),
-                                                  ],
-                                                )
-                                              ],
+                         
+                              // stream: db
+                              //     .collection('our_books')
+                              //     .where("gener", isEqualTo: widget.lable  )
+                          
+                              //     .snapshots(),
+                          
+                            
+                              builder: (context, excelldata,child) {
+                                if (excelldata.bookname==[]) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else {
+                                  return SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.91,
+                                    child: ListView.builder(
+                                      controller: _scrollController,
+                                      padding:
+                                          const EdgeInsetsDirectional.symmetric(
+                                              vertical: 2),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: excelldata.bookname.length,
+                                      itemBuilder: (BuildContext context, int index){
+                                      // children: snapshot.data!.docs.map((doc) {
+                                        return Card(
+                                          color: Colors.deepPurple[200],
+                                          child: InkWell(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(35.0),
+                                                bottom: Radius.circular(35.0)),
+                                            onTap: () async {
+                                              await getTranslatedText(
+                                                  excelldata.bookname[index]);
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          audplayer(
+                                                            rooturl: excelldata.file_url[index],
+                                                            imageurl: excelldata.imageurl[index],
+                                                            bookname: book__name_over_all,
+                                                            number_of_epi: excelldata.no_of_episode[index],
+                                                            // doc["${Getcurrentuser.selectlang}"]
+                                                            //     ['Book_Name'],
+                                                          )));
+                                            },
+                                            splashColor: Colors.pink,
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(
+                                                children: [
+                                                  SizedBox.square(
+                                                    dimension: 110.0,
+                                                    // child: Image.asset('assets/book.jpeg')
+                                                    child: Image.network(
+                                                       excelldata.imageurl[index]),
+                                                  ),
+                                                  const Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      // Text(
+                                                      //     doc.get('Book_Name')),
+                          
+                                                      FutureBuilder<String>(
+                                                        future: getTranslatedText(
+                                                            excelldata.bookname[index]),
+                                                        builder:
+                                                            (context, snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Text(
+                                                          excelldata.bookname[index]); // Display a loading indicator
+                                                          } else if (snapshot
+                                                              .hasError) {
+                                                            return 
+                                                            // Text('Error: ${snapshot.error}');
+                                                            Text(
+                                                          excelldata.bookname[index]);
+                                                          } else {
+                                                            return Text(snapshot
+                                                                .data!); // Display the translated text
+                                                          }
+                                                        },
+                                                      ),
+                          
+                                                      FutureBuilder<String>(
+                                                        future: getTranslatedText(
+                                                           excelldata.authorname[index]),
+                                                        builder:
+                                                            (context, snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Text(
+                                                          excelldata.authorname[index]); // Display a loading indicator
+                                                          } else if (snapshot
+                                                              .hasError) {
+                                                            return 
+                                                            // Text(    'Error: ${snapshot.error}');
+                                                            Text(
+                                                          excelldata.authorname[index]);
+                                                          } else {
+                                                            return Text(snapshot
+                                                                .data!); // Display the translated text
+                                                          }
+                                                        },
+                                                      ),
+                          
+                                                      // Text(doc
+                                                      //     .get('Author_name')),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                );
-                              }
-                            },
+                                        );
+                                      }
+                                      // }).toList(),
+                                    ),
+                                  );
+                                }
+                              },
+                            
                           ),
                         ),
 

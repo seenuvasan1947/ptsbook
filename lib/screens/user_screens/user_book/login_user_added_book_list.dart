@@ -8,8 +8,10 @@ import 'package:mybook/components/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../components/language/data/lang_maplocals.dart';
+import '../../../components/language/data/user_book_excel_data.dart';
 import '../../../components/language/lang_strings.dart';
 import 'user_book_read_page.dart';
+import 'package:provider/provider.dart';
 
 // import 'package:provider/provider.dart';
 class mybooklist extends StatefulWidget {
@@ -29,6 +31,7 @@ class _mybooklistState extends State<mybooklist> {
   void initState() {
     // TODO: implement initState
     lang_init_local().lang_init();
+    Provider.of<UserExcellData>(context, listen: false).fetchuserexcellistforrender();
     localization.onTranslatedLanguage = _onTranslatedLanguage;
     localization.translate(LangPropHandler.crnt_lang_code);
     super.initState();
@@ -48,61 +51,68 @@ class _mybooklistState extends State<mybooklist> {
           title: Text(AppLocale.my_books_list.getString(context)),
           centerTitle: true,
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: db
-                    .collection('books')
-                    .where("poster_name", isEqualTo: '${Getcurrentuser.user}')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
+        body: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: Consumer<UserExcellData>(
+                    builder: (context, excelldata, child) {
+                  if (excelldata.bookname == []) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else {
-                    return ListView(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      children: snapshot.data!.docs.map((doc) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(doc['book_name']),
-                            subtitle: Text(doc['author_name']),
-                            trailing: IconButton(
-                                onPressed: () async {
-                                  await FirebaseFirestore.instance
-                                      .collection("books")
-                                      .doc(doc['book_name'])
-                                      .delete();
-                                },
-                                icon: const Icon(Icons.remove)),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Login_Book_Read(
-                                            bookname: doc['book_name'],
-                                            authorname: doc['author_name'],
-                                            shortdisc: doc['short_discription'],
-                                            longdisc: doc['long_discription'],
-                                          )));
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width * 0.91,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: excelldata.bookname.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            color: Colors.deepPurple[200],
+                            child: ListTile(
+                              title: Text(excelldata.bookname[index]),
+                              subtitle: Text(excelldata.authorname[index]),
+                              // trailing: IconButton(
+                              //     onPressed: () async {
+                              //       await FirebaseFirestore.instance
+                              //           .collection("books")
+                              //           .doc(doc['book_name'])
+                              //           .delete();
+                              //     },
+                              //     icon: const Icon(Icons.remove)),
+                              splashColor: Colors.pink,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login_Book_Read(
+                                              bookname:
+                                                  excelldata.bookname[index],
+                                              authorname:
+                                                  excelldata.authorname[index],
+                                              shortdisc:
+                                                  excelldata.shortdisc[index],
+                                              longdisc:
+                                                  excelldata.longdisc[index],
+                                            )));
 
-                              /* 
-                            
-                            doc['book_name'],doc['author_name'],doc['short_discription'],doc['long_discription']
-                             */
-                            },
-                          ),
-                        );
-                      }).toList(),
+                                /* 
+                                
+                                doc['book_name'],doc['author_name'],doc['short_discription'],doc['long_discription']
+                                 */
+                              },
+                            ),
+                          );
+                        },
+                      ),
                     );
                   }
-                },
+                }),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

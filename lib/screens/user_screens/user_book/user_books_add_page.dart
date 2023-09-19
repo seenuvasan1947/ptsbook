@@ -1,5 +1,8 @@
 // ignore_for_file: camel_case_types
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:mybook/components/re_usable_widget.dart';
@@ -10,6 +13,10 @@ import 'package:mybook/components/provider.dart';
 import '../../../components/language/data/lang_maplocals.dart';
 import '../../../components/language/lang_strings.dart';
 
+
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:excel/excel.dart';
 
 class bookaddscreen extends StatefulWidget {
   const bookaddscreen({super.key});
@@ -39,16 +46,86 @@ final FlutterLocalization localization = FlutterLocalization.instance;
    String short_discription='';
    String long_discription='';
   final db = FirebaseFirestore.instance;
-  Future<String?> adddata() async {
-    FirebaseFirestore.instance.collection("books").doc(book_name).set({
-      'poster_name': Getcurrentuser.user,
-      'book_name': book_name,
-      'author_name': author_name,
-      'short_discription': short_discription,
-      'long_discription': long_discription,
-    });
-    Navigator.of(context).pop();
-    return null;
+  Future<void> adddata() async {
+    Excel? excel;
+    Sheet? sheet;
+    final Directory? appDocumentsDirectory = await getExternalStorageDirectory();
+
+
+  // Define the file path for the Excel file
+  // final String excelFilePath = '${appDocumentsDirectory!.path}/userexcel.xlsx';
+
+final file = File('${appDocumentsDirectory!.path}/userexcel.xlsx');
+  // Create an Excel workbook
+  // final excel1= await Excel.createExcel();
+if (!await file.exists()) {
+    print('File does not exist at path: $file');
+    // excel = Excel.createExcel();
+    // file.create();
+  final excel= await Excel.createExcel();
+   sheet = await excel.tables['Sheet1'];
+     final cellData = [
+    [book_name, author_name, short_discription,long_discription],
+    // ['John', '30', 'New York'],
+    // ['Alice', '25', 'Los Angeles'],
+    // ['Bob', '35', 'Chicago'],
+  ];
+   for (final row in cellData) {
+    sheet!.appendRow(row);
+  }
+
+  // Save the workbook to a file
+    // final file = File('${appDocumentsDirectory!.path}/userexcel.xlsx');
+  file.writeAsBytesSync(excel.encode()!);
+    return;
+  }
+  else{
+     excel = Excel.decodeBytes(file.readAsBytesSync());
+
+ sheet = await excel.tables['Sheet1'];
+  // Define cell values
+  final cellData = [
+    [book_name, author_name, short_discription,long_discription],
+    // ['John', '30', 'New York'],
+    // ['Alice', '25', 'Los Angeles'],
+    // ['Bob', '35', 'Chicago'],
+  ];
+
+  // Populate the worksheet with cell values
+  for (final row in cellData) {
+    sheet!.appendRow(row);
+  }
+
+  // Save the workbook to a file
+    // final file = File('${appDocumentsDirectory!.path}/userexcel.xlsx');
+  file.writeAsBytesSync(excel.encode()!);
+
+  }
+    // excel = Excel.createExcel();
+
+  // final sheet = excel['Sheet1'];
+
+
+//  sheet = await excel.tables['Sheet1'];
+//   // Define cell values
+//   final cellData = [
+//     [book_name, author_name, short_discription,long_discription],
+//     // ['John', '30', 'New York'],
+//     // ['Alice', '25', 'Los Angeles'],
+//     // ['Bob', '35', 'Chicago'],
+//   ];
+
+//   // Populate the worksheet with cell values
+//   for (final row in cellData) {
+//     sheet!.appendRow(row);
+//   }
+
+//   // Save the workbook to a file
+//     // final file = File('${appDocumentsDirectory!.path}/userexcel.xlsx');
+//   file.writeAsBytesSync(excel.encode()!);
+  // You can save `excelBytes` to a file or send it as needed.
+
+  print('Excel file generated.');
   }
   
 
@@ -128,8 +205,9 @@ final FlutterLocalization localization = FlutterLocalization.instance;
                   height: 30.0,
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      adddata();
+                    onPressed: () async{
+                     await adddata();
+                      Navigator.pop(context);
                     },
                     child: Text(AppLocale.save.getString(context))),
               ],

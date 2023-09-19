@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'nav_bar_home_screen.dart';
 
 class welcomepropPage extends StatefulWidget {
-
   welcomepropPage({super.key});
 
   @override
@@ -37,19 +36,15 @@ class _welcomepropPageState extends State<welcomepropPage> {
     super.initState();
     context.read<LangPropHandler>().getlangindex();
     context.read<LangPropHandler>().getprop_selectedcontentlang();
-  
-    
-      Fluttertoast.showToast(
-          msg: 'select both language for continue',
-          toastLength: Toast.LENGTH_LONG,
-          backgroundColor: Colors.pink.shade200,
-          textColor: Colors.black,
-          gravity: ToastGravity.CENTER,
-          fontSize: 20.0,
-        );
-            
-    
 
+    Fluttertoast.showToast(
+      msg: 'select both language for continue',
+      toastLength: Toast.LENGTH_LONG,
+      backgroundColor: Colors.pink.shade200,
+      textColor: Colors.black,
+      gravity: ToastGravity.CENTER,
+      fontSize: 20.0,
+    );
   }
 
   Future<void> setcontentlang(String selectedlang) async {
@@ -59,7 +54,6 @@ class _welcomepropPageState extends State<welcomepropPage> {
     isselected = true;
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Consumer<LangPropHandler>(
@@ -70,7 +64,6 @@ class _welcomepropPageState extends State<welcomepropPage> {
               body: Center(
                 child: Column(
                   children: [
-                    
                     SizedBox(
                       height: MediaQuery.sizeOf(context).height * 0.8,
                       width: MediaQuery.sizeOf(context).width * 0.9,
@@ -113,20 +106,20 @@ class _welcomepropPageState extends State<welcomepropPage> {
                                             setState(() {
                                               is_app_lang_selected = true;
                                             });
-                                           
+
                                             ExpansionTileController.of(context)
                                                 .collapse();
-                                           
-                                             Fluttertoast.showToast(
-          msg: 'app lang ${LangData.ContentLang[Index]} is selected',
-          toastLength: Toast.LENGTH_LONG,
-          backgroundColor: Colors.pink.shade200,
-          textColor: Colors.black,
-          gravity: ToastGravity.CENTER,
-          fontSize: 20.0,
 
-        );
-                                           
+                                            Fluttertoast.showToast(
+                                              msg:
+                                                  'app lang ${LangData.ContentLang[Index]} is selected',
+                                              toastLength: Toast.LENGTH_LONG,
+                                              backgroundColor:
+                                                  Colors.pink.shade200,
+                                              textColor: Colors.black,
+                                              gravity: ToastGravity.CENTER,
+                                              fontSize: 20.0,
+                                            );
                                           },
                                           title: Text(LangData.appLang[Index]),
                                           subtitle:
@@ -139,7 +132,6 @@ class _welcomepropPageState extends State<welcomepropPage> {
                                 // ScrollHandle(),
                               ],
                             ),
-                           
                             ExpansionTile(
                               title: Text(AppLocale.content_language
                                   .getString(context)),
@@ -177,19 +169,20 @@ class _welcomepropPageState extends State<welcomepropPage> {
                                             setState(() {
                                               is_content_lang_selected = true;
                                             });
-                                               
+
                                             ExpansionTileController.of(context)
                                                 .collapse();
-                                        
+
                                             Fluttertoast.showToast(
-          msg: 'content lang ${LangData.ContentLang[Index]} is selected',
-          toastLength: Toast.LENGTH_LONG,
-          backgroundColor: Colors.pink.shade200,
-          textColor: Colors.black,
-          gravity: ToastGravity.CENTER,
-          fontSize: 20.0,
-        );
-                                           
+                                              msg:
+                                                  'content lang ${LangData.ContentLang[Index]} is selected',
+                                              toastLength: Toast.LENGTH_LONG,
+                                              backgroundColor:
+                                                  Colors.pink.shade200,
+                                              textColor: Colors.black,
+                                              gravity: ToastGravity.CENTER,
+                                              fontSize: 20.0,
+                                            );
                                           },
                                           title:
                                               Text(LangData.ContentLang[Index]),
@@ -203,37 +196,41 @@ class _welcomepropPageState extends State<welcomepropPage> {
                                 // ScrollHandle(),
                               ],
                             ),
-                           
-                                 Divider(
-                        color: Colors.purple[200],
-                        thickness: 3,
-                      ),
-                      SizedBox(height: MediaQuery.sizeOf(context).height*0.08,),
-                                  ElevatedButton(
-                            onPressed: () {  is_app_lang_selected&&is_content_lang_selected==true?
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
+                            Divider(
+                              color: Colors.purple[200],
+                              thickness: 3,
+                            ),
+                            SizedBox(
+                              height: MediaQuery.sizeOf(context).height * 0.08,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                is_app_lang_selected &&
+                                        is_content_lang_selected == true
+                                    ? Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
 
-                                          // ignore: unrelated_type_equality_checks
-                                          NavBarAtHomePage())):   
-      Fluttertoast.showToast(
-          msg: 'select both language for continue',
-          toastLength: Toast.LENGTH_LONG,
-          backgroundColor: Colors.pink.shade200,
-          textColor: Colors.black,
-          gravity: ToastGravity.CENTER,
-          fontSize: 20.0,
-        );;
-                            },
-                            child: Text('Go'),
-                          )
+                                                // ignore: unrelated_type_equality_checks
+                                                NavBarAtHomePage()))
+                                    : Fluttertoast.showToast(
+                                        msg:
+                                            'select both language for continue',
+                                        toastLength: Toast.LENGTH_LONG,
+                                        backgroundColor: Colors.pink.shade200,
+                                        textColor: Colors.black,
+                                        gravity: ToastGravity.CENTER,
+                                        fontSize: 20.0,
+                                      );
+                                ;
+                              },
+                              child: Text('Go'),
+                            )
                           ],
                         ),
                       ),
                     ),
-                  
                   ],
                 ),
               ),
@@ -263,4 +260,3 @@ class ScrollHandle extends StatelessWidget {
     );
   }
 }
-

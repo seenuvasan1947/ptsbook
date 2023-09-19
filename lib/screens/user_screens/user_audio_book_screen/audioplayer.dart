@@ -476,71 +476,7 @@ void playEpisode(int index) async {
                 ),
               )
 
-              // SizedBox(
-              //   width: MediaQuery.of(context).size.width * 0.9,
-              //   child: ProgressBar(
-              //     progress: Duration(seconds: _position.inSeconds),
-              //     buffered: Duration(seconds: _position.inSeconds + 5),
-              //     total: Duration(seconds: _duration.inSeconds),
-              //     onSeek: (duration) {
-              //       print('User selected a new time: $duration');
-              //       print(isPlaying);
-              //       _player.seek(Duration(seconds: duration.inSeconds));
-              //     },
-              //     timeLabelType: TimeLabelType.remainingTime,
-              //     barCapShape: BarCapShape.round,
-              //     barHeight: 10,
-              //     progressBarColor: Colors.purple[200],
-              //     bufferedBarColor: Colors.green[200],
-              //   ),
-              // ),
-
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           children: [
-              //             IconButton(
-              //               icon: const Icon(Icons.replay_10),
-              //               onPressed: () {
-              //                 _player.seek(_position - const Duration(seconds: 10));
-              //               },
-              //             ),
-              //             IconButton(
-              //               icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-              //               onPressed: () async {
-              //                 if (isPlaying) {
-              //                   _player.pause();
-              //                 } else {
-              //                   audioplay();
-              //                 }
-
-              //                 setState(() {
-              //                   isPlaying = !isPlaying;
-              //                 });
-              //               },
-              //             ),
-              //             IconButton(
-              //               icon: const Icon(Icons.forward_10_rounded),
-              //               onPressed: () {
-              //                 _player.seek(_position + const Duration(seconds: 10));
-              //               },
-              //             ),
-              //             IconButton(onPressed: (){
-              // downloadAudio();
-              //             }, icon: const Icon(Icons.download))
-
-              //           ],
-              //         ),
-
-              // is_dowloading==true?const Text('downloading started'):const Text(''),
-
-              //         Padding(
-              //               padding: const EdgeInsets.all(16.0),
-              //               child: Text(
-              //                 _duration.toString().substring(0, 7),
-              //                 style: const TextStyle(fontSize: 16.0),
-              //               ),
-              //             ),
-            ],
+                        ],
           ),
         ),
       ),

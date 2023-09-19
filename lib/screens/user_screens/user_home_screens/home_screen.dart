@@ -12,11 +12,11 @@ import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:mybook/auth/auth.dart';
 import 'package:mybook/components/language/data/excell_data.dart';
 import 'package:mybook/components/provider.dart';
-import 'package:mybook/screens/refactored_audioplayer/get_dat.dart';
+
 
 import 'package:provider/provider.dart';
 import 'package:mybook/screens/user_screens/user_book/user_books_add_page.dart';
-import 'package:mybook/screens/user_screens/user_book/user_added_book_list.dart';
+
 import 'package:mybook/screens/user_screens/user_book/login_user_added_book_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,7 +27,7 @@ import '../../../components/language/lang_strings.dart';
 import '../../../components/language/multi_lang.dart';
 import '../../admin_screens/admin_home_page.dart';
 
-import '../../payment/payment_page.dart';
+
 import '../user_audio_book_screen/audioplayer.dart';
 import '../user_audio_book_screen/book_text_read_page.dart';
 import '../user_audio_book_screen/our_books_list.dart';
@@ -146,25 +146,6 @@ String crnt_content_lang = '';
   }
 
 
-// lang_model_manage()async{
-//   final modelManager = OnDeviceTranslatorModelManager();
-
-//   for (var i=0;i<LangData.translanglist.length;i++){
-
-// final bool response = await modelManager.isModelDownloaded(LangData.translanglist[i].bcpCode);
-//   if(response ==false){
-//  final bool response = await modelManager.downloadModel(LangData.translanglist[i].bcpCode);
-//  if(response==true){
-//   return;
-//  }
-//   }
-//   else{
-//     return ;
-//   }
-
-//   }
-
-// }
 
   Future<void> _refreshData() async {
     // Simulate a delay for fetching new data
@@ -502,38 +483,12 @@ String crnt_content_lang = '';
     // if (string_to_conver_excel_data == 'Book_Name') {
       book__name_over_all = response=
           await onDeviceTranslator.translateText(string_to_conver_excel_data);
-    // }
-
-    // final String response =
-    //     await onDeviceTranslator.translateText(string_to_conver_excel_data);
-
-    // Get the text from Firestore document based on the fieldName
-
-    // Translate the text to Tamil (or any other target language)
-    // Translation translation = await translator.translateText(
-    //   text: originalText,
-    //   sourceLanguage: 'en', // Assuming the source language is English
-    //   targetLanguage: 'ta', // 'ta' represents Tamil
-    // );
-
+  
     return response;
   }
 
 
-  // Future<String> genertrans(genertext) async {
-  //   // TranslateLanguage lang=engl;
 
-  //   //  static List<String>[];
-  //   int cont_lang_index = LangData.ContentLang.indexOf(crnt_content_lang);
-  //   final TranslateLanguage sourceLanguage = TranslateLanguage.english;
-  //   final TranslateLanguage targetLanguage =
-  //       LangData.translanglist[cont_lang_index];
-  //   print(LangData.translanglist[0]);
-  //   final onDeviceTranslator = OnDeviceTranslator(
-  //       sourceLanguage: sourceLanguage, targetLanguage: targetLanguage);
-  //   final String response = await onDeviceTranslator.translateText(genertext);
-  //   return response;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -616,22 +571,7 @@ String crnt_content_lang = '';
                         color: Colors.purple[200],
                         thickness: 3,
                       ),
-                      // ListTile(
-                      //   title:
-                      //       Text(AppLocale.others_book_list.getString(context)),
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //             builder: (context) => const booklist()));
-                      //   },
-                      // ),
-
-                      // Divider(
-                      //   color: Colors.purple[200],
-                      //   thickness: 3,
-                      // ),
-
+                   
                    
                       RefreshIndicator(
                         onRefresh: _refreshData,
@@ -863,22 +803,7 @@ String crnt_content_lang = '';
                                                 );
                                               });
 
-                                      //                         ScaffoldMessenger.of(context).showSnackBar(
-                                      //   SnackBar(
-                                      //     content: Text(
-                                      //         'please subscribe for access premium content'),
-                                      //   ),
-                                      // );
-
-                                      // Fluttertoast.showToast(
-                                      //   msg:
-                                      //       'please subscribe for access premium content',
-                                      //   toastLength: Toast.LENGTH_LONG,
-                                      //   backgroundColor: Colors.pink.shade200,
-                                      //   textColor: Colors.black,
-                                      //   gravity: ToastGravity.CENTER,
-                                      //   fontSize: 20.0,
-                                      // );
+                                    
                                     },
 
                                     title: FutureBuilder(
@@ -974,72 +899,6 @@ String crnt_content_lang = '';
                           width: MediaQuery.sizeOf(context).width * 0.8,
                           child: Image.network(Getcurrentuser.home_img),
                         ),
-                        // Text('Welcome ...',
-                        //     style: Theme.of(context).textTheme.displayMedium),
-
-                        // SizedBox(height: 40.0),
-                        // Text('Knowledge is power',
-                        //     style: Theme.of(context)
-                        //         .textTheme
-                        //         .headlineMedium),
-                        // SizedBox(height: 40.0),
-                        // Image.asset("assets/book.jpeg"),
-                        // Text('Gener List',
-                        //     style: Theme.of(context).textTheme.headlineSmall),
-
-                        // SizedBox(
-                        //   height: MediaQuery.sizeOf(context).height * 0.45,
-                        //   width: MediaQuery.sizeOf(context).width * 0.8,
-                        //   child: GridView.builder(
-                        //     shrinkWrap: true,
-                        //     scrollDirection: Axis.horizontal,
-                        //     itemCount: Getcurrentuser.GenerList.length,
-                        //     gridDelegate:
-                        //         SliverGridDelegateWithFixedCrossAxisCount(
-                        //       crossAxisCount: 2,
-                        //     ),
-                        //     itemBuilder: (context, index) {
-                        //       return Container(
-                        //         margin: EdgeInsets.all(10),
-
-                        //         decoration: const BoxDecoration(
-                        //           borderRadius: BorderRadius.horizontal(
-                        //               left: Radius.elliptical(10, 10),
-                        //               right: Radius.elliptical(10, 10)),
-                        //           gradient: LinearGradient(
-                        //               colors: [
-                        //                 Color.fromARGB(255, 166, 80, 188),
-                        //                 Color.fromARGB(255, 125, 120, 35),
-                        //                 Colors.purple
-                        //               ],
-                        //               begin: Alignment.topCenter,
-                        //               end: Alignment.bottomCenter,
-                        //               stops: [0.0, 0.6, 1.7]),
-                        //         ),
-                        //         padding: const EdgeInsets.symmetric(
-                        //             horizontal: 10, vertical: 25.0),
-                        //         // color: Colors.teal[500],
-                        //         child: Text(Getcurrentuser.GenerList[index],
-                        //             style:
-                        //                 Theme.of(context).textTheme.titleLarge),
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
-
-//                         GridView.builder(
-//                           shrinkWrap: true,
-//   itemCount: 100,
-//   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//     crossAxisCount: 2,
-//   ),
-//   itemBuilder: (context, index) {
-//     return Container(
-//       child: Text('Item $index'),
-//     );
-//   },
-// ),
-                        // SizedBox(height: 110.0),
                         const Divider(color: Colors.deepPurple, thickness: 2.2),
 
                         SingleChildScrollView(

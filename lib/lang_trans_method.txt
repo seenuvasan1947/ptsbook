@@ -7,3 +7,7 @@ step 6: now paste the string that was copyed in translator
 step 7: now copy the variable that was used for lang conversition
 step 8: use ctrl+shift+down key to select (front or starting of translated string) 
 step 9: now paste it then you continue
+
+
+
+

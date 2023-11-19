@@ -1,6 +1,6 @@
 // import 'dart:js_interop';
 
-// ignore_for_file: await_only_futures
+// ignore_for_file: await_only_futures, unnecessary_string_interpolations, unnecessary_brace_in_string_interps
 
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +13,9 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../components/functions/aditional_function_lang.dart';
+import '../../../components/functions/audio_downlode_function.dart';
+import '../../../components/functions/operational_function.dart';
 import '../../../components/language/data/lang_data.dart';
 import '../../../components/provider.dart';
 import 'book_text_read_page.dart';
@@ -42,16 +45,13 @@ class _audplayerState extends State<audplayer> {
   FlutterTts flutterTts = FlutterTts();
 
   bool isPlaying = false;
-  Duration _duration = Duration.zero;
-  Duration _position = Duration.zero;
-  String? _downloadedFilePath;
   var downloaded_file_name = '';
   bool is_dowloading = false;
 
-  String crnt_content_lang = '';
+  // String crnt_content_lang = '';
   String text = '';
   String text_for_len_cnt = '';
-  bool _hasPermission = false;
+ 
   late List<bool> isPlayingList;
  
 
@@ -71,7 +71,6 @@ class _audplayerState extends State<audplayer> {
       // }
 
       setState(() {
-        _position = position;
       });
     });
     _player.onDurationChanged.listen((duration) {
@@ -82,7 +81,6 @@ class _audplayerState extends State<audplayer> {
       // }
 
       setState(() {
-        _duration = duration;
       });
     });
     // setplayerstate();
@@ -97,46 +95,8 @@ class _audplayerState extends State<audplayer> {
   //   });
   // }
 
-  Future<void> requestPermission() async {
 
-final permissionStatus = await Permission.storage.status;
-if(permissionStatus.isDenied){
-
-// final status = await Permission.manageExternalStorage.request();
-final status = await Permission.storage.request();
-    setState(() {
-      _hasPermission = status.isGranted;
-    });
-}    
-else{
-  _hasPermission=permissionStatus.isGranted;
-}
-    
-  }
-
-  void getContentLang() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    crnt_content_lang = await prefs.getString('selectlang')!;
-    print('object');
-    print(crnt_content_lang);
-
-    if (crnt_content_lang == '') {
-      print('*****');
-      print(crnt_content_lang);
-      setState(() {
-        crnt_content_lang = 'en-IN';
-      });
-    } else {
-      setState(() {
-        crnt_content_lang = crnt_content_lang;
-      });
-
-      print('@@@@@');
-      print(crnt_content_lang);
-    }
-  }
-
+  
   @override
   void dispose() {
     super.dispose();
@@ -170,6 +130,7 @@ int getNextEpisodeIndex() {
 }
 
 void playEpisode(int index) async {
+  String crnt_content_lang=await getContentLang();
   String fullUrl = "${widget.rooturl}${crnt_content_lang}/${index + 1}.txt";
 
   await audioplay(fullUrl);
@@ -181,7 +142,7 @@ void playEpisode(int index) async {
   text = response.body;
   print(text);
   if (text.isNotEmpty) {
-    ttspropset();
+   await ttspropset();
 
     await flutterTts.speak(text);
     flutterTts.setCompletionHandler(() {
@@ -198,130 +159,6 @@ void playEpisode(int index) async {
   //   isPlaying = true;
   // }
 
-  Future<void> ttspropset() async {
-    await flutterTts.setSpeechRate(0.25);
-    await flutterTts.setPitch(1);
-    await flutterTts.setLanguage(crnt_content_lang);
-    print('object');
-    print(crnt_content_lang);
-
-    int cont_lang_index = LangData.ContentLang.indexOf(crnt_content_lang);
-
-    print(LangData.VoiceList[cont_lang_index]);
-    await flutterTts.setVoice({
-      "name": LangData.VoiceList[cont_lang_index],
-      "locale": crnt_content_lang
-    });
-  }
-
-  Future<void> downloadAudio(String textUrl, int episode) async {
- await   requestPermission();
-    // if(Permission.storage.isGranted==true){
-   await ttspropset();
-
-    if (await Permission.storage.request().isGranted) {
-      // Either the permission was already granted before or the user just granted it.
-
-      Fluttertoast.showToast(
-        msg: 'you audio downloading please wait',
-        toastLength: Toast.LENGTH_LONG,
-        backgroundColor: const Color.fromARGB(255, 109, 96, 169),
-        textColor: const Color.fromARGB(255, 15, 0, 0),
-        gravity: ToastGravity.CENTER,
-        fontSize: 20.0,
-      );
-      // }
-      Directory? dir = await getExternalStorageDirectory();
-      final url = Uri.parse(textUrl);
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        // final file = File('${directory!.path}/Music/ptsbook/audio.mp3');
-// ignore: use_build_context_synchronously
-        Directory devicefiledir =
-            Directory(path.join('${dir!.path}', widget.bookname));
-        if (!(await devicefiledir.exists())) {
-          await devicefiledir.create(recursive: true);
-          print('Directory created at $devicefiledir');
-        } else {
-          print('Directory already exists at $devicefiledir');
-        }
-        final FilePath =
-            '${widget.bookname}/${widget.bookname}_${episode + 1}.mp3';
-        flutterTts.synthesizeToFile(response.body, FilePath);
-
-        Directory filedir = Directory('/storage/emulated/0/Music/ptsbook');
-        if (!(await filedir.exists())) {
-          await filedir.create(recursive: true);
-          print('Directory created at $filedir');
-        } else {
-          print('Directory already exists at $filedir');
-        }
-        downloaded_file_name = '${widget.bookname}_${episode + 1}';
-        var file_home =
-            File('/storage/emulated/0/Music/ptsbook/$downloaded_file_name.mp3');
-        print('0000');
-        print(file_home);
-        print('11111');
-
-        File file = File('${dir.path}/${FilePath}');
-        print(file);
-        flutterTts.setCompletionHandler(() async {
-          file_home.create().then((value) => print(value));
-          //  await file.copy('$file_home');
-          var filedata = await file.readAsBytes();
-          await file_home.writeAsBytes(filedata);
-          Fluttertoast.showToast(
-            msg: 'you audio downloaded at $_downloadedFilePath',
-            toastLength: Toast.LENGTH_LONG,
-            backgroundColor: const Color.fromARGB(255, 109, 96, 169),
-            textColor: const Color.fromARGB(255, 15, 0, 0),
-            gravity: ToastGravity.CENTER,
-            fontSize: 20.0,
-          );
-// await file_home.writeAsString(response.body);
-          setState(() {
-            is_dowloading = true;
-          });
-        });
-
-        // file_home.copy('$file');
-
-        // if (file_home.existsSync()) {
-        //   int index = 1;
-        //   while (file_home.existsSync()) {
-        //     downloaded_file_name = '${downloaded_file_name}($index)';
-        //     file_home = File('/storage/emulated/0/Music/ptsbook/$downloaded_file_name.mp3');
-        //     index++;
-        //   }
-        // }
-
-        // await file_home.writeAsBytes(response.bodyBytes);
-        setState(() {
-          _downloadedFilePath = 'Music/ptsbook/$downloaded_file_name.mp3';
-        });
-        print('sucessssssssss');
-        is_dowloading == true
-            ? Fluttertoast.showToast(
-                msg: 'you audio downloaded at $_downloadedFilePath',
-                toastLength: Toast.LENGTH_LONG,
-                backgroundColor: const Color.fromARGB(255, 109, 96, 169),
-                textColor: const Color.fromARGB(255, 15, 0, 0),
-                gravity: ToastGravity.CENTER,
-                fontSize: 20.0,
-              )
-            : Text('');
-        setState(() {
-          is_dowloading = false;
-        });
-      } else {
-        setState(() {
-          is_dowloading = false;
-        });
-        throw Exception('Failed to download audio');
-      }
-    }
-  }
 
 
   @override
@@ -426,6 +263,7 @@ void playEpisode(int index) async {
                                       ? Icons.pause
                                       : Icons.play_arrow),
                                   onPressed: () async {
+                                    String crnt_content_lang=await getContentLang();
                                     String fullUrl =
                                         "${widget.rooturl}$crnt_content_lang/${index + 1}.txt";
                                     if (isPlayingList[index]) {
@@ -444,7 +282,8 @@ void playEpisode(int index) async {
                                   },
                                 ),
                                 IconButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    String crnt_content_lang=await getContentLang();
                                     String fullUrl =
                                         "${widget.rooturl}$crnt_content_lang/${index + 1}.txt";
                                     Navigator.push(
@@ -458,13 +297,12 @@ void playEpisode(int index) async {
                                       color: Colors.black),
                                 ),
                                 IconButton(
-                                    onPressed: () {
-                                      is_dowloading == true
-                                          ? const Text('downloading started')
-                                          : const Text('');
+                                    onPressed: ()async  {
+                                      String crnt_content_lang=await getContentLang();
+                                     
                                       String fullUrl =
                                           "${widget.rooturl}$crnt_content_lang/${index + 1}.txt";
-                                      downloadAudio(fullUrl, index);
+                                      downloadAudio(fullUrl, index,widget.bookname);
                                     },
                                     icon: const Icon(Icons.download)),
                                

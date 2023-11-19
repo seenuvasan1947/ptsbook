@@ -16,6 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'components/functions/null_value_assign.dart';
 import 'components/language/data/excell_data.dart';
 import 'components/language/data/user_book_excel_data.dart';
 import 'components/language/multi_lang.dart';
@@ -25,6 +26,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+/* initialize shared pref values */
+
+await  sharedprefiniallize();
   runApp(MultiProvider(providers: [
 
 ChangeNotifierProvider(create: (_) => Getcurrentuser()),

@@ -168,3 +168,18 @@ setboolvalue("ispurchased",is_code_Purchased);
   // if(heisguest==false&&user)
   return is_code_Purchased;
 }
+
+
+
+/* E/flutter (19387): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: Looking up a deactivated widget's ancestor is unsafe.
+E/flutter (19387): At this point the state of the widget's element tree is no longer stable.
+E/flutter (19387): To safely refer to a widget's ancestor in its dispose() method, save a reference to the ancestor by calling dependOnInheritedWidgetOfExactType() in the widget's didChangeDependencies() method.
+E/flutter (19387): #0      Element._debugCheckStateIsActiveForAncestorLookup.<anonymous closure> (package:flutter/src/widgets/framework.dart:4558:9)
+E/flutter (19387): #1      Element._debugCheckStateIsActiveForAncestorLookup (package:flutter/src/widgets/framework.dart:4572:6)
+E/flutter (19387): #2      Element.dependOnInheritedWidgetOfExactType (package:flutter/src/widgets/framework.dart:4591:12)
+E/flutter (19387): #3      Localizations.of (package:flutter/src/widgets/localizations.dart:529:48)
+E/flutter (19387): #4      FlutterLocalizationTranslator.of (package:flutter_localization/src/localization/flutter_localization_translator.dart:18:21)
+E/flutter (19387): #5      StringExtension.getString (package:flutter_localization/src/extension/string_extension.dart:7:37)
+E/flutter (19387): #6      availCode (package:mybook/components/payment/functions_for_payment.dart:115:37)
+E/flutter (19387): <asynchronous suspension>
+E/flutter (19387):  */

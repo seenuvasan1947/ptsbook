@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../components/functions/aditional_function_lang.dart';
 import '../../../components/functions/audio_downlode_function.dart';
 import '../../../components/functions/operational_function.dart';
+import '../../../components/functions/shared_pref_functions.dart';
 import '../../../components/language/data/lang_data.dart';
 import '../../../components/provider.dart';
 import 'book_text_read_page.dart';
@@ -51,9 +52,9 @@ class _audplayerState extends State<audplayer> {
   // String crnt_content_lang = '';
   String text = '';
   String text_for_len_cnt = '';
- 
+
   late List<bool> isPlayingList;
- 
+  String selectedValue = '';
 
   @override
   void initState() {
@@ -70,8 +71,7 @@ class _audplayerState extends State<audplayer> {
       //   });
       // }
 
-      setState(() {
-      });
+      setState(() {});
     });
     _player.onDurationChanged.listen((duration) {
       // if (mounted) {
@@ -80,8 +80,7 @@ class _audplayerState extends State<audplayer> {
       //   });
       // }
 
-      setState(() {
-      });
+      setState(() {});
     });
     // setplayerstate();
     // _checkPermissionStatus();
@@ -95,8 +94,6 @@ class _audplayerState extends State<audplayer> {
   //   });
   // }
 
-
-  
   @override
   void dispose() {
     super.dispose();
@@ -114,58 +111,55 @@ class _audplayerState extends State<audplayer> {
   //   }
   // }
 
+  int getNextEpisodeIndex() {
+    int currentIndex = isPlayingList.indexOf(true);
 
-int getNextEpisodeIndex() {
-  int currentIndex = isPlayingList.indexOf(true);
-
-  setState(() {
-    isPlayingList[currentIndex] = !isPlayingList[currentIndex];
-     isPlayingList[currentIndex+1] = !isPlayingList[currentIndex+1];
-  });
-  if (currentIndex != -1 && currentIndex + 1 < isPlayingList.length) {
-    return currentIndex + 1;
-  }
-  
-  return -1;
-}
-
-void playEpisode(int index) async {
-  String crnt_content_lang=await getContentLang();
-  String fullUrl = "${widget.rooturl}${crnt_content_lang}/${index + 1}.txt";
-
-  await audioplay(fullUrl);
-
-}
-
- audioplay(String textUrl) async {
-  http.Response response = await http.get(Uri.parse(textUrl));
-  text = response.body;
-  print(text);
-  if (text.isNotEmpty) {
-   await ttspropset();
-
-    await flutterTts.speak(text);
-    flutterTts.setCompletionHandler(() {
-    int nextIndex = getNextEpisodeIndex();
-    if (nextIndex != -1) {
-      playEpisode(nextIndex);
+    setState(() {
+      isPlayingList[currentIndex] = !isPlayingList[currentIndex];
+      isPlayingList[currentIndex + 1] = !isPlayingList[currentIndex + 1];
+    });
+    if (currentIndex != -1 && currentIndex + 1 < isPlayingList.length) {
+      return currentIndex + 1;
     }
-  });
+
+    return -1;
   }
-}
+
+  void playEpisode(int index) async {
+    String crnt_content_lang = await getContentLang();
+    String fullUrl = "${widget.rooturl}${crnt_content_lang}/${index + 1}.txt";
+
+    await audioplay(fullUrl);
+  }
+
+  audioplay(String textUrl) async {
+    http.Response response = await http.get(Uri.parse(textUrl));
+    text = response.body;
+    print(text);
+    if (text.isNotEmpty) {
+      await ttspropset();
+
+      await flutterTts.speak(text);
+      flutterTts.setCompletionHandler(() {
+        int nextIndex = getNextEpisodeIndex();
+        if (nextIndex != -1) {
+          playEpisode(nextIndex);
+        }
+      });
+    }
+  }
   // void playAudioFromUrl(String audioUrl) async {
   //   await _player.setUrl(audioUrl);
   //   _player.play(audioUrl);
   //   isPlaying = true;
   // }
 
-
-
   @override
   Widget build(BuildContext context) {
     // bool isPlaying = false;
     // setplayerstate();
     // print('sample');
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -224,6 +218,58 @@ void playEpisode(int index) async {
               //                 },
               //               ),
               // ),
+              const Padding(
+                padding: EdgeInsets.all(10),
+              ),
+              Divider(
+                color: Colors.deepPurpleAccent,
+              ),
+
+              // DropdownButton(items: [1,8,0], onChanged: onChanged)
+// DropdownButton<String>(
+//   value: selectedValue,
+//   items: LangData.VoiceListVarious[LangData.ContentLang.indexOf(crnt_content_lang)] .map((item) => DropdownMenuItem<String>(
+//     value: item,
+//     child: Text(item),
+//   )).toList(),
+//   onChanged: (newValue) {
+//     setState(() {
+//       selectedValue = newValue!;
+//     });
+//   },
+// ),
+
+              FutureBuilder(
+                future: data_dropdown_aud_play(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<String> items = snapshot.data!;
+                    selectedValue = items[0];
+                    return DropdownButton<String>(
+                     
+                      items: items
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(item),
+                              ))
+                          .toList(),
+                      onChanged: (newValue) async {
+                        setState(() {
+                          selectedValue = newValue!;
+                          print('selected {$selectedValue}');
+                        });
+                        await setstringvalue("voice", selectedValue);
+                      },
+                      //  value: selectedValue,
+                      hint: aud_text_widget(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
 
               Expanded(
                 child: ListView.builder(
@@ -263,7 +309,8 @@ void playEpisode(int index) async {
                                       ? Icons.pause
                                       : Icons.play_arrow),
                                   onPressed: () async {
-                                    String crnt_content_lang=await getContentLang();
+                                    String crnt_content_lang =
+                                        await getContentLang();
                                     String fullUrl =
                                         "${widget.rooturl}$crnt_content_lang/${index + 1}.txt";
                                     if (isPlayingList[index]) {
@@ -283,7 +330,8 @@ void playEpisode(int index) async {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    String crnt_content_lang=await getContentLang();
+                                    String crnt_content_lang =
+                                        await getContentLang();
                                     String fullUrl =
                                         "${widget.rooturl}$crnt_content_lang/${index + 1}.txt";
                                     Navigator.push(
@@ -297,15 +345,16 @@ void playEpisode(int index) async {
                                       color: Colors.black),
                                 ),
                                 IconButton(
-                                    onPressed: ()async  {
-                                      String crnt_content_lang=await getContentLang();
-                                     
+                                    onPressed: () async {
+                                      String crnt_content_lang =
+                                          await getContentLang();
+
                                       String fullUrl =
                                           "${widget.rooturl}$crnt_content_lang/${index + 1}.txt";
-                                      downloadAudio(fullUrl, index,widget.bookname);
+                                      downloadAudio(
+                                          fullUrl, index, widget.bookname);
                                     },
                                     icon: const Icon(Icons.download)),
-                               
                               ]),
                         ],
                       ),
@@ -313,8 +362,7 @@ void playEpisode(int index) async {
                   },
                 ),
               )
-
-                        ],
+            ],
           ),
         ),
       ),

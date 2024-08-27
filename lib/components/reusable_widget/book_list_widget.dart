@@ -69,8 +69,8 @@ import '../../screens/user_screens/user_home_screens/home_screen.dart';
                                               top: Radius.circular(35.0),
                                               bottom: Radius.circular(35.0)),
                                           onTap: () async {
-                                           String response= await getTranslatedText(
-                                                excelldata.bookname[index]);
+                                           String response= await getbookaut(
+                                                          excelldata.bookname[index],'book_name');
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -104,9 +104,35 @@ import '../../screens/user_screens/user_home_screens/home_screen.dart';
                                                     // Text(
                                                     //     doc.get('Book_Name')),
                         
-                                                    FutureBuilder<String>(
-                                                      future: getTranslatedText(
-                                                          excelldata.bookname[index]),
+                                                    // FutureBuilder<String>(
+                                                    //   future: getTranslatedText(
+                                                    //       excelldata.bookname[index]),
+                                                    //   builder:
+                                                    //       (context, snapshot) {
+                                                    //     if (snapshot
+                                                    //             .connectionState ==
+                                                    //         ConnectionState
+                                                    //             .waiting) {
+                                                    //       return Text(
+                                                    //     excelldata.bookname[index]); // Display a loading indicator
+                                                    //     } else if (snapshot
+                                                    //         .hasError) {
+                                                    //       return 
+                                                    //       // Text('Error: ${snapshot.error}');
+                                                    //       Text(
+                                                    //     excelldata.bookname[index]);
+                                                    //     } else {
+                                                    //       return Text(snapshot
+                                                    //           .data!); // Display the translated text
+                                                    //     }
+                                                    //   },
+                                                    // ),
+                        
+
+
+  FutureBuilder<String>(
+                                                      future: getbookaut(
+                                                          excelldata.bookname[index],'book_name'),
                                                       builder:
                                                           (context, snapshot) {
                                                         if (snapshot
@@ -127,10 +153,12 @@ import '../../screens/user_screens/user_home_screens/home_screen.dart';
                                                         }
                                                       },
                                                     ),
-                        
+
+
+
                                                     FutureBuilder<String>(
-                                                      future: getTranslatedText(
-                                                         excelldata.authorname[index]),
+                                                      future: getbookaut(
+                                                         excelldata.authorname[index],'author_name'),
                                                       builder:
                                                           (context, snapshot) {
                                                         if (snapshot

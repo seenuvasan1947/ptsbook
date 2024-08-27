@@ -274,8 +274,8 @@ class _HomeScreenMainPageState extends State<HomeScreenMainPage> {
                                     },
 
                                     title: FutureBuilder(
-                                      future: getTranslatedText(
-                                          Getcurrentuser.GenerList[Index]),
+                                      future: getbookaut(
+                                          Getcurrentuser.GenerList[Index],'gener_sheet'),
                                       // initialData: InitialData,
                                       builder: (BuildContext context,
                                           AsyncSnapshot snapshot) {
